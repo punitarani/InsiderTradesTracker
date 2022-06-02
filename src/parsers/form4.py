@@ -3,7 +3,7 @@
 from src.parsers.SECFilingsParser import SECFilingsParser
 
 
-class Form4(SECFilingsParser):
+class Form4Parser(SECFilingsParser):
     def __init__(self, name: str, url: str):
         """
         Form 4 Parser Class Constructor
