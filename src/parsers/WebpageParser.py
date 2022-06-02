@@ -8,6 +8,7 @@ class WebpageParser:
     """
     Form Parser Parent Class
     """
+
     def __init__(self, name: str, url: str):
         """
         Form Parser Parent Class Constructor
@@ -20,8 +21,9 @@ class WebpageParser:
         self.url = url
 
         # Caches
-        self.webpage: str | None = None     # Webpage HTML text (requests.get.text)
-        self.soup: bs | None = None         # BeautifulSoup object of webpage
+        self.webpage: str | None = None         # Webpage HTML text (requests.get.text)
+        self.content_type: str | None = None    # requests.get.headers['Content-Type']
+        self.soup: bs | None = None             # BeautifulSoup object of webpage
 
     def __repr__(self) -> str:
         """
@@ -48,6 +50,9 @@ class WebpageParser:
         # Get the webpage HTML text
         response = requests.get(self.url, headers=headers)
 
+        # Get the content type of the response
+        self.content_type = response.headers['Content-Type']
+
         # Check if response is successful
         if response.status_code != 200:
             raise ResponseError(f'Response Error: {response.status_code} - {response.reason}')
@@ -70,11 +75,8 @@ class WebpageParser:
         if self.webpage is None:
             self.get_webpage()
 
-        # Get website type: HTML or XML
-        website_type = self.url.split('.')[-1]
-
         # User appropriate parser. Default is lxml.
-        parser = 'xml' if website_type == 'xml' else 'lxml'
+        parser = 'xml' if 'xml' in self.content_type else 'lxml'
 
         # Parse the webpage contents
         self.soup = bs(self.webpage, parser)
@@ -86,6 +88,7 @@ class ResponseError(Exception):
     """
     Response Error
     """
+
     def __init__(self, message: str, status_code: int = None):
         """
         Response Error Constructor
