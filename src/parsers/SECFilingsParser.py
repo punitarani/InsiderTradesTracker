@@ -76,7 +76,11 @@ class SECFilingsParser(WebpageParser):
         filing_cols = ['acc', 'type', 'title', 'date_time', 'link']
         filings = pd.DataFrame(columns=filing_cols)
 
-        data: ElementTree = etree.fromstring(self.get_webpage().encode('utf-8'))
+        # Check if webpage HTML text is cached. If not, get webpage first.
+        if self.webpage is None:
+            self.get_webpage()
+
+        data: ElementTree = etree.fromstring(self.webpage.encode('utf-8'))
 
         # Iterate through entries
         entries = data.findall('{http://www.w3.org/2005/Atom}entry')
