@@ -1,6 +1,9 @@
 import unittest
-from src.parsers.WebpageParser import WebpageParser
+
+import pandas as pd
+
 from src.parsers.SECFilingsParser import SECFilingsParser
+from src.parsers.WebpageParser import WebpageParser
 
 
 class BasicParserTests(unittest.TestCase):
@@ -55,6 +58,17 @@ class BasicParserTests(unittest.TestCase):
 
         # Check if there are 10 filings
         self.assertEqual(len(html_urls), 10)
+
+
+class SECFilingsParserTests(unittest.TestCase):
+    def test_parse(self):
+        filings = SECFilingsParser('Filings')
+        self.assertTrue(isinstance(filings.filings, pd.DataFrame))
+        self.assertEqual(filings.filings.shape, (0, 0))
+
+        filings.parse()
+        self.assertGreater(filings.filings.shape[0], 0)
+        self.assertGreater(filings.filings.shape[1], 0)
 
 
 if __name__ == '__main__':
