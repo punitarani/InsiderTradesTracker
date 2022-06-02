@@ -146,6 +146,3 @@ cython_debug/
 
 # Jet Brains Related Files
 .idea/
-
-# Data Files
-.data/
