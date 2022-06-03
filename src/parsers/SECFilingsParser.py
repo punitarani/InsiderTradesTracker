@@ -1,5 +1,4 @@
-# SEC Latest Filings Parser
-# https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
+# SEC Filings Parser
 
 from datetime import datetime
 from xml.etree import ElementTree
@@ -13,10 +12,6 @@ from src.parsers.WebpageParser import WebpageParser, ResponseError
 
 
 class SECFilingsParser(WebpageParser):
-    """
-    SEC Latest Filings Parser Class
-    """
-
     def __init__(self, name: str, url: str = None):
         """
         SEC Filings Parser Class Constructor
@@ -35,24 +30,6 @@ class SECFilingsParser(WebpageParser):
             print(f'{self.name} URL is not set. Using default URL: {self.url}')
 
         self.filings: pd.DataFrame = pd.DataFrame()
-
-    def set_url(self, url: str) -> str:
-        """
-        Set the Parser URL
-
-        :param url: Parser URL
-        :return: Parser URL
-        """
-
-        # Delete the previous cached webpage HTML text
-        if url != self.url:
-            self.webpage = None
-            self.content_type = None
-            self.soup = None
-
-        self.url = url
-
-        return self.url
 
     def get_webpage(self, *args, **kwargs) -> str:
         """

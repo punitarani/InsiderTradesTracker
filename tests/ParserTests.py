@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from src.parsers.SECFilingsParser import SECFilingsParser, SEC_LATEST_FILINGS_URL
+from src.parsers.SECFilingsParser import SECFilingsParser
 from src.parsers.WebpageParser import WebpageParser
 
 
@@ -21,20 +21,15 @@ class BasicParserTests(unittest.TestCase):
         self.assertIsNotNone(soup)
 
     def test_sec_gov(self):
-        parser = SECFilingsParser('SEC')
-        self.assertEqual(parser.name, 'SEC')
-        self.assertEqual(parser.url, SEC_LATEST_FILINGS_URL)
-
-        # Test set_url()
         url = 'https://www.sec.gov/'
-        parser.set_url(url)
+
+        parser = SECFilingsParser('SEC', url)
+        self.assertEqual(parser.name, 'SEC')
         self.assertEqual(parser.url, url)
 
-        # Test get_webpage()
         webpage = parser.get_webpage()
         self.assertIsNotNone(webpage)
 
-        # Test get_soup()
         soup = parser.get_soup()
         self.assertIsNotNone(soup)
         self.assertIn('SEC.gov', soup.title.string)
@@ -47,11 +42,9 @@ class BasicParserTests(unittest.TestCase):
         self.assertEqual(parser.name, 'SEC Latest Filings')
         self.assertEqual(parser.url, url)
 
-        # Test get_webpage()
         webpage = parser.get_webpage()
         self.assertIsNotNone(webpage)
 
-        # Test get_soup()
         soup = parser.get_soup()
         self.assertIsNotNone(soup)
 
