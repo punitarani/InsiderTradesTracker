@@ -20,10 +20,15 @@ class WebpageParser:
         self.name = name
         self.url = url
 
+        # Chrome User-Agent header
+        self.header_chrome_user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+                                                       'AppleWebKit/537.36 (KHTML, like Gecko) '
+                                                       'Chrome/102.0.5005.63 Safari/537.36 '}
+
         # Caches
-        self.webpage: str | None = None         # Webpage HTML text (requests.get.text)
-        self.content_type: str | None = None    # requests.get.headers['Content-Type']
-        self.soup: bs | None = None             # BeautifulSoup object of webpage
+        self.webpage: str | None = None  # Webpage HTML text (requests.get.text)
+        self.content_type: str | None = None  # requests.get.headers['Content-Type']
+        self.soup: bs | None = None  # BeautifulSoup object of webpage
 
     def __repr__(self) -> str:
         """

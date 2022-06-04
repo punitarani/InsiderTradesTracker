@@ -71,10 +71,7 @@ class SECFilingsParser(WebpageParser):
 
         # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
         # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/102.0.5005.63 Safari/537.36 '
-        }
+        headers = self.header_chrome_user_agent
 
         response = requests.get(self.url, headers=headers)
 
