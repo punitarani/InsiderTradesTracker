@@ -26,6 +26,7 @@ class WebpageParser:
                                                        'Chrome/102.0.5005.63 Safari/537.36 '}
 
         # Caches
+        self.response: requests.Response | None = None  # Response object
         self.webpage: str | None = None  # Webpage HTML text (requests.get.text)
         self.content_type: str | None = None  # requests.get.headers['Content-Type']
         self.soup: bs | None = None  # BeautifulSoup object of webpage
@@ -54,6 +55,9 @@ class WebpageParser:
 
         # Get the webpage HTML text
         response = requests.get(self.url, headers=headers)
+
+        # Cache the response object
+        self.response = response
 
         # Get the content type of the response
         self.content_type = response.headers['Content-Type']
