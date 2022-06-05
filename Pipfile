@@ -9,6 +9,7 @@ lxml = "*"
 pandas = "*"
 requests = "*"
 pyarrow = "*"
+coverage = "*"
 
 [dev-packages]
 
