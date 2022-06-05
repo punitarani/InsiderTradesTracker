@@ -94,7 +94,7 @@ class SECFilingsParser(WebpageParser):
         """
 
         # Initialize DataFrame
-        filing_cols = ['acc', 'type', 'title', 'date_time', 'link']
+        filing_cols = ['acc', 'form_type', 'title', 'date_time', 'link']
         filings = pd.DataFrame(columns=filing_cols)
 
         # Check if webpage HTML text is cached. If not, get webpage first.
@@ -129,7 +129,7 @@ class SECFilingsParser(WebpageParser):
             acc_no = entry.xpath('atom:id/text()', namespaces=namespaces)[0].split('=')[-1]
 
             # Update DataFrame
-            filings = pd.concat([filings, pd.DataFrame({'acc': [acc_no], 'type': [form_type], 'title': [title],
+            filings = pd.concat([filings, pd.DataFrame({'acc': [acc_no], 'form_type': [form_type], 'title': [title],
                                                         'date_time': [date_time], 'link': [link]})])
 
         # Set acc as index
