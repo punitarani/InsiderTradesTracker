@@ -1,6 +1,6 @@
 import unittest
 
-from baseurls import SEC_LATEST_FILINGS_BASE_URL
+from baseurls import SEC_LATEST_FILINGS
 from tracker.screener import SECFilingsScreener
 
 import pandas.testing as pdt
@@ -14,15 +14,15 @@ class BasicTests(unittest.TestCase):
         self.assertIsNotNone(screener)
 
         self.assertEqual(screener.name, screener_name)
-        self.assertEqual(screener.base_url, SEC_LATEST_FILINGS_BASE_URL)
+        self.assertEqual(screener.base_url, SEC_LATEST_FILINGS)
         self.assertIsNone(screener.company)
         self.assertIsNone(screener.cik)
         self.assertIsNone(screener.form)
         self.assertIsNone(screener.owner)
         self.assertEqual(screener.count, 100)
 
-        self.assertNotEqual(screener.url, SEC_LATEST_FILINGS_BASE_URL)
-        self.assertNotEqual(screener.get_url(), SEC_LATEST_FILINGS_BASE_URL)
+        self.assertNotEqual(screener.url, SEC_LATEST_FILINGS)
+        self.assertNotEqual(screener.get_url(), SEC_LATEST_FILINGS)
         self.assertTrue(screener.filings.empty)
 
         self.assertIsNotNone(screener.get_filings())

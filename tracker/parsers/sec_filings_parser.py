@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 from lxml import etree
 
-from baseurls import SEC_LATEST_FILINGS_URL
+from baseurls import SEC_LATEST_FILINGS
 from tracker.parsers import WebpageParser, ResponseError
 
 
@@ -29,7 +29,7 @@ class SECFilingsParser(WebpageParser):
 
         # Use the latest SEC Filings URL from baseurls.py to get the latest SEC Filings
         if url is None:
-            self.url = SEC_LATEST_FILINGS_URL
+            self.url = SEC_LATEST_FILINGS
 
             # TODO: Add logging
             print(f'{self.name} URL is not set. Using default URL: {self.url}')

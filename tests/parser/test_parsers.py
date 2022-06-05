@@ -2,8 +2,10 @@ import unittest
 
 import pandas as pd
 
-from tracker.parsers.sec_filings_parser import SECFilingsParser, SEC_LATEST_FILINGS_URL
+from tracker.parsers.sec_filings_parser import SECFilingsParser
 from tracker.parsers.webpage_parser import WebpageParser
+
+from baseurls import SEC_LATEST_FILINGS
 
 
 class BasicParserTests(unittest.TestCase):
@@ -23,7 +25,7 @@ class BasicParserTests(unittest.TestCase):
     def test_sec_gov(self):
         parser = SECFilingsParser('SEC')
         self.assertEqual(parser.name, 'SEC')
-        self.assertEqual(parser.url, SEC_LATEST_FILINGS_URL)
+        self.assertEqual(parser.url, SEC_LATEST_FILINGS)
 
         # Test set_url()
         url = 'https://www.sec.gov/'

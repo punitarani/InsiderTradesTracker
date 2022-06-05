@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 
 import pandas as pd
 
-from baseurls import SEC_LATEST_FILINGS_BASE_URL
+from baseurls import SEC_LATEST_FILINGS
 from tracker.parsers.sec_filings_parser import SECFilingsParser
 
 
@@ -29,7 +29,7 @@ class SECFilingsScreener:
         """
 
         self.name: str = name
-        self.base_url: str = SEC_LATEST_FILINGS_BASE_URL
+        self.base_url: str = SEC_LATEST_FILINGS
 
         # Filter Conditions
         self.company: str | None = company
