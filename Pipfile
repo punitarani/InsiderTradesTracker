@@ -8,6 +8,7 @@ beautifulsoup4 = "*"
 lxml = "*"
 pandas = "*"
 requests = "*"
+pyarrow = "*"
 
 [dev-packages]
 
