@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from tracker.parsers.sec_filings_parser import SECFilingsParser
+from tracker.parsers.sec_latest_filings_parser import SECFilingsParser
 from tracker.parsers.webpage_parser import WebpageParser
 
 from baseurls import SEC_LATEST_FILINGS

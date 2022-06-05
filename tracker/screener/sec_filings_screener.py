@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 import pandas as pd
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parsers.sec_filings_parser import SECFilingsParser
+from tracker.parsers.sec_latest_filings_parser import SECFilingsParser
 
 
 class SECFilingsScreener:
