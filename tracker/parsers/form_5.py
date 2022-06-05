@@ -12,9 +12,9 @@ class Form5Parser(SECFilingsParser):
         :param url: Form URL
         """
 
-        super().__init__(name, url)
-
-        self.fields: dict = {
+        """
+        Fields:
+        {
             "ownershipDocument": {
                 "issuer": {},
                 "reportingOwner": {
@@ -25,3 +25,6 @@ class Form5Parser(SECFilingsParser):
                 "ownerSignature": {}
             }
         }
+        """
+
+        super().__init__(name, url)

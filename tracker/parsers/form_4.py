@@ -18,17 +18,9 @@ class Form4Parser(SECFilingsParser):
         :param url: Form URL
         """
 
-        super().__init__(name, url)
-
-        # Parsed DataFrames
-        self.issuer_table: pd.DataFrame = pd.DataFrame()
-        self.owner_table: pd.DataFrame = pd.DataFrame()
-        self.non_derivative_table: pd.DataFrame = pd.DataFrame()
-        self.derivative_table: pd.DataFrame = pd.DataFrame()
-
-        self.filings = AttributeError('Form 4 does not have filings.')
-
-        self.fields: dict = {
+        """
+        Fields:
+        {
             "ownershipDocument": {
                 "issuer": {
                     "issuerCik": {},
@@ -127,6 +119,17 @@ class Form4Parser(SECFilingsParser):
                 "ownerSignature": {}
             }
         }
+        """
+
+        super().__init__(name, url)
+
+        # Parsed DataFrames
+        self.issuer_table: pd.DataFrame = pd.DataFrame()
+        self.owner_table: pd.DataFrame = pd.DataFrame()
+        self.non_derivative_table: pd.DataFrame = pd.DataFrame()
+        self.derivative_table: pd.DataFrame = pd.DataFrame()
+
+        self.filings = AttributeError('Form 4 does not have filings.')
 
     def parse(self) -> list[pd.DataFrame]:
         """
