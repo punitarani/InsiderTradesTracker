@@ -8,6 +8,36 @@ from lxml import etree
 
 from tracker.parsers import SECFilingsParser
 
+# Global Variables and Caches
+transaction_codes_dict: dict = {
+    'A': "Grant, award or other acquisition pursuant to Rule 16b-3(d).",
+    'C': "Conversion of derivative security.",
+    'D': "Disposition to the issuer of issuer equity securities pursuant to Rule 16b-3(e).",
+    'E': "Expiration of short derivative position.",
+    'F': "Payment of exercise price or tax liability by delivering or withholding securities incident to the "
+         "receipt, exercise or vesting of a security issued in accordance with Rule 16b-3.",
+    'G': "Bona fide gift.",
+    'H': "Expiration (or cancellation) of long derivative position with value received.",
+    'I': "Discretionary transaction in accordance with Rule 16b-3(f) resulting in acquisition or "
+         "disposition of issuer securities.",
+    'J': "Other acquisition or disposition.",
+    'K': "Transaction in equity swap or instrument with similar characteristics.",
+    'L': "Small acquisition under Rule 16a-6.",
+    'M': "Exercise or conversion of derivative security exempted pursuant to Rule 16b-3.",
+    'O': "Exercise of out-of-the-money derivative security.",
+    'P': "Open market or private purchase of non-derivative or derivative security.",
+    'S': "Open market or private sale of non-derivative or derivative security.",
+    'U': "Disposition pursuant to a tender of shares in a change of control transaction.",
+    'V': "Transaction voluntarily reported earlier than required.",
+    'W': "Acquisition or disposition by will or the laws of descent and distribution.",
+    'X': "Exercise of in-the-money or at-the-money derivative security.",
+    'Z': "Deposit into or withdrawal from voting trust."
+}
+transaction_codes: pd.DataFrame = pd.DataFrame.from_dict(transaction_codes_dict,
+                                                         orient='index',
+                                                         columns=['description'])
+transaction_codes.index.name = 'code'
+
 
 class Form4Parser(SECFilingsParser):
     def __init__(self, name: str, url: str):
@@ -131,6 +161,9 @@ class Form4Parser(SECFilingsParser):
 
         self.filings = AttributeError('Form 4 does not have filings.')
 
+        # Cached Data
+        self.transaction_codes: pd.DataFrame | None = None
+
     def parse(self) -> list[pd.DataFrame]:
         """
         Parse document and organize data into dataframe
@@ -171,6 +204,8 @@ class Form4Parser(SECFilingsParser):
             self.derivative_table = self._parse_derivative_table(data.find('./derivativeTable'))
 
         return [self.non_derivative_table, self.derivative_table]
+
+    # region parse sub-functions
 
     @staticmethod
     def _parse_issuer(issuer: ElementTree.Element) -> pd.DataFrame:
@@ -379,3 +414,26 @@ class Form4Parser(SECFilingsParser):
         transactions_df = transactions_df.fillna(value=np.nan)
 
         return transactions_df
+
+    # endregion
+
+
+def get_transaction_code(code: str) -> str | None:
+    """
+    Get Transaction Code Description.
+
+    :param code: Transaction Code. 1 Character String.
+    :return: Transaction Code Description or None if code not found.
+
+    Note: See https://www.sec.gov/about/forms/form4data.pdf for Transaction Codes.
+    """
+
+    # Check if Code is single character
+    if len(code) > 1:
+        print(f"Warning: Transaction Code '{code}' is longer than 1 character. Using first character {code[0]}.")
+        code = code[0]
+
+    try:
+        return transaction_codes.loc[code, 'description']
+    except (pd.errors.InvalidIndexError, KeyError):
+        return None

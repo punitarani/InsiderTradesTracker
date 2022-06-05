@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from tracker.parsers import Form4Parser
+from tracker.parsers import form4_transaction_codes, form4_get_transaction_code
 
 
 class Form4Tests(unittest.TestCase):
@@ -88,6 +89,14 @@ class Form4Tests(unittest.TestCase):
                 self.assertEqual(np.isnan(data_point), np.isnan(expected_values[j]))
             except TypeError:
                 self.assertEqual(data_point, expected_values[j])
+
+    def test_transaction_codes(self):
+        transaction_codes = form4_transaction_codes
+        self.assertEqual(transaction_codes.shape, (20, 1))
+
+        self.assertEqual(form4_get_transaction_code('G'), "Bona fide gift.")
+        self.assertEqual(form4_get_transaction_code('LMNOP'), "Small acquisition under Rule 16a-6.")
+        self.assertIsNone(form4_get_transaction_code('Y'))
 
 
 if __name__ == '__main__':
