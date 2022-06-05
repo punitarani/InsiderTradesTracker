@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from defs import DATA_DIR_PATH
-from src.parsers.webpage_parser import WebpageParser, ResponseError
+from tracker.parsers.webpage_parser import WebpageParser, ResponseError
 
 from copy import deepcopy
 

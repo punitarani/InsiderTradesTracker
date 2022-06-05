@@ -2,8 +2,8 @@ import unittest
 
 import pandas as pd
 
-from src.parsers.sec_filings_parser import SECFilingsParser, SEC_LATEST_FILINGS_URL
-from src.parsers.webpage_parser import WebpageParser
+from tracker.parsers.sec_filings_parser import SECFilingsParser, SEC_LATEST_FILINGS_URL
+from tracker.parsers.webpage_parser import WebpageParser
 
 
 class BasicParserTests(unittest.TestCase):

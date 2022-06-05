@@ -4,7 +4,7 @@ import unittest
 
 import pandas as pd
 
-from src.screener.cik_screener import CIKScreener
+from tracker.screener.cik_screener import CIKScreener
 
 
 class CIKScreenerTests(unittest.TestCase):
