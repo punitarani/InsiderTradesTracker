@@ -101,6 +101,7 @@ class SECFilingsParser(WebpageParser):
         if self.webpage is None:
             self.get_webpage()
 
+        # Throws an exception if the content type is not atom+xml
         data: ElementTree = etree.fromstring(self.webpage.encode('utf-8'))
 
         # Iterate through entries
@@ -129,7 +130,7 @@ class SECFilingsParser(WebpageParser):
             acc_no = entry.xpath('atom:id/text()', namespaces=namespaces)[0].split('=')[-1]
 
             # Update DataFrame
-            filings = pd.concat([filings, pd.DataFrame({'acc': [acc_no], 'type': [form_type], 'title': [title],
+            filings = pd.concat([filings, pd.DataFrame({'acc': [acc_no], 'form_type': [form_type], 'title': [title],
                                                         'date_time': [date_time], 'link': [link]})])
 
         # Set acc as index
