@@ -1,6 +1,6 @@
 # Form 5 Parser Class File
 
-from tracker.parsers.sec_filings_parser import SECFilingsParser
+from tracker.parsers import SECFilingsParser
 
 
 class Form5Parser(SECFilingsParser):

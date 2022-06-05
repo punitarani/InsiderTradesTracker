@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from tracker.parsers.form_4 import Form4Parser
+from tracker.parsers import Form4Parser
 
 
 class Form4Tests(unittest.TestCase):

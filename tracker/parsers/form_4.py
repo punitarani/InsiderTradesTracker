@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from lxml import etree
 
-from tracker.parsers.sec_filings_parser import SECFilingsParser
+from tracker.parsers import SECFilingsParser
 
 
 class Form4Parser(SECFilingsParser):
