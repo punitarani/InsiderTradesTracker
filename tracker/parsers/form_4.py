@@ -161,10 +161,13 @@ class Form4Parser(SECFilingsParser):
 
         self.filings = AttributeError('Form 4 does not have filings.')
 
+        # Fields that can be parsed into DataFrames
+        self.parsable_fields = ['issuer', 'reportingOwner', 'nonDerivativeTable', 'derivativeTable']
+
         # Cached Data
         self.transaction_codes: pd.DataFrame | None = None
 
-    def parse(self) -> list[pd.DataFrame]:
+    def parse(self) -> dict[str, pd.DataFrame | None]:
         """
         Parse document and organize data into dataframe
 
@@ -178,14 +181,11 @@ class Form4Parser(SECFilingsParser):
         # Parse XML
         data = etree.fromstring(self.webpage)
 
-        # Fields that can be parsed into DataFrames
-        parsable_fields = ['issuer', 'reportingOwner', 'nonDerivativeTable', 'derivativeTable']
-
         # All top-level fields in XML data
         all_fields = data.findall('./')
 
         # Data Fields to Parse
-        fields = [field.tag for field in all_fields if field.tag in parsable_fields]
+        fields = [field.tag for field in all_fields if field.tag in self.parsable_fields]
 
         # Parse Issuer
         if 'issuer' in fields:
@@ -203,7 +203,12 @@ class Form4Parser(SECFilingsParser):
         if 'derivativeTable' in fields:
             self.derivative_table = self._parse_derivative_table(data.find('./derivativeTable'))
 
-        return [self.non_derivative_table, self.derivative_table]
+        return {
+            'issuer': self.issuer_table if not self.issuer_table.empty else None,
+            'owner': self.owner_table if not self.owner_table.empty else None,
+            'non_derivative': self.non_derivative_table if not self.non_derivative_table.empty else None,
+            'derivative': self.derivative_table if not self.derivative_table.empty else None
+        }
 
     # region parse sub-functions
 
