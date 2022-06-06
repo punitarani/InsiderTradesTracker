@@ -9,7 +9,7 @@ from lxml import etree
 from tracker.parsers import SECFilingsParser
 
 # Global Variables and Caches
-transaction_codes_dict: dict = {
+transaction_codes: dict = {
     'A': "Grant, award or other acquisition pursuant to Rule 16b-3(d).",
     'C': "Conversion of derivative security.",
     'D': "Disposition to the issuer of issuer equity securities pursuant to Rule 16b-3(e).",
@@ -33,10 +33,6 @@ transaction_codes_dict: dict = {
     'X': "Exercise of in-the-money or at-the-money derivative security.",
     'Z': "Deposit into or withdrawal from voting trust."
 }
-transaction_codes: pd.DataFrame = pd.DataFrame.from_dict(transaction_codes_dict,
-                                                         orient='index',
-                                                         columns=['description'])
-transaction_codes.index.name = 'code'
 
 
 class Form4Parser(SECFilingsParser):
@@ -421,24 +417,3 @@ class Form4Parser(SECFilingsParser):
         return transactions_df
 
     # endregion
-
-
-def get_transaction_code(code: str) -> str | None:
-    """
-    Get Transaction Code Description.
-
-    :param code: Transaction Code. 1 Character String.
-    :return: Transaction Code Description or None if code not found.
-
-    Note: See https://www.sec.gov/about/forms/form4data.pdf for Transaction Codes.
-    """
-
-    # Check if Code is single character
-    if len(code) > 1:
-        print(f"Warning: Transaction Code '{code}' is longer than 1 character. Using first character {code[0]}.")
-        code = code[0]
-
-    try:
-        return transaction_codes.loc[code, 'description']
-    except (pd.errors.InvalidIndexError, KeyError):
-        return None

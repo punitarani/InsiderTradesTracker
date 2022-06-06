@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from tracker.parsers import Form4Parser
-from tracker.parsers import form4_transaction_codes, form4_get_transaction_code
+from tracker.parsers import form4_transaction_codes
 
 
 class Form4Tests(unittest.TestCase):
@@ -92,11 +92,16 @@ class Form4Tests(unittest.TestCase):
 
     def test_transaction_codes(self):
         transaction_codes = form4_transaction_codes
-        self.assertEqual(transaction_codes.shape, (20, 1))
+        self.assertEqual(len(transaction_codes.keys()), 20)
 
-        self.assertEqual(form4_get_transaction_code('G'), "Bona fide gift.")
-        self.assertEqual(form4_get_transaction_code('LMNOP'), "Small acquisition under Rule 16a-6.")
-        self.assertIsNone(form4_get_transaction_code('Y'))
+        self.assertEqual(form4_transaction_codes['G'], "Bona fide gift.")
+        self.assertEqual(form4_transaction_codes['L'], "Small acquisition under Rule 16a-6.")
+
+        try:
+            y_code = form4_transaction_codes['Y']
+            self.fail(f"'Y' should not be in the transaction codes. Got {y_code}.\n")
+        except KeyError:
+            self.assertTrue(True)
 
 
 if __name__ == '__main__':
