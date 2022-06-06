@@ -130,6 +130,36 @@ class SECFilingParserTests(unittest.TestCase):
         self.assertEqual(parser.data.iloc[2, 2], '0000320193-21-000071.txt')
         self.assertEqual(parser.data.iloc[2, 4], 5473)
 
+    def test_get_doc_url(self):
+        parser_name = 'FilingParser'
+        parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
+                     '0000320193/000032019321000071/0000320193-21-000071-index.html'
+        parser = SECFilingParser(parser_name, parser_url)
+
+        # Test get_doc_url()
+        xml_url = parser.get_document_url(prefer_xml=True)
+        html_url = parser.get_document_url(prefer_xml=False)
+        correct_html_url = 'https://www.sec.gov/Archives/edgar/data/320193/000032019321000071/' \
+                           'xslF345X03/wf-form4_162984422696515.xml'
+        correct_xml_url = 'https://www.sec.gov/Archives/edgar/data/320193/000032019321000071/' \
+                          'wf-form4_162984422696515.xml'
+        self.assertEqual(xml_url, correct_xml_url)
+        self.assertEqual(html_url, correct_html_url)
+
+    def test_get_doc_url_2(self):
+        # Test with different url that has no xml
+        parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
+                     '0000320193/000119312516439878/0001193125-16-439878-index.html'
+        parser = SECFilingParser('FilingParser', parser_url)
+
+        # Test get_doc_url()
+        xml_url = parser.get_document_url(prefer_xml=True)
+        html_url = parser.get_document_url(prefer_xml=False)
+        correct_html_url = 'https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/d66145d10q.htm'
+        correct_xml_url = 'https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/d66145d10q.htm'
+        self.assertEqual(xml_url, correct_xml_url)
+        self.assertEqual(html_url, correct_html_url)
+
 
 if __name__ == '__main__':
     unittest.main()
