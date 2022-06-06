@@ -100,10 +100,7 @@ class BasicTests(unittest.TestCase):
 
         # Get all the filings until the random filing
         filings_until = screener.get_filings_until(random_acc)
-
-        # Verify that the filings shapes are within the range
-        # Assumes no more than delta filings are added to sec between the two calls
-        self.assertAlmostEqual(filings_until.shape[0], random_index, delta=10)
+        self.assertGreaterEqual(filings_until.shape[0], random_index)
 
         # Verify that random_acc is not in the filings
         pdt.assert_series_equal(filings_until.iloc[-1], random_filing)
