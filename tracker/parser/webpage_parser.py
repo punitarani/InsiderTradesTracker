@@ -1,12 +1,14 @@
 # Webpage Parser Parent Class File
 
+from datetime import datetime
+
 import requests
 from bs4 import BeautifulSoup as bs
 
 
 class WebpageParser:
     """
-    Form Parser Parent Class
+    Webpage Parser Class
     """
 
     def __init__(self, name: str, url: str):
@@ -27,6 +29,7 @@ class WebpageParser:
 
         # Caches
         self.response: requests.Response | None = None  # Response object
+        self.response_dt: datetime | None = None  # Response datetime
         self.webpage: str | None = None  # Webpage HTML text (requests.get.text)
         self.content_type: str | None = None  # requests.get.headers['Content-Type']
         self.soup: bs | None = None  # BeautifulSoup object of webpage
@@ -58,6 +61,7 @@ class WebpageParser:
 
         # Cache the response object
         self.response = response
+        self.response_dt = datetime.now()
 
         # Get the content type of the response
         self.content_type = response.headers['Content-Type']

@@ -1,6 +1,7 @@
 # SEC Webpage Parser Class File
 
 from abc import abstractmethod
+from datetime import datetime
 
 import requests
 
@@ -32,6 +33,7 @@ class SECParser(WebpageParser):
         # Delete the previous cached webpage HTML text
         if url != self.url:
             self.response = None
+            self.response_dt = None
             self.webpage = None
             self.content_type = None
             self.soup = None
@@ -61,6 +63,7 @@ class SECParser(WebpageParser):
 
         # Cache Response
         self.response = response
+        self.response_dt = datetime.now()
 
         # Get the content type of the response
         self.content_type = response.headers['Content-Type']

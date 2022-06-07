@@ -1,10 +1,11 @@
 import unittest
+from datetime import datetime, timedelta
 
 import numpy as np
 import pandas as pd
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parser import SECParser, SECFilingsParser, SECFilingParser
+from tracker.parser import SECParser, SECFilingsParser, SECFilingParser, ResponseError
 from tracker.parser.webpage_parser import WebpageParser
 
 
@@ -15,10 +16,21 @@ class BasicParserTests(unittest.TestCase):
         parser = WebpageParser('Google', url)
         self.assertEqual(parser.name, 'Google')
         self.assertEqual(parser.url, url)
+        self.assertIsNone(parser.response)
+        self.assertIsNone(parser.response_dt)
+        self.assertIsNone(parser.webpage)
+        self.assertIsNone(parser.content_type)
+        self.assertIsNone(parser.soup)
 
+        # Test __repr__()
+        self.assertEqual(str(parser), f'Google Parser for {url}.\n')
+
+        # Test get_webpage()
         webpage = parser.get_webpage()
         self.assertIsNotNone(webpage)
+        self.assertAlmostEqual(parser.response_dt, datetime.now(), delta=timedelta(seconds=10))
 
+        # Test get_soup()
         soup = parser.get_soup()
         self.assertIsNotNone(soup)
 
@@ -68,6 +80,11 @@ class BasicParserTests(unittest.TestCase):
         # Check if there are 10 filings
         self.assertEqual(len(html_urls), 10)
 
+    def test_errors(self):
+        error = ResponseError('Test Error', 0)
+        self.assertEqual(error.message, 'Test Error')
+        self.assertEqual(error.status_code, 0)
+
 
 class SECParserTests(unittest.TestCase):
     def test_init(self):
@@ -77,6 +94,11 @@ class SECParserTests(unittest.TestCase):
         self.assertIsNotNone(parser)
         self.assertEqual(parser.name, parser_name)
         self.assertEqual(parser.url, parser_url)
+        self.assertIsNone(parser.response)
+        self.assertIsNone(parser.response_dt)
+        self.assertIsNone(parser.webpage)
+        self.assertIsNone(parser.content_type)
+        self.assertIsNone(parser.soup)
 
         # Test set_url()
         new_url = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent"
@@ -88,6 +110,7 @@ class SECParserTests(unittest.TestCase):
         webpage = parser.get_webpage()
         self.assertEqual(parser.response.status_code, 200)
         self.assertIsNotNone(webpage)
+        self.assertAlmostEqual(parser.response_dt, datetime.now(), delta=timedelta(seconds=10))
         self.assertIn('html', parser.content_type)
 
         # Parse function is abstract, so should be None
