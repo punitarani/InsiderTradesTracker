@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parser import SECFilingsParser, SECFilingParser
+from tracker.parser import SECParser, SECFilingsParser, SECFilingParser
 from tracker.parser.webpage_parser import WebpageParser
 
 
@@ -67,6 +67,32 @@ class BasicParserTests(unittest.TestCase):
 
         # Check if there are 10 filings
         self.assertEqual(len(html_urls), 10)
+
+
+class SECParserTests(unittest.TestCase):
+    def test_init(self):
+        parser_name = 'SEC'
+        parser_url = 'https://www.sec.gov/'
+        parser = SECParser(parser_name, parser_url)
+        self.assertIsNotNone(parser)
+        self.assertEqual(parser.name, parser_name)
+        self.assertEqual(parser.url, parser_url)
+
+        # Test set_url()
+        new_url = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent"
+        parser.set_url(new_url)
+        self.assertEqual(parser.url, new_url)
+
+    def test_get_webpage(self):
+        parser = SECParser('SEC', 'https://www.sec.gov/')
+        webpage = parser.get_webpage()
+        self.assertEqual(parser.response.status_code, 200)
+        self.assertIsNotNone(webpage)
+        self.assertIn('html', parser.content_type)
+
+        # Parse function is abstract, so should be None
+        self.assertIsNone(parser.parse())
+        self.assertIsNone(parser.soup)
 
 
 class SECLatestFilingsParserTests(unittest.TestCase):

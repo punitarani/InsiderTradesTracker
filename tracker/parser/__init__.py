@@ -1,6 +1,7 @@
 # Parsers
 
 from tracker.parser.webpage_parser import WebpageParser, ResponseError
+from tracker.parser.sec import SECParser
 from tracker.parser.sec_latest_filings_parser import SECFilingsParser
 from tracker.parser.sec_filing_parser import SECFilingParser
 
