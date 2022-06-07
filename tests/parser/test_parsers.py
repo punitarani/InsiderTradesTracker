@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parsers import SECFilingsParser, SECFilingParser
-from tracker.parsers.webpage_parser import WebpageParser
+from tracker.parser import SECFilingsParser, SECFilingParser
+from tracker.parser.webpage_parser import WebpageParser
 
 
 class BasicParserTests(unittest.TestCase):

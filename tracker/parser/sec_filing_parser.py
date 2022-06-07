@@ -3,7 +3,7 @@
 import pandas as pd
 import requests
 
-from tracker.parsers import WebpageParser, ResponseError
+from tracker.parser import WebpageParser, ResponseError
 
 
 class SECFilingParser(WebpageParser):

@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from tracker.parsers import Form4Parser
-from tracker.parsers import form4_transaction_codes
+from tracker.parser import Form4Parser
+from tracker.parser import form4_transaction_codes
 
 
 class Form4Tests(unittest.TestCase):

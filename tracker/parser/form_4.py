@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from lxml import etree
 
-from tracker.parsers import SECFilingsParser
+from tracker.parser import SECFilingsParser
 
 # Global Variables and Caches
 transaction_codes: dict = {

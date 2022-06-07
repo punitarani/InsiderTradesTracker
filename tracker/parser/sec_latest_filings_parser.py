@@ -9,7 +9,7 @@ import requests
 from lxml import etree
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parsers import WebpageParser, ResponseError
+from tracker.parser import WebpageParser, ResponseError
 
 
 class SECFilingsParser(WebpageParser):

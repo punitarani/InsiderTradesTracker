@@ -98,7 +98,7 @@ from xml.etree import ElementTree as ET
 
 from lxml import etree
 
-from tracker.parsers.webpage_parser import WebpageParser
+from tracker.parser.webpage_parser import WebpageParser
 
 
 def get_fields(data: ET):

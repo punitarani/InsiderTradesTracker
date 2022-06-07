@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from defs import DATA_DIR_PATH
-from tracker.parsers import Form4Parser, SECFilingParser
+from tracker.parser import Form4Parser, SECFilingParser
 from tracker.screener import SECFilingsScreener
 
 
