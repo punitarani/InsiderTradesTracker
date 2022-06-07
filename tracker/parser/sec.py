@@ -1,6 +1,5 @@
 # SEC Webpage Parser Class File
 
-from abc import abstractmethod
 from datetime import datetime
 
 import requests
@@ -75,9 +74,3 @@ class SECParser(WebpageParser):
         self.webpage = response.text
 
         return response.text
-
-    @abstractmethod
-    def parse(self, *args, **kwargs):
-        """
-        Parse the webpage HTML text
-        """

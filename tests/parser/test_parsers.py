@@ -113,10 +113,6 @@ class SECParserTests(unittest.TestCase):
         self.assertAlmostEqual(parser.response_dt, datetime.now(), delta=timedelta(seconds=10))
         self.assertIn('html', parser.content_type)
 
-        # Parse function is abstract, so should be None
-        self.assertIsNone(parser.parse())
-        self.assertIsNone(parser.soup)
-
 
 class SECLatestFilingsParserTests(unittest.TestCase):
     def test_parse(self):
