@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from lxml import etree
 
-from tracker.parser import SECFilingsParser
+from tracker.parser import SECParser
 
 # Global Variables and Caches
 transaction_codes: dict = {
@@ -35,7 +35,7 @@ transaction_codes: dict = {
 }
 
 
-class Form4Parser(SECFilingsParser):
+class Form4Parser(SECParser):
     def __init__(self, name: str, url: str):
         """
         Form 4 Parser Class Constructor

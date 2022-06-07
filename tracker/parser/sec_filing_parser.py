@@ -3,10 +3,10 @@
 import pandas as pd
 import requests
 
-from tracker.parser import WebpageParser, ResponseError
+from tracker.parser import SECParser, ResponseError
 
 
-class SECFilingParser(WebpageParser):
+class SECFilingParser(SECParser):
     """
     SEC Filing Parser Class.
     """
@@ -23,35 +23,6 @@ class SECFilingParser(WebpageParser):
 
         # Caches
         self.data: pd.DataFrame = pd.DataFrame()
-
-    def get_webpage(self, *args, **kwargs) -> str:
-        """
-        Get the webpage HTML text
-
-        :return: Webpage HTML text
-
-        Notes
-        -----
-        This method caches the webpage HTML texts in self.webpage.
-        Uses Chrome User-Agent header.
-        """
-
-        # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
-        # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        headers = self.header_chrome_user_agent
-
-        response = requests.get(self.url, headers=headers)
-
-        # Get the content type of the response
-        self.content_type = response.headers['Content-Type']
-
-        # Check if response is successful
-        if response.status_code != 200:
-            raise ResponseError(f'Response Error: {response.status_code} - {response.reason}')
-
-        self.webpage = response.text
-
-        return response.text
 
     def parse(self) -> pd.DataFrame:
         """

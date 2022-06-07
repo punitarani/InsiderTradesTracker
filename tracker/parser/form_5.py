@@ -1,9 +1,9 @@
 # Form 5 Parser Class File
 
-from tracker.parser import SECFilingsParser
+from tracker.parser import SECParser
 
 
-class Form5Parser(SECFilingsParser):
+class Form5Parser(SECParser):
     def __init__(self, name: str, url: str):
         """
         Form 5 Parser Class Constructor

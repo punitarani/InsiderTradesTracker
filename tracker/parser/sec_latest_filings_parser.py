@@ -9,10 +9,10 @@ import requests
 from lxml import etree
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parser import WebpageParser, ResponseError
+from tracker.parser import SECParser, ResponseError
 
 
-class SECFilingsParser(WebpageParser):
+class SECFilingsParser(SECParser):
     """
     SEC Latest Filings Parser Class
     """
@@ -35,56 +35,6 @@ class SECFilingsParser(WebpageParser):
             print(f'{self.name} URL is not set. Using default URL: {self.url}')
 
         self.filings: pd.DataFrame = pd.DataFrame()
-
-    def set_url(self, url: str) -> str:
-        """
-        Set the Parser URL
-
-        :param url: Parser URL
-        :return: Parser URL
-        """
-
-        # Delete the previous cached webpage HTML text
-        if url != self.url:
-            self.webpage = None
-            self.content_type = None
-            self.soup = None
-
-            # Update url
-            self.url = url
-
-        return self.url
-
-    def get_webpage(self, *args, **kwargs) -> str:
-        """
-        Get the webpage HTML text
-
-        :return: Webpage HTML text
-
-        Notes
-        -----
-        This method caches the webpage HTML texts in self.webpage.
-        Uses Chrome User-Agent header.
-        """
-
-        # TODO: Add Rate Limiting
-
-        # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
-        # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        headers = self.header_chrome_user_agent
-
-        response = requests.get(self.url, headers=headers)
-
-        # Get the content type of the response
-        self.content_type = response.headers['Content-Type']
-
-        # Check if response is successful
-        if response.status_code != 200:
-            raise ResponseError(f'Response Error: {response.status_code} - {response.reason}')
-
-        self.webpage = response.text
-
-        return response.text
 
     def parse(self) -> pd.DataFrame:
         """
