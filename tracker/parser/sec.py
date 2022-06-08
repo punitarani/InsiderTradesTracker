@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 
 from tracker.parser import WebpageParser, ResponseError
+from tracker.utils import RateLimit
 
 
 class SECParser(WebpageParser):
@@ -40,6 +41,7 @@ class SECParser(WebpageParser):
             # Update url
             self.url = url
 
+    @RateLimit(limit=10, period=1, max_wait=15)
     def get_webpage(self, *args, **kwargs) -> str:
         """
         Get the webpage HTML text
@@ -51,8 +53,6 @@ class SECParser(WebpageParser):
         This method caches the webpage HTML texts in self.webpage.
         Uses Chrome User-Agent header.
         """
-
-        # TODO: Add Rate Limiting
 
         # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
         # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
