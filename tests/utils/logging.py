@@ -52,6 +52,12 @@ class LoggerTests(unittest.TestCase):
         test_logger = Logger('test')
         logger = test_logger.get_logger()
 
+        logger.debug('Test DEBUG')
+        logger.info('Test INFO')
+        logger.warning('Test WARNING')
+        logger.error('Test ERROR')
+        logger.critical('Test CRITICAL')
+
         log_messages = [
             'Test DEBUG',
             'Test INFO',
@@ -59,12 +65,6 @@ class LoggerTests(unittest.TestCase):
             'Test ERROR',
             'Test CRITICAL'
         ]
-
-        logger.debug('Test DEBUG')
-        logger.info('Test INFO')
-        logger.warning('Test WARNING')
-        logger.error('Test ERROR')
-        logger.critical('Test CRITICAL')
 
         # Read the last 5 lines of the log file
         with open(test_logger.filename, 'r') as f:
@@ -78,6 +78,41 @@ class LoggerTests(unittest.TestCase):
                 self.assertAlmostEqual(log_time.timestamp(), now, delta=timedelta(seconds=1).total_seconds())
                 self.assertEqual(log_split[1], 'test')
                 self.assertEqual(log_split[2], log_messages[i].split(' ')[-1].strip())
+                self.assertEqual(log_split[3], log_messages[i])
+
+    def test_log_child(self):
+        test_logger = Logger('test.subtest')
+        logger = test_logger.get_logger()
+        self.assertEqual(test_logger.name, 'test.subtest')
+        self.assertEqual(test_logger.root_name, 'test')
+        self.assertEqual(test_logger.filename.name, 'test.log')
+
+        logger.debug('Subtest DEBUG')
+        logger.info('Subtest INFO')
+        logger.warning('Subtest WARNING')
+        logger.error('Subtest ERROR')
+        logger.critical('Subtest CRITICAL')
+
+        log_messages = [
+            'Subtest DEBUG',
+            'Subtest INFO',
+            'Subtest WARNING',
+            'Subtest ERROR',
+            'Subtest CRITICAL'
+        ]
+
+        # Read the last 5 lines of the log file
+        with open(test_logger.filename, 'r') as f:
+            lines = f.readlines()[-5:]
+            print(lines)
+
+            # Check the log messages
+            for i, line in enumerate(lines):
+                log_split = [x.strip() for x in line.split(' - ')]
+
+                log_time = datetime.strptime(log_split[0].strip(), '%Y-%m-%d %H:%M:%S,%f')
+                self.assertEqual(log_split[1], 'test.subtest')
+                self.assertEqual(log_split[2], log_messages[i].split(' ')[-1])
                 self.assertEqual(log_split[3], log_messages[i])
 
 

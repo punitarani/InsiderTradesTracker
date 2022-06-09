@@ -90,6 +90,9 @@ class Logger:
         # Create logger
         logger = logging.getLogger(self.name)
 
+        # Do not propagate to root logger
+        logger.propagate = False
+
         # Define logger level
         logger.setLevel(self.level)
 
