@@ -39,6 +39,7 @@ class Logger:
 
         # Define log filename path
         self.filename: Path = LOG_DIR_PATH.joinpath(f"{self.root_name}.log")
+        self.__create_log_file()
 
         # Define Format
         self.format: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -140,3 +141,16 @@ class Logger:
         stream_handler.setFormatter(self.formatter)
 
         return stream_handler
+
+    def __create_log_file(self) -> None:
+        """
+        Create Log File
+        """
+
+        # Check if logs directory exists
+        if not LOG_DIR_PATH.exists():
+            LOG_DIR_PATH.mkdir()
+
+        # Check if log file exists
+        if not self.filename.exists():
+            self.filename.touch()
