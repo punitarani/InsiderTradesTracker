@@ -110,10 +110,16 @@ class Logger:
         :return None
         """
 
-        if self.add_file_handler:
+        # Get all handlers already added to logger
+        _file_handlers = [handler for handler in logger.handlers if isinstance(handler, logging.FileHandler)]
+        _stream_handlers = [handler for handler in logger.handlers if isinstance(handler, logging.StreamHandler)]
+
+        # Add File Handler if not already added and requested
+        if self.add_file_handler and len(_file_handlers) == 0:
             logger.addHandler(self.__create_file_handler())
 
-        if self.add_stream_handler:
+        # Add Stream Handler if not already added and requested
+        if self.add_stream_handler and len(_stream_handlers) == 0:
             logger.addHandler(self.__create_stream_handler())
 
     def __create_file_handler(self) -> logging.FileHandler:
