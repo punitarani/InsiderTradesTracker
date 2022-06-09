@@ -1,9 +1,16 @@
 # Webpage Parser Parent Class File
 
+import logging
 from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup as bs
+
+from tracker.utils import Logger
+
+# Define logger
+WebpageLogger = Logger('webpage')
+logger = WebpageLogger.get_logger()
 
 
 class WebpageParser:
@@ -19,8 +26,11 @@ class WebpageParser:
         :param url: Form URL
         """
 
-        self.name = name
-        self.url = url
+        self.name: str = name
+        self.url: str = url
+
+        # Logging
+        self.logger: logging.Logger = logger
 
         # Chrome User-Agent header
         self.header_chrome_user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
@@ -39,7 +49,7 @@ class WebpageParser:
         :return: Form Parser Parent Class Representation
         """
 
-        return f'{self.name} Parser for {self.url}.\n'
+        return f'{self.name} Parser for {self.url}.'
 
     def get_webpage(self, headers: dict = None) -> str:
         """
@@ -57,6 +67,7 @@ class WebpageParser:
         headers = {} if headers is None else headers
 
         # Get the webpage HTML text
+        self.logger.debug(f'Getting {self.name} webpage from {self.url}')
         response = requests.get(self.url, headers=headers)
 
         # Cache the response object
@@ -68,7 +79,9 @@ class WebpageParser:
 
         # Check if response is successful
         if response.status_code != 200:
-            raise ResponseError(f'Response Error: {response.status_code} - {response.reason}')
+            error_msg = f'Response Error: {response.status_code} - {response.reason}'
+            self.logger.error(error_msg)
+            raise ResponseError(error_msg)
 
         self.webpage = response.text
         return response.text

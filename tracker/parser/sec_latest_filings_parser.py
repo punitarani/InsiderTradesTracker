@@ -30,9 +30,7 @@ class SECFilingsParser(SECParser):
         # Use the latest SEC Filings URL from baseurls.py to get the latest SEC Filings
         if url is None:
             self.url = SEC_LATEST_FILINGS
-
-            # TODO: Add logging
-            print(f'{self.name} URL is not set. Using default URL: {self.url}')
+            self.logger.info(f'SECFilingsParser: {self.name}. Using default URL: {self.url}.')
 
         self.filings: pd.DataFrame = pd.DataFrame()
 

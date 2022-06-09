@@ -23,7 +23,7 @@ class BasicParserTests(unittest.TestCase):
         self.assertIsNone(parser.soup)
 
         # Test __repr__()
-        self.assertEqual(str(parser), f'Google Parser for {url}.\n')
+        self.assertEqual(str(parser), f'Google Parser for {url}.')
 
         # Test get_webpage()
         webpage = parser.get_webpage()

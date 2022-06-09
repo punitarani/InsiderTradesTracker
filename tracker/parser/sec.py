@@ -1,11 +1,16 @@
 # SEC Webpage Parser Class File
 
+import logging
 from datetime import datetime
 
 import requests
 
 from tracker.parser import WebpageParser, ResponseError
-from tracker.utils import RateLimit
+from tracker.utils import RateLimit, Logger
+
+# Define logger
+SECLogger: Logger = Logger('sec')
+logger: logging.Logger = SECLogger.get_logger()
 
 
 class SECParser(WebpageParser):
@@ -21,7 +26,7 @@ class SECParser(WebpageParser):
 
         super().__init__(name=name, url=url)
 
-        # TODO: Add logging
+        self.logger = logger
 
     def set_url(self, url: str) -> None:
         """
@@ -41,7 +46,7 @@ class SECParser(WebpageParser):
             # Update url
             self.url = url
 
-    @RateLimit(limit=10, period=1, max_wait=15)
+    @RateLimit(limit=10, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
         """
         Get the webpage HTML text
@@ -58,6 +63,8 @@ class SECParser(WebpageParser):
         # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
         headers = self.header_chrome_user_agent
 
+        # Get the webpage HTML text
+        self.logger.debug(f'Getting {self.name} webpage from {self.url}')
         response = requests.get(self.url, headers=headers)
 
         # Cache Response
@@ -69,7 +76,9 @@ class SECParser(WebpageParser):
 
         # Check if response is successful
         if response.status_code != 200:
-            raise ResponseError(f'Response Error: {response.status_code} - {response.reason}')
+            error_msg = f'Response Error: {response.status_code} - {response.reason}'
+            self.logger.error(error_msg)
+            raise ResponseError(error_msg)
 
         self.webpage = response.text
 
