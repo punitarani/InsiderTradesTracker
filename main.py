@@ -22,10 +22,8 @@ def main() -> None:
     try:
         sys.exit(stcli.main())
 
-    except SystemExit(0):
+    except SystemExit:
         logger.info('Terminating Streamlit App...')
-
-    finally:
         sys.exit(0)
 
 
