@@ -167,7 +167,12 @@ class Form4Parser(SECParser):
         """
         Parse document and organize data into dataframe
 
-        :return: [self.non_derivative_table, self.derivative_table]
+        :return: {
+            'issuer': issuer_table or None,
+            'owner': owner_table or None,
+            'non_derivative': non_derivative_table or None,
+            'derivative': derivative_table or None
+        }
         """
 
         # Check if webpage HTML text is cached. If not, get webpage first.
@@ -182,6 +187,8 @@ class Form4Parser(SECParser):
 
         # Data Fields to Parse
         fields = [field.tag for field in all_fields if field.tag in self.parsable_fields]
+
+        # TODO: Check if all the fields exist, if not create with NaN values
 
         # Parse Issuer
         if 'issuer' in fields:

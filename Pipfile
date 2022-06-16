@@ -11,6 +11,8 @@ requests = "*"
 pyarrow = "*"
 coverage = "*"
 streamlit = "*"
+dash = "*"
+dash-bootstrap-components = "*"
 
 [dev-packages]
 

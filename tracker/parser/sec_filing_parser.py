@@ -1,9 +1,8 @@
 # SEC Filing Parser
 
 import pandas as pd
-import requests
 
-from tracker.parser import SECParser, ResponseError
+from tracker.parser import SECParser
 
 
 class SECFilingParser(SECParser):
@@ -49,6 +48,8 @@ class SECFilingParser(SECParser):
 
         # Add link column to DataFrame
         df['Link'] = links
+
+        # TODO: Format columns to relevant data types from lxml.*?
 
         # Cache the data
         self.data = df
