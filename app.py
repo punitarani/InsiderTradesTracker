@@ -970,5 +970,4 @@ app.layout = get_layout()
 
 # Run App
 if __name__ == '__main__':
-    app.run_server(debug=True,
-                   dev_tools_hot_reload=True)
+    app.run_server(debug=False)
