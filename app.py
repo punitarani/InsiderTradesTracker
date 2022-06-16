@@ -31,8 +31,9 @@ last_selected_filing_url: str | None = None
 
 # Define App
 app = Dash('Insider Trades Tracker')
-app.title = 'Tracker'
+server = app.server
 
+app.title = 'Tracker'
 
 # endregion
 
