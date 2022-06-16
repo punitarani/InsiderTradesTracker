@@ -5,11 +5,10 @@ from datetime import datetime
 from xml.etree import ElementTree
 
 import pandas as pd
-import requests
 from lxml import etree
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parser import SECParser, ResponseError
+from tracker.parser import SECParser
 
 
 class SECFilingsParser(SECParser):
@@ -34,10 +33,11 @@ class SECFilingsParser(SECParser):
 
         self.filings: pd.DataFrame = pd.DataFrame()
 
-    def parse(self) -> pd.DataFrame:
+    def parse(self, force_refresh: bool = True) -> pd.DataFrame:
         """
         Parse the SEC Filings into DataFrame
 
+        :param force_refresh: Re-downloading the webpage data
         :return: Filings DataFrame
         """
 
@@ -46,7 +46,7 @@ class SECFilingsParser(SECParser):
         filings = pd.DataFrame(columns=filing_cols)
 
         # Check if webpage HTML text is cached. If not, get webpage first.
-        if self.webpage is None:
+        if self.webpage is None or force_refresh:
             self.get_webpage()
 
         data: ElementTree = etree.fromstring(self.webpage.encode('utf-8'))
