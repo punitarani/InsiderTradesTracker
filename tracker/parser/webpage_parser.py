@@ -1,11 +1,14 @@
 # Webpage Parser Parent Class File
 
 import logging
+import uuid
 from datetime import datetime
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup as bs
 
+from defs import LOG_DIR_PATH
 from tracker.utils import Logger
 
 # Define logger
@@ -81,7 +84,7 @@ class WebpageParser:
         if response.status_code != 200:
             error_msg = f'Response Error: {response.status_code} - {response.reason}'
             self.logger.error(error_msg)
-            raise ResponseError(error_msg)
+            raise ResponseError(message=error_msg, response=response)
 
         self.webpage = response.text
         return response.text
@@ -115,13 +118,45 @@ class ResponseError(Exception):
     Response Error
     """
 
-    def __init__(self, message: str, status_code: int = None):
+    def __init__(self, message: str,
+                 status_code: int = None,
+                 response: requests.Response | None = None,
+                 logger: logging.Logger | None = None):
         """
         Response Error Constructor
 
-        :param message: Response Error Message
+        :param message: Response Error Message to Log
+        :param status_code (optional): Status Code of the Response
+        :param response (optional): Log the response to file if provided
+        :param logger (optional): Logger to log messages to
         """
 
         self.message = message
         self.status_code = status_code
+        self.response: requests.Response | None = response
+        self.content: response.text | None = response.text if response is not None else None
+
+        self.logger: logging.Logger = logger
+
+        # Save response to file
+        if self.response is not None:
+            # Generate random file name hash
+            resp_file: Path = LOG_DIR_PATH.joinpath("response", f"{uuid.uuid4().hex}.txt")
+
+            try:
+                # Create file
+                LOG_DIR_PATH.joinpath("response").mkdir(parents=True, exist_ok=True)
+                resp_file.touch()
+
+                # Save to file
+                with open(resp_file, 'w') as file_obj:
+                    file_obj.write(self.content)
+
+                # Add file_name to message
+                message += f". Saved to file{resp_file.name}."
+
+            except Exception as err:
+                self.logger.error(f"Error: {err}. Failed to save {message} to file: {resp_file.name}.")
+
+        # Call super
         super().__init__(message)
