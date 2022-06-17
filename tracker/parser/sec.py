@@ -78,7 +78,7 @@ class SECParser(WebpageParser):
         if response.status_code != 200:
             error_msg = f'Response Error: {response.status_code} - {response.reason}'
             self.logger.error(error_msg)
-            raise ResponseError(error_msg)
+            raise ResponseError(message=error_msg, response=response)
 
         self.webpage = response.text
 
