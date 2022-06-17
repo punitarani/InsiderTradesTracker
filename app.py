@@ -23,7 +23,7 @@ filings: pd.DataFrame
 
 # Update Times
 update_times: dict = {
-    'table-latest-filings': -1,
+    'table-latest-filings': datetime.today(),
 }
 
 # Last selected filing url
