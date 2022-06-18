@@ -36,9 +36,9 @@ class WebpageParser:
         self.logger: logging.Logger = logger
 
         # Chrome User-Agent header
-        self.header_chrome_user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                                                       'AppleWebKit/537.36 (KHTML, like Gecko) '
-                                                       'Chrome/102.0.5005.63 Safari/537.36'}
+        self.chrome_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+                                 'Chrome/102.0.5005.63 Safari/537.36'
+        self.header_chrome_user_agent = {'User-Agent': self.chrome_user_agent}
 
         # Caches
         self.response: requests.Response | None = None  # Response object

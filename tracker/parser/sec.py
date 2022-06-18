@@ -5,6 +5,7 @@ from datetime import datetime
 
 import requests
 
+import config
 from tracker.parser import WebpageParser, ResponseError
 from tracker.utils import RateLimit, Logger
 
@@ -56,12 +57,32 @@ class SECParser(WebpageParser):
         Notes
         -----
         This method caches the webpage HTML texts in self.webpage.
-        Uses Chrome User-Agent header.
+        Follows guidelines: https://www.sec.gov/os/accessing-edgar-data.
         """
 
-        # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
-        # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        headers = self.header_chrome_user_agent
+        """
+        User-Agent is required to access SEC website.
+        Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
+        1. Try to use recommended header: 'Sample Company Name AdminContact@<sample company domain>.com'
+        2. If missing data from config file, mock Chrome web browser header.
+        
+        Notes:
+            User-Agent: Sample Company Name AdminContact@<sample company domain>.com
+            Accept-Encoding: gzip, deflate
+            Host: www.sec.gov
+        """
+        headers: dict = {
+            'Accept-Encoding': 'gzip, deflate',
+            'Host': 'www.sec.gov'
+        }
+
+        # Check if required config values are available.
+        if config.NAME is not None and config.EMAIL is not None:
+            headers.update({'User-Agent': f'{config.NAME} {config.EMAIL}'})
+
+        # If missing config values, use Chrome user agent (NOT RECOMMENDED).
+        else:
+            headers.update({'User-Agent': self.chrome_user_agent})
 
         # Get the webpage HTML text
         self.logger.debug(f'Getting {self.name} webpage from {self.url}')
