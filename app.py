@@ -286,7 +286,6 @@ def update_select_filing_section(active_cell):
 
 # endregion App Callbacks
 
-
 # region Helper Functions
 
 def get_filings() -> pd.DataFrame:
@@ -931,6 +930,7 @@ def get_layout():
                 children=[
                     html.H2(
                         'Selected Filing',
+                        id='selected-filing-title',
                         style={
                             'padding': 0,
                             'margin-bottom': 0,
@@ -971,4 +971,8 @@ app.layout = get_layout()
 
 # Run App
 if __name__ == '__main__':
+    # Development
+    # app.run_server(debug=True)
+
+    # Production
     app.run_server(debug=False)

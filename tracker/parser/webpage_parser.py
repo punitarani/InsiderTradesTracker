@@ -36,9 +36,9 @@ class WebpageParser:
         self.logger: logging.Logger = logger
 
         # Chrome User-Agent header
-        self.header_chrome_user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+        self.header_chrome_user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                                                        'AppleWebKit/537.36 (KHTML, like Gecko) '
-                                                       'Chrome/102.0.5005.63 Safari/537.36 '}
+                                                       'Chrome/102.0.5005.63 Safari/537.36'}
 
         # Caches
         self.response: requests.Response | None = None  # Response object
@@ -153,7 +153,7 @@ class ResponseError(Exception):
                     file_obj.write(self.content)
 
                 # Add file_name to message
-                message += f". Saved to file{resp_file.name}."
+                message += f". Saved to file {resp_file.name}."
 
             except Exception as err:
                 self.logger.error(f"Error: {err}. Failed to save {message} to file: {resp_file.name}.")
