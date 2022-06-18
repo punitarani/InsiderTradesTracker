@@ -65,6 +65,10 @@ def update_filings_table(n_clicks):
         # Get the latest filings
         df = get_filings()
 
+        # Cache the latest filings DataFrame
+        global filings
+        filings = df
+
         # Reset Index and rename index columns as 'id'
         df.reset_index(inplace=True)
         df.rename(columns={'index': 'id'}, inplace=True)
@@ -145,10 +149,21 @@ def update_select_filing_section(active_cell):
         return output_data
 
     elif active_cell is not None:
+        # Check if filings exists
+        try:
+            # Get the selected row data from the filings DataFrame
+            select_filing = filings.iloc[active_cell['row_id']]
+        except NameError:
+            # Get and Cache the latest filings DataFrame
+            filings = get_filings()
+
+            # Get the selected row data from the filings DataFrame
+            select_filing = filings.iloc[active_cell['row_id']]
+
         # Get Filing Accession Number
-        acc_no = filings.iloc[active_cell['row_id']].loc['Filing']
-        filing_title = filings.iloc[active_cell['row_id']].loc['Title']
-        filing_url = filings.iloc[active_cell['row_id']].loc['Link']
+        acc_no = select_filing.loc['Filing']
+        filing_title = select_filing.loc['Title']
+        filing_url = select_filing.loc['Link']
 
         # Cache selected filing url
         last_selected_filing_url = filing_url
