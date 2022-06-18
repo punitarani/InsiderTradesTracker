@@ -1,6 +1,7 @@
 # Ratelimit decorator for functions and methods
 
 import logging
+from tracker.utils import Logger
 from time import time, sleep
 
 
@@ -27,7 +28,11 @@ class RateLimit:
         self.limit: int | None = limit
         self.period: int = period
         self.max_wait: int | None = max_wait
-        self.logger: logging.Logger | None = logger
+
+        if logger is not None:
+            self.logger: logging.Logger = logger
+        else:
+            self.logger = Logger('ratelimit', file_handler=True, stream_handler=True).get_logger()
 
         # Rate
         self.rate: float = limit / period
@@ -70,10 +75,9 @@ class RateLimit:
                 wait_time = (delta_time - now) + (self.rate * (self.waiting % self.limit))
 
                 # Log
-                if self.logger is not None:
-                    self.logger.info(f'RateLimit: Waiting {wait_time:.2f}s before calling '
-                                     f'{func.__qualname__} from {func.__module__}. '
-                                     f'args: {list(args)}. kwargs: {kwargs}.')
+                self.logger.info(f'RateLimit: Waiting {wait_time:.2f}s before calling '
+                                 f'{func.__qualname__} from {func.__module__}. '
+                                 f'args: {list(args)}. kwargs: {kwargs}.')
 
                 # Check if wait time is greater than max_wait
                 if self.max_wait is not None and wait_time > self.max_wait:
@@ -111,9 +115,8 @@ class RateLimitException(Exception):
         self.message: str = message
         self.logger: logging.Logger | None = logger
 
+        # Log the exception
+        self.logger.exception(self.message)
+
         # Call the Exception constructor
         super().__init__(message)
-
-        # Log the exception
-        if self.logger is not None:
-            self.logger.exception(self.message)
