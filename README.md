@@ -3,4 +3,4 @@
 
 Website: [Insider Trades Tracker](https://insider-trades-tracker.herokuapp.com/).
 
-![Website Demo]((https://github.com/[punitarani]/[InsiderTradesTracker]/blob/[main]/assets/demo/tracker_demo.png?raw=true))
+![Website Demo](https://github.com/punitarani/InsiderTradesTracker/blob/main/assets/demo/tracker_demo.png?raw=true)
