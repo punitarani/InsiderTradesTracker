@@ -147,6 +147,8 @@ cython_debug/
 # Jet Brains Related Files
 .idea/
 
+# Config files
+/config.yaml
 
 # Data files
 data/
