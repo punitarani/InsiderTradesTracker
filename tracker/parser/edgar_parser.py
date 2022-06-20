@@ -39,6 +39,7 @@ class EdgarParser(SECParser):
 
         # Cache
         self.results: pd.DataFrame | None = None
+        self.results_count: int | None = None
 
         # Delete irrelevant inherited attributes
         if hasattr(self, 'url'):
@@ -104,13 +105,11 @@ class EdgarParser(SECParser):
         if self.webpage is None or force_refresh:
             self.get_webpage()
 
-        # TODO: Use search results count for recursive search and parse
-        # # Results count
-        # search_results: int | None
-        # try:
-        #     search_results = self.webpage['hits']['total']['value']
-        # except KeyError:
-        #     search_results = None
+        # Results count
+        try:
+            self.results_count = self.webpage['hits']['total']['value']
+        except KeyError:
+            self.results_count = None
 
         # Get filings data
         data = self.webpage['hits']['hits']
@@ -124,9 +123,6 @@ class EdgarParser(SECParser):
 
         # Cache results
         self.results = results
-
-        print(results.iloc[0])
-        print(results.iloc[0].loc['source'].keys())
 
         return results
 
