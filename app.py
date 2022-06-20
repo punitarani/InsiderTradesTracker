@@ -234,7 +234,8 @@ def update_select_filing_section(active_cell):
             non_der_fields = [
                 "securityTitle", "transactionDate", "deemedExecutionDate", "transactionFormType", "transactionCode",
                 "equitySwapInvolved", "transactionTimeliness", "transactionShares", "transactionPricePerShare",
-                "transactionAcquiredDisposedCode", "sharesOwnedFollowingTransaction", "directOrIndirectOwnership",
+                "transactionAcquiredDisposedCode", "sharesOwnedFollowingTransaction",
+                "directOrIndirectOwnership", "natureOfOwnership",
             ]
 
             # Create fields (columns) in non_der_df if they don't exist
@@ -252,8 +253,8 @@ def update_select_filing_section(active_cell):
             der_fields = [
                 "securityTitle", "conversionOrExercisePrice", "transactionDate", "transactionCoding",
                 "transactionTimeliness", "transactionAmounts", "exerciseDate", "expirationDate",
-                "underlyingSecurityTitle",
-                "underlyingSecurityShares", "sharesOwnedFollowingTransaction", "directOrIndirectOwnership"
+                "underlyingSecurityTitle", "underlyingSecurityShares", "sharesOwnedFollowingTransaction",
+                "directOrIndirectOwnership", "natureOfOwnership",
             ]
 
             # Create fields (columns) in der_df if they don't exist
@@ -405,6 +406,7 @@ def get_filing_info(filing: str, url: str) -> dict:
             "transactionAmounts.transactionAcquiredDisposedCode": "transactionAcquiredDisposedCode",
             "postTransactionAmounts.sharesOwnedFollowingTransaction": "sharesOwnedFollowingTransaction",
             "ownershipNature.directOrIndirectOwnership": "directOrIndirectOwnership",
+            "ownershipNature.natureOfOwnership": "natureOfOwnership",
         }, inplace=True)
     # Set to None if empty
     else:
@@ -428,6 +430,7 @@ def get_filing_info(filing: str, url: str) -> dict:
             "underlyingSecurity.underlyingSecurityShares": "underlyingSecurityShares",
             "postTransactionAmounts.sharesOwnedFollowingTransaction": "sharesOwnedFollowingTransaction",
             "ownershipNature.directOrIndirectOwnership": "directOrIndirectOwnership",
+            "ownershipNature.natureOfOwnership": "natureOfOwnership",
         }, inplace=True)
     # Set to None if empty
     else:
@@ -547,51 +550,6 @@ def build_select_filing_section() -> html.Div:
         table-select-filing-derivative
     """
 
-    # Fields
-    """
-    Issuer
-    ['issuerCik', 'issuerName', 'issuerTradingSymbol']
-    
-    Owner
-    ['Id.Cik', 'Id.Name', 'Address.Street1', 'Address.Street2',
-       'Address.City', 'Address.State', 'Address.ZipCode',
-       'Address.StateDescription', 'Relationship.isDirector',
-       'Relationship.isOfficer', 'Relationship.isTenPercentOwner',
-       'Relationship.isOther', 'Relationship.officerTitle',
-       'Relationship.otherText']
-       
-    Non-Derivative
-    [{'id': 'securityTitle', 'name': 'securityTitle'},
-    {'id': 'transactionDate', 'name': 'transactionDate'},
-    {'id': 'deemedExecutionDate', 'name': 'deemedExecutionDate'},
-    {'id': 'transactionCoding.transactionFormType', 'name': 'transactionCoding.transactionFormType'},
-    {'id': 'transactionCoding.transactionCode', 'name': 'transactionCoding.transactionCode'},
-    {'id': 'transactionCoding.equitySwapInvolved', 'name': 'transactionCoding.equitySwapInvolved'},
-    {'id': 'transactionTimeliness', 'name': 'transactionTimeliness'},
-    {'id': 'transactionAmounts.transactionShares', 'name': 'transactionAmounts.transactionShares'},
-    {'id': 'transactionAmounts.transactionPricePerShare', 'name': 'transactionAmounts.transactionPricePerShare'},
-    {'id': 'transactionAmounts.transactionAcquiredDisposedCode', 
-        'name': 'transactionAmounts.transactionAcquiredDisposedCode'},
-    {'id': 'postTransactionAmounts.sharesOwnedFollowingTransaction',
-        'name': 'postTransactionAmounts.sharesOwnedFollowingTransaction'},
-    {'id': 'ownershipNature.directOrIndirectOwnership', 'name': 'ownershipNature.directOrIndirectOwnership'}]
-
-    Derivative
-    [{'id': 'securityTitle', 'name': 'securityTitle'},
-    {'id': 'conversionOrExercisePrice', 'name': 'conversionOrExercisePrice'},
-    {'id': 'transactionDate', 'name': 'transactionDate'},
-    {'id': 'transactionCoding', 'name': 'transactionCoding'},
-    {'id': 'transactionTimeliness', 'name': 'transactionTimeliness'},
-    {'id': 'transactionAmounts', 'name': 'transactionAmounts'},
-    {'id': 'exerciseDate.footnoteId', 'name': 'exerciseDate.footnoteId'},
-    {'id': 'expirationDate', 'name': 'expirationDate'},
-    {'id': 'underlyingSecurity.underlyingSecurityTitle', 'name': 'underlyingSecurity.underlyingSecurityTitle'},
-    {'id': 'underlyingSecurity.underlyingSecurityShares', 'name': 'underlyingSecurity.underlyingSecurityShares'},
-    {'id': 'postTransactionAmounts.sharesOwnedFollowingTransaction',
-        'name': 'postTransactionAmounts.sharesOwnedFollowingTransaction'},
-    {'id': 'ownershipNature.directOrIndirectOwnership', 'name': 'ownershipNature.directOrIndirectOwnership'}]
-    """
-
     # region issuer table
     issuer_table = dash_table.DataTable(
         id='table-select-filing-issuer',
@@ -697,6 +655,9 @@ def build_select_filing_section() -> html.Div:
 
             {"name": ["Ownership", "Code"],
              "id": "directOrIndirectOwnership"},
+
+            {"name": ["Ownership", "Nature"],
+             "id": "natureOfOwnership"},
         ],
         merge_duplicate_headers=True,
         fixed_rows={'headers': True},
@@ -726,17 +687,20 @@ def build_select_filing_section() -> html.Div:
             {'if': {'column_id': 'transactionAcquiredDisposedCode'},
              'width': '5%', 'textAlign': 'center', },
 
-            {'if': {'column_id': 'directOrIndirectOwnership'},
-             'width': '5%', 'textAlign': 'center', },
-
             {'if': {'column_id': 'transactionShares'},
              'width': '12.5%', 'textAlign': 'right', },
 
             {'if': {'column_id': 'transactionPricePerShare'},
-             'width': '12.5%', 'textAlign': 'right', },
+             'width': '10%', 'textAlign': 'right', },
 
             {'if': {'column_id': 'sharesOwnedFollowingTransaction'},
-             'width': '15%', 'textAlign': 'right', },
+             'width': '12.5%', 'textAlign': 'right', },
+
+            {'if': {'column_id': 'directOrIndirectOwnership'},
+             'width': '5%', 'textAlign': 'center', },
+
+            {'if': {'column_id': 'natureOfOwnership'},
+             'width': '5%', 'textAlign': 'center', }
         ],
     )
     # endregion non derivative table
@@ -777,13 +741,16 @@ def build_select_filing_section() -> html.Div:
 
             {"name": ["Ownership", "Code"],
              "id": "directOrIndirectOwnership"},
+
+            {"name": ["Ownership", "Nature"],
+             "id": "natureOfOwnership"}
         ],
         merge_duplicate_headers=True,
         fixed_rows={'headers': True},
         style_header={'textAlign': 'center'},
         style_cell_conditional=[
             {'if': {'column_id': 'securityTitle'},
-             'width': '20%', 'textAlign': 'left', },
+             'width': '17.5%', 'textAlign': 'left', },
 
             {'if': {'column_id': 'transactionDate'},
              'width': '5%', 'textAlign': 'center', },
@@ -810,10 +777,13 @@ def build_select_filing_section() -> html.Div:
              'width': '10%', 'textAlign': 'right', },
 
             {'if': {'column_id': 'sharesOwnedFollowingTransaction'},
-             'width': '15%', 'textAlign': 'right', },
+             'width': '12.5%', 'textAlign': 'right', },
 
             {'if': {'column_id': 'directOrIndirectOwnership'},
              'width': '5%', 'textAlign': 'center', },
+
+            {'if': {'column_id': 'natureOfOwnership'},
+             'width': '5%', 'textAlign': 'center', }
         ],
     )
     # endregion derivative table
