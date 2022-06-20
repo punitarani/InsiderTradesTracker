@@ -1,5 +1,8 @@
 # InsiderTradesTracker
- Tracks SEC Forms 3, 4, 5 in Realtime
+[![CodeQL](https://github.com/punitarani/InsiderTradesTracker/actions/workflows/codeql.yml/badge.svg)](https://github.com/punitarani/InsiderTradesTracker/actions/workflows/codeql.yml)
+
+
+Tracks SEC Forms 4 and Analyzes Trades in Realtime.
 
 Website: [Insider Trades Tracker](https://insider-trades-tracker.herokuapp.com/).
 
