@@ -38,8 +38,9 @@ class EdgarParser(SECParser):
         self.webpage: dict | None = None  # Redefine webpage to dict instead of str attr
 
         # Cache
-        self.results: pd.DataFrame | None = None
-        self.results_count: int | None = None
+        self.results: pd.DataFrame | None = None        # Parsed Results DataFrame
+        self.results_count: int | None = None           # Total Number of Results
+        self.results_to: int = 0                        # Last Search Result Number
 
         # Delete irrelevant inherited attributes
         if hasattr(self, 'url'):
@@ -105,12 +106,6 @@ class EdgarParser(SECParser):
         if self.webpage is None or force_refresh:
             self.get_webpage()
 
-        # Results count
-        try:
-            self.results_count = self.webpage['hits']['total']['value']
-        except KeyError:
-            self.results_count = None
-
         # Get filings data
         data = self.webpage['hits']['hits']
 
@@ -120,6 +115,18 @@ class EdgarParser(SECParser):
         # Rename columns to not include '_' prefix
         cols_rename = {col: col[1:] if col.startswith('_') else col for col in results.columns.tolist()}
         results.rename(columns=cols_rename, inplace=True)
+
+        # Get results_count
+        try:
+            self.results_count = self.webpage['hits']['total']['value']
+        except KeyError:
+            self.results_count = None
+
+        # Calculate results_to
+        try:
+            self.results_to = self.webpage['query']['from'] + len(data)
+        except KeyError:
+            self.results_to += len(data)
 
         # Cache results
         self.results = results
