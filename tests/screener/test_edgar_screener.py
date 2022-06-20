@@ -19,6 +19,8 @@ class EdgarScreenerTests(unittest.TestCase):
                    'category',
                    'ciks',
                    'entityName',
+                   'page',
+                   'from',
                    'startdt',
                    'enddt',
                    'forms']
@@ -32,7 +34,7 @@ class EdgarScreenerTests(unittest.TestCase):
             'q': 'Annual Report',
             'dateRange': 'custom',
             'category': 'form-cat1',
-            'ciks': '0000320193',
+            'ciks': ['0000320193'],
             'entityName': 'Apple Inc',
             'startdt': '2010-01-01',
             'enddt': '2020-12-31'
@@ -120,7 +122,7 @@ class EdgarScreenerTests(unittest.TestCase):
         # Test CIK Filter
         cik = '0000320193'
         screener.filter_ciks(cik)
-        self.assertEqual(cik, screener.filters['ciks'])
+        self.assertEqual([cik], screener.filters['ciks'])
 
         # Test build_url
         url = r'https://www.sec.gov/edgar/search/#/ciks=0000320193'
@@ -128,15 +130,15 @@ class EdgarScreenerTests(unittest.TestCase):
 
         # Override ciks filter and check filter_ciks function returns old ciks
         cik_int = 320193
-        self.assertEqual(cik, screener.filter_ciks(cik_int))
-        self.assertEqual(cik, screener.filters['ciks'])
+        self.assertEqual([cik], screener.filter_ciks(cik_int))
+        self.assertEqual([str(cik_int).zfill(10)], screener.filters['ciks'])
         self.assertEqual(url, screener.build_url())
 
         # Redo with ciks list
         new_ciks = ['0000320193', 789019, '00001652044']
         new_url = r'https://www.sec.gov/edgar/search/#/ciks=0000320193%252C0000789019%252C0001652044'
-        self.assertEqual(cik, screener.filter_ciks(new_ciks))
-        self.assertEqual('0000320193,0000789019,0001652044', screener.filters['ciks'])
+        self.assertEqual([str(cik_int).zfill(10)], screener.filter_ciks(new_ciks))
+        self.assertEqual(['0000320193', '0000789019', '0001652044'], screener.filters['ciks'])
         self.assertEqual(new_url, screener.build_url())
 
         # Remove filter

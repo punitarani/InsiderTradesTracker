@@ -4,7 +4,10 @@
 
 from urllib.parse import urlencode
 
+import pandas as pd
+
 from baseurls import SEC_EDGAR
+from tracker.parser import EdgarParser
 
 
 class EdgarScreener:
@@ -35,16 +38,39 @@ class EdgarScreener:
         self.url: str = SEC_EDGAR
 
         # Screener Filters
-        self.filters: dict[str, str | None] = {
+        self.filters: dict[str, str | list | None] = {
             'q': None,
             'dateRange': None,
             'category': None,
             'ciks': None,
             'entityName': None,
+            'page': None,
+            'from': None,
             'startdt': None,
             'enddt': None,
             'forms': None
         }
+
+        # Initialize Edgar Parser
+        self.parser = EdgarParser(self.name, self.filters)
+
+        # Caches
+        self.filings: pd.DataFrame | None = None
+
+    def get_filings(self) -> pd.DataFrame:
+        """
+        Get Filings Search Results
+
+        :return: Filings DataFrame
+        """
+
+        # Get and parse data of filtered search results
+        filings: pd.DataFrame = self.parser.parse()
+
+        # Cache filings
+        self.filings = filings
+
+        return filings
 
     def build_url(self) -> str:
         """
@@ -55,6 +81,10 @@ class EdgarScreener:
 
         # Get filter params and remove if filter is None
         params = dict((k, v) for k, v in self.filters.items() if v is not None)
+
+        # Convert ciks from list to comma-seperated string
+        if 'ciks' in params and isinstance(params['ciks'], list):
+            params.update({'ciks': ','.join(params['ciks'])})
 
         # Encode params and combine with base url
         url = SEC_EDGAR + urlencode(params)
@@ -116,53 +146,53 @@ class EdgarScreener:
             old_ciks = self.filters['ciks']
 
             # Update filter with ciks converted to comma-seperated-string
-            self.filters['ciks'] = ','.join(ciks)
+            self.filters['ciks'] = ciks
 
             return old_ciks
 
         # Apply filter
         else:
             # Update filter with ciks converted to comma-seperated-string
-            self.filters['ciks'] = ','.join(ciks)
+            self.filters['ciks'] = ciks
 
         return None
 
-    def filter_filing_types(self, form_types: str | int | list[str, int]) -> list[str] | None:
+    def filter_filing_types(self, types: str | int | list[str, int]) -> list[str] | None:
         """
         Add Filing Form Types Filter
 
-        :param form_types: Form Types to filter
-        :return: Old form_types that got replaced, or None
+        :param types: Form Types to filter
+        :return: Old types that got replaced, or None
         """
 
-        # Format form_types input into list of string
+        # Format types input into list of string
         # int -> list[str]
-        if isinstance(form_types, int):
-            form_types = [str(form_types).upper()]
+        if isinstance(types, int):
+            types = [str(types).upper()]
 
         # str -> list[str]
-        elif isinstance(form_types, str):
-            form_types = [form_types.upper()]
+        elif isinstance(types, str):
+            types = [types.upper()]
 
         # list[*] to list[str]
-        elif isinstance(form_types, list):
-            form_types = [str(form_type).upper() for form_type in form_types]
+        elif isinstance(types, list):
+            types = [str(form_type).upper() for form_type in types]
 
         # Check if filter is already applied
         if self.filters['forms'] is not None:
             # Get old forms
             old_forms = self.filters['forms']
 
-            # Update filter with form_types converted to comma-seperated-string
-            self.filters['forms'] = ','.join(form_types)
+            # Update filter with types converted to comma-seperated-string
+            self.filters['forms'] = ','.join(types)
             self.filters['category'] = 'custom'
 
             return old_forms
 
         # Apply filter
         else:
-            # Update filter with form_types converted to comma-seperated-string
-            self.filters['forms'] = ','.join(form_types)
+            # Update filter with types converted to comma-seperated-string
+            self.filters['forms'] = ','.join(types)
             self.filters['category'] = 'custom'
 
         return None
