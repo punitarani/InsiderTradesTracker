@@ -15,6 +15,9 @@ class TestEdgarParser(unittest.TestCase):
         # Check Init Variables
         self.assertEqual(name, parser.name)
         self.assertEqual(filters, parser.filters)
+        self.assertIsNone(parser.results)
+        self.assertIsNone(parser.results_count)
+        self.assertEqual(0, parser.results_to)
 
         # Verify irrelevant inherited attrs and methods function correctly
         self.assertFalse(hasattr(EdgarParser, 'url'))
@@ -30,6 +33,8 @@ class TestEdgarParser(unittest.TestCase):
         self.assertIsInstance(parser.parse(), pd.DataFrame)
         self.assertEqual((100, 6), parser.results.shape)
         self.assertEqual(['index', 'type', 'id', 'score', 'source', 'sort'], parser.results.columns.tolist())
+        self.assertEqual(10000, parser.results_count)
+        self.assertEqual(100, parser.results_to)
 
 
 if __name__ == '__main__':
