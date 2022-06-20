@@ -37,7 +37,7 @@ class SECFilingsParser(SECParser):
         """
         Parse the SEC Filings into DataFrame
 
-        :param force_refresh: Re-downloading the webpage data
+        :param force_refresh: Re-download the webpage data
         :return: Filings DataFrame
         """
 
@@ -49,6 +49,7 @@ class SECFilingsParser(SECParser):
         if self.webpage is None or force_refresh:
             self.get_webpage()
 
+        # Convert Webpage text to XML ElementTree
         data: ElementTree = etree.fromstring(self.webpage.encode('utf-8'))
 
         # Iterate through entries
