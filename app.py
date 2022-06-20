@@ -3,6 +3,7 @@
 import dash
 from dash import Dash, html
 
+import config
 from pages.templates.base import build_banner
 
 
@@ -38,7 +39,9 @@ app.layout = html.Div(
 # Run App
 if __name__ == '__main__':
     # Development
-    # app.run_server(debug=True)
+    if config.DEPLOYMENT == 'D':
+        app.run_server(debug=True)
 
     # Production
-    app.run_server(debug=False)
+    else:
+        app.run_server(debug=False)
