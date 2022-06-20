@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime, timedelta
 from time import time
 
-from tracker.utils import Logger
+from common import Logger
 
 
 class LoggerTests(unittest.TestCase):
@@ -81,6 +81,7 @@ class LoggerTests(unittest.TestCase):
                 self.assertEqual(log_split[3], log_messages[i])
 
     def test_log_child(self):
+        now = time()
         test_logger = Logger('test.subtest')
         logger = test_logger.get_logger()
         self.assertEqual(test_logger.name, 'test.subtest')
@@ -104,13 +105,13 @@ class LoggerTests(unittest.TestCase):
         # Read the last 5 lines of the log file
         with open(test_logger.filename, 'r') as f:
             lines = f.readlines()[-5:]
-            print(lines)
 
             # Check the log messages
             for i, line in enumerate(lines):
                 log_split = [x.strip() for x in line.split(' - ')]
 
                 log_time = datetime.strptime(log_split[0].strip(), '%Y-%m-%d %H:%M:%S,%f')
+                self.assertAlmostEqual(log_time.timestamp(), now, delta=timedelta(seconds=1).total_seconds())
                 self.assertEqual(log_split[1], 'test.subtest')
                 self.assertEqual(log_split[2], log_messages[i].split(' ')[-1])
                 self.assertEqual(log_split[3], log_messages[i])

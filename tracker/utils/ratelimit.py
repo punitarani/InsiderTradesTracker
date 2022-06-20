@@ -1,7 +1,7 @@
 # Ratelimit decorator for functions and methods
 
 import logging
-from tracker.utils import Logger
+from common import Logger
 from time import time, sleep
 
 

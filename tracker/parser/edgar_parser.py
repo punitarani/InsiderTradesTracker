@@ -2,15 +2,18 @@
 # https://www.sec.gov/edgar/search/#/
 
 import json
+import logging
 
 import pandas as pd
 import requests
 
 from baseurls import SEC_EDGAR_FTS
+from common import Logger
 from tracker.parser import SECParser, ResponseError
-from tracker.utils import logging, Logger, RateLimit
+from tracker.utils import RateLimit
 
-# Define logger
+
+# Define Edgar Logger
 EdgarLogger: Logger = Logger('edgar')
 logger: logging.Logger = EdgarLogger.get_logger()
 

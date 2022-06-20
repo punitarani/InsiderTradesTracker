@@ -6,10 +6,11 @@ from datetime import datetime
 import requests
 
 import config
+from common import Logger
 from tracker.parser import WebpageParser, ResponseError
-from tracker.utils import RateLimit, Logger
+from tracker.utils import RateLimit
 
-# Define logger
+# Define SEC Logger
 SECLogger: Logger = Logger('sec')
 logger: logging.Logger = SECLogger.get_logger()
 

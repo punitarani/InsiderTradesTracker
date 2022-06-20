@@ -49,7 +49,7 @@ class RateLimitTests(unittest.TestCase):
         # 5-1s wait => ~4s wait time = ~5s total
         # ~0.1s for next 10 calls => ~1s execution time => ~6s total
         # Repeat once more for a total time of ~12s
-        self.assertAlmostEqual(end_time - start_time, 12, delta=2)
+        self.assertAlmostEqual(end_time - start_time, 13, delta=2.5)
 
     def test_max_wait(self):
         @RateLimit(limit=4, period=2, max_wait=4)

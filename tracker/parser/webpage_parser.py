@@ -8,12 +8,13 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup as bs
 
+from common import Logger
 from defs import LOG_DIR_PATH
-from tracker.utils import Logger
 
-# Define logger
+
+# Define Webpage Logger
 WebpageLogger = Logger('webpage')
-logger = WebpageLogger.get_logger()
+logger: logging.Logger = WebpageLogger.get_logger()
 
 
 class WebpageParser:
@@ -121,14 +122,14 @@ class ResponseError(Exception):
     def __init__(self, message: str,
                  status_code: int = None,
                  response: requests.Response | None = None,
-                 logger: logging.Logger | None = None):
+                 log: logging.Logger | None = None):
         """
         Response Error Constructor
 
         :param message: Response Error Message to Log
         :param status_code (optional): Status Code of the Response
         :param response (optional): Log the response to file if provided
-        :param logger (optional): Logger to log messages to
+        :param log (optional): Logger to log messages to
         """
 
         self.message = message
@@ -136,7 +137,7 @@ class ResponseError(Exception):
         self.response: requests.Response | None = response
         self.content: response.text | None = response.text if response is not None else None
 
-        self.logger: logging.Logger = logger
+        self.logger: logging.Logger = log
 
         # Save response to file
         if self.response is not None:

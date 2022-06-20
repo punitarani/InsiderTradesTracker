@@ -2,7 +2,6 @@ import unittest
 
 import pandas as pd
 
-from baseurls import SEC_EDGAR
 from tracker.parser import EdgarParser
 
 
