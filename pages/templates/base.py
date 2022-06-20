@@ -7,6 +7,7 @@ def build_banner() -> html.Div:
     """
     Build the Website Header Banner
     """
+
     _banner = html.Div(
         id="banner",
         className="banner",
@@ -15,8 +16,6 @@ def build_banner() -> html.Div:
                 id="banner-text",
                 children=[
                     html.H1("Insider Trades Tracker"),
-                    html.H2("Realtime SEC Form 4 Tracker",
-                            style={'margin-top': -15}),
                 ],
                 style={
                     'textAlign': 'center',
@@ -24,6 +23,10 @@ def build_banner() -> html.Div:
                 },
             ),
         ],
+        style={
+            'padding': 0,
+            'margin': 0,
+        },
     )
 
     return _banner

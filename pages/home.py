@@ -7,7 +7,7 @@ import dash
 import numpy as np
 import pandas as pd
 import pytz
-from dash import Dash,  html, Input, Output, callback
+from dash import Dash, html, Input, Output, callback
 from dash.exceptions import PreventUpdate
 
 from tracker.manage import LatestInsiderTrades
@@ -16,10 +16,8 @@ from tracker.parser import SECFilingParser, Form4Parser
 from pages.templates.tables import build_latest_filings_table
 from pages.templates.sections import build_select_filing_section
 
-
 # Register Page to App
 dash.register_page(__name__, path='/')
-
 
 # region Global Variables and Caches
 
@@ -36,6 +34,7 @@ update_times: dict = {
 
 # Last selected filing url
 last_selected_filing_url: str | None = None
+
 
 # endregion Global Variables and Caches
 
@@ -448,6 +447,14 @@ def get_filing_info(filing: str, url: str) -> dict:
 layout = html.Div(
     id="big-app-container",
     children=[
+        # Header
+        html.H2(
+            children="Realtime SEC Form 4 Tracker",
+            style={
+                'textAlign': 'center',
+            },
+        ),
+
         # Latest Filings Table
         html.Div(
             id='latest-filings-container',
@@ -519,5 +526,8 @@ layout = html.Div(
             },
         ),
     ],
-    style={'padding': 10},
+    style={
+        'padding': 0,
+        'margin-top': -50,
+    },
 )
