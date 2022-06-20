@@ -47,6 +47,24 @@ class SECParser(WebpageParser):
             # Update url
             self.url = url
 
+    def _get_user_agent(self) -> str:
+        """
+        User-Agent is required to access SEC website.
+        Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
+        1. Try to use recommended header: 'Sample Company Name AdminContact@<sample company domain>.com'
+        2. If missing data from config file, mock Chrome web browser header.
+
+        :return: User-Agent for header
+        """
+
+        # Check if required config values are available.
+        if config.NAME is not None and config.EMAIL is not None:
+            return f'{config.NAME} {config.EMAIL}'
+
+        # If missing config values, use Chrome user agent (NOT RECOMMENDED).
+        else:
+            return self.chrome_user_agent
+
     @RateLimit(limit=10, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
         """
@@ -60,12 +78,7 @@ class SECParser(WebpageParser):
         Follows guidelines: https://www.sec.gov/os/accessing-edgar-data.
         """
 
-        """
-        User-Agent is required to access SEC website.
-        Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        1. Try to use recommended header: 'Sample Company Name AdminContact@<sample company domain>.com'
-        2. If missing data from config file, mock Chrome web browser header.
-        
+        """      
         Notes:
             User-Agent: Sample Company Name AdminContact@<sample company domain>.com
             Accept-Encoding: gzip, deflate
@@ -73,16 +86,9 @@ class SECParser(WebpageParser):
         """
         headers: dict = {
             'Accept-Encoding': 'gzip, deflate',
-            'Host': 'www.sec.gov'
+            'Host': 'www.sec.gov',
+            'User-Agent': self._get_user_agent()
         }
-
-        # Check if required config values are available.
-        if config.NAME is not None and config.EMAIL is not None:
-            headers.update({'User-Agent': f'{config.NAME} {config.EMAIL}'})
-
-        # If missing config values, use Chrome user agent (NOT RECOMMENDED).
-        else:
-            headers.update({'User-Agent': self.chrome_user_agent})
 
         # Get the webpage HTML text
         self.logger.debug(f'Getting {self.name} webpage from {self.url}')
