@@ -62,8 +62,8 @@ class EdgarParser(SECParser):
             'User-Agent': self._get_user_agent()
         }
 
-        # Build Payload
-        payload: dict = self.filters
+        # Build Payload and remove None valued items
+        payload: dict = {k: v for k, v in self.filters.items() if v is not None}
 
         # Post and Get response
         response = requests.post(url=SEC_EDGAR_FTS,
