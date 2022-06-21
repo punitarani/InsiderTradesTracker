@@ -15,11 +15,6 @@ jobs:
       - python/install-packages:
           args: unittest
           pkg-manager: pipenv
-      - python/test:
-          args: '--dev'
-          pkg-manager: pipenv
-          test-tool: unittest
-
 
 # Invoke jobs via workflows
 workflows:
