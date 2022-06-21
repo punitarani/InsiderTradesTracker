@@ -13,8 +13,8 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-          args: unittest
-          pkg-manager: pipenv
+          pip-dependency-file: requirements.txt
+          pkg-manager: pip
 
 # Invoke jobs via workflows
 workflows:
