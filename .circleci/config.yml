@@ -6,17 +6,17 @@ orbs:
 
 # Define jobs to be invoked later in a workflow.
 jobs:
-  build-and-test:
+  build:
     # Specify the execution environment.
-    executor: python:3.10
+    docker:
+      - image: cimg/python:3.10
 
     steps:
       - checkout
       - python/install-packages
-      - python/test
 
 # Invoke jobs via workflows
 workflows:
-  built-and-test-workflow:
-    jobs:
-      - build-and-test
+    built-and-test-workflow:
+      jobs:
+        - build
