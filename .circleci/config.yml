@@ -15,7 +15,17 @@ jobs:
       - checkout
 
       - python/install-packages:
-        pkg-manager: pipenv
+          args: unittest
+          pkg-manager: pipenv
+
+      - python/test:
+          test-tool: unittest
+          pkg-manager: pipenv
+          ensure-test-tool: true 
+          fail-if-missing-tool: false
+          pypi-cache: true
+          venv-cache: true
+          test-tool-args: discover -s tests  
 
 # Invoke jobs via workflows
 workflows:
