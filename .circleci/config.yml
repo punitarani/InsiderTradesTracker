@@ -8,14 +8,18 @@ orbs:
 jobs:
   build-and-test:
     # Specify the execution environment.
-    executor: python
+    executor: python/default
 
-    # Add steps to the job
     steps:
       - checkout
+      - python/install-packages:
+          args: unittest
+          pkg-manager: pipenv
       - python/test:
-          version: '3.10.5' 
-          test-tool: unittest 
+          args: '--dev'
+          pkg-manager: pipenv
+          test-tool: unittest
+
 
 # Invoke jobs via workflows
 workflows:
