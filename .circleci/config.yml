@@ -9,11 +9,14 @@ jobs:
   build-and-test:
     # Specify the execution environment.
     docker:
-      - image: cimg/python:3.10.4
+      - image: cimg/python:3.10
 
     steps:
       - checkout
-      - run: python --version
+
+      - python/install-packages:
+          args: unittest
+          pkg-manager: pipenv
 
 # Invoke jobs via workflows
 workflows:
