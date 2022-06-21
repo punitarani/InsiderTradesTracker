@@ -8,24 +8,12 @@ orbs:
 jobs:
   build-and-test:
     # Specify the execution environment.
-    docker:
-      - image: cimg/python:3.10
+    executor: python:3.10
 
     steps:
       - checkout
-
-      - python/install-packages:
-          args: unittest
-          pkg-manager: pipenv
-
-      - python/test:
-          test-tool: unittest
-          pkg-manager: pipenv
-          ensure-test-tool: true 
-          fail-if-missing-tool: false
-          pypi-cache: true
-          venv-cache: true
-          test-tool-args: discover -s tests  
+      - python/install-packages
+      - python/test
 
 # Invoke jobs via workflows
 workflows:
