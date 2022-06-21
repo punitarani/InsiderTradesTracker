@@ -14,7 +14,8 @@ jobs:
     steps:
       - checkout
 
-      - python/install-packages
+      - python/install-packages:
+        pkg-manager: pipenv
 
 # Invoke jobs via workflows
 workflows:
