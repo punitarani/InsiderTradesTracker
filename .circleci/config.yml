@@ -14,6 +14,9 @@ jobs:
     steps:
       - checkout
       - python/install-packages
+      - run:
+          name: "Run Unittest"
+          command: python -m unittest discover -s tests
 
 # Invoke jobs via workflows
 workflows:
