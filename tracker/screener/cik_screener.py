@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from defs import DATA_DIR_PATH
-from tracker.parser.webpage_parser import WebpageParser, ResponseError
+from tracker.parser import SECParser, ResponseError
 
 from copy import deepcopy
 
@@ -25,13 +25,13 @@ class CIKScreener:
         self.save_path: Path = DATA_DIR_PATH.joinpath("cik_lookup.parquet")
 
         # Parser
-        self.parser: WebpageParser = WebpageParser("cik-lookup-data", self.lookup_url)
+        self.parser: SECParser = SECParser("cik-lookup-data", self.lookup_url)
 
-    def _get_parser(self) -> WebpageParser:
+    def _get_parser(self) -> SECParser:
         """
         Get the Parser
 
-        :return: Parser object (WebpageParser)
+        :return: Parser object (SECParser)
         """
 
         return self.parser
@@ -61,12 +61,9 @@ class CIKScreener:
         return self.lookup_df
 
     def _get_lookup_df_from_url(self) -> pd.DataFrame | None:
-        # User-Agent is required to access SEC website. Use the latest Chrome on Windows 10 User Agent.
-        # Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        headers = self.parser.header_chrome_user_agent
-
+        # Get cik master-list from SEC
         try:
-            self.parser.get_webpage(headers=headers)
+            self.parser.get_webpage()
         except ResponseError:
             print(f"Failed to get {self.lookup_url}.")
             return
