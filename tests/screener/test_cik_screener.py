@@ -4,7 +4,6 @@ import unittest
 
 import pandas as pd
 
-from defs import DATA_DIR_PATH
 from tracker.screener import CIKScreener
 
 
@@ -14,7 +13,6 @@ class CIKScreenerTests(unittest.TestCase):
         self.assertIsNotNone(screener)
         self.assertEqual(screener.lookup_df.shape, (0, 0))
 
-    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
     def test_lookup_df(self):
         screener = CIKScreener()
 
@@ -33,7 +31,6 @@ class CIKScreenerTests(unittest.TestCase):
         # Compare saved and loaded df
         self.assertEqual(screener.get_lookup_df().shape, df_size)
 
-    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
     def test_accuracy(self):
         screener = CIKScreener()
 
