@@ -14,9 +14,10 @@ jobs:
     steps:
       - checkout
       - python/install-packages
+      
       - run:
-          name: "Run Unittest"
-          command: python -m unittest discover -s tests
+          name: "Run Unittest with Coverage"
+          command: coverage run -m unittest discover tests
 
 # Invoke jobs via workflows
 workflows:
