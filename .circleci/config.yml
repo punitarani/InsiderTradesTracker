@@ -17,7 +17,13 @@ jobs:
       
       - run:
           name: "Run Unittest with Coverage"
-          command: coverage run -m unittest discover tests
+          command: |
+            $HOME/.local/bin/coverage run -m unittest discover tests
+            $HOME/.local/bin/coverage report
+            $HOME/.local/bin/coverage html
+
+      - store_artifacts:
+          path: htmlcov
 
 # Invoke jobs via workflows
 workflows:
