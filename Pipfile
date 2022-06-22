@@ -14,6 +14,7 @@ dash = "*"
 dash-bootstrap-components = "*"
 gunicorn = "*"
 pyyaml = "*"
+pytest = "*"
 
 [dev-packages]
 
