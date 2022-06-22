@@ -20,9 +20,9 @@ jobs:
       - run:
           name: "Run Unittest with Coverage"
           command: |
-            $HOME/.local/bin/coverage run -m unittest discover tests
-            $HOME/.local/bin/coverage report
-            $HOME/.local/bin/coverage html
+            coverage run -m unittest discover tests
+            coverage report
+            coverage html
 
       - store_artifacts:
           path: htmlcov
