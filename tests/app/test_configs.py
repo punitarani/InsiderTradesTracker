@@ -22,7 +22,7 @@ class TestConfig(unittest.TestCase):
 
         # Check if Deployment exists and is not empty
         self.assertTrue(isinstance(config.DEPLOYMENT, str))
-        self.assertTrue(config.DEPLOYMENT == "D" or config.DEPLOYMENT == 'P')
+        self.assertTrue(config.DEPLOYMENT in ("D", "P"))
 
         # Check if Name exists and is not empty
         self.assertTrue(isinstance(config.NAME, str))
