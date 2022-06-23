@@ -146,7 +146,7 @@ def update_select_filing_section(active_cell):
         ]
         return output_data
 
-    elif active_cell is not None:
+    if active_cell is not None:
         # Check if filings exists
         try:
             # Get the selected row data from the filings DataFrame
@@ -296,8 +296,8 @@ def update_select_filing_section(active_cell):
 
         return output_data
 
-    else:
-        raise PreventUpdate
+    # Do Not Update if no changes need to be made
+    raise PreventUpdate
 
 
 # endregion App Callbacks
