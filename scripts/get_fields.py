@@ -99,6 +99,7 @@ from time import sleep
 # noinspection PyPep8Naming
 from xml.etree import ElementTree as et
 
+import lxml.etree
 from lxml import etree
 
 from tracker.parser import SECParser
@@ -217,15 +218,17 @@ if __name__ == '__main__':
         parser = SECParser('Test', url)
         webpage = parser.get_webpage()
 
-        # Parse XML Document
+        # Parse XML document
         try:
             tree: et = etree.fromstring(webpage)
 
             # Traverse through Document
             _tree_fields = get_fields(tree)
             tree_fields.append(_tree_fields)
-        except Exception as e:
-            print(f"Error parsing XML: {e} for url: {url}")
+
+        # Catch errors while parsing XML document
+        except etree.LxmlError as error:
+            print(f"Error parsing XML: {error} for url: {url}")
 
     print('Finished processing xml urls')
     print(f'Found {str(len(tree_fields))} xml fields')
