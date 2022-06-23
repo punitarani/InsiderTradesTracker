@@ -1,3 +1,7 @@
+"""
+Test RateLimit
+"""
+
 import unittest
 from time import time, sleep
 
@@ -5,7 +9,15 @@ from tracker.utils import RateLimit, RateLimitException
 
 
 class RateLimitTests(unittest.TestCase):
+    """
+    Test RateLimit
+    """
+
     def test_basic(self):
+        """
+        Test basic ratelimiting (1)
+        """
+
         @RateLimit(limit=10, period=1, max_wait=None)
         def test_func(a: int) -> int:
             sleep(0.1)
@@ -20,6 +32,10 @@ class RateLimitTests(unittest.TestCase):
         self.assertAlmostEqual(end_time - start_time, 1, delta=0.15)
 
     def test_basic_2(self):
+        """
+        Test basic ratelimiting (2)
+        """
+
         @RateLimit(limit=10, period=1, max_wait=None)
         def test_func(a: int) -> int:
             sleep(0.05)
@@ -35,6 +51,10 @@ class RateLimitTests(unittest.TestCase):
         self.assertAlmostEqual(end_time - start_time, 1.5, delta=0.2)
 
     def test_basic_3(self):
+        """
+        Test basic ratelimiting (3)
+        """
+
         @RateLimit(limit=10, period=5, max_wait=None)
         def test_func(a: int) -> int:
             sleep(0.1)
@@ -52,6 +72,10 @@ class RateLimitTests(unittest.TestCase):
         self.assertAlmostEqual(end_time - start_time, 13, delta=2.5)
 
     def test_max_wait(self):
+        """
+        Test max_wait param
+        """
+
         @RateLimit(limit=4, period=2, max_wait=4)
         def test_func(a: int) -> int:
             sleep(0.05)

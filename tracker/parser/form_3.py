@@ -1,9 +1,15 @@
-# Form 3 Parser Class File
+"""
+Form 3 Parser Class File
+"""
 
 from tracker.parser import SECParser
 
 
 class Form3Parser(SECParser):
+    """
+    Form 3 Parser
+    """
+
     def __init__(self, name: str, url: str):
         """
         Form 3 Parser Class Constructor

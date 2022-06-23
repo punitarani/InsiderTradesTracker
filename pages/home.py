@@ -1,4 +1,6 @@
-# Dash App Home Page
+"""
+Dash App Home Page
+"""
 
 from copy import deepcopy
 from datetime import datetime

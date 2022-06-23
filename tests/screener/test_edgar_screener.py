@@ -1,3 +1,7 @@
+"""
+Test EdgarScreener
+"""
+
 import unittest
 
 from baseurls import SEC_EDGAR
@@ -5,7 +9,14 @@ from tracker.screener import EdgarScreener
 
 
 class EdgarScreenerTests(unittest.TestCase):
+    """
+    EdgarScreener Tests
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
         name = 'test_init'
 
         screener = EdgarScreener(name)
@@ -27,6 +38,10 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual(list(screener.filters.keys()), filters)
 
     def test_build_url(self):
+        """
+        Test build_url() method
+        """
+
         screener = EdgarScreener('test_build')
 
         # Manually Update the filters dict
@@ -54,6 +69,10 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual(url_expected, screener.build_url())
 
     def test_filter_phrase(self):
+        """
+        Test filter_phrase() method
+        """
+
         screener = EdgarScreener('test_filter_phrase')
 
         # Test Phrase Filter
@@ -86,6 +105,10 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual(SEC_EDGAR, screener.build_url())
 
     def test_filter_name(self):
+        """
+        Test filter_name() method
+        """
+
         screener = EdgarScreener('test_filter_name')
 
         # Test Name Filter
@@ -117,6 +140,10 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual(SEC_EDGAR, screener.build_url())
 
     def test_filter_ciks(self):
+        """
+        Test filter_ciks() method
+        """
+
         screener = EdgarScreener('test_filter_ciks')
 
         # Test CIK Filter
@@ -150,6 +177,10 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual(SEC_EDGAR, screener.build_url())
 
     def test_filter_filing_types(self):
+        """
+        Test filter_filing_types() method
+        """
+
         screener = EdgarScreener('test_filter_filing_types')
 
         # Test Form Filter

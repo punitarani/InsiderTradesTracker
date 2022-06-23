@@ -1,4 +1,6 @@
-# Clear Logs Script
+"""
+Clear Logs Script
+"""
 
 from pathlib import Path
 

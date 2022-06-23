@@ -1,4 +1,6 @@
-# CIK Screener Class File
+"""
+CIK Screener Class File
+"""
 
 from pathlib import Path
 

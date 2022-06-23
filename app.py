@@ -1,4 +1,6 @@
-# Dashboard Application
+"""
+Dash App
+"""
 
 import dash
 from dash import Dash, html

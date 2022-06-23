@@ -15,6 +15,7 @@ dash-bootstrap-components = "*"
 gunicorn = "*"
 pyyaml = "*"
 pytest = "*"
+pylint = "*"
 
 [dev-packages]
 

@@ -1,5 +1,7 @@
-# SEC EDGAR Screener
-# https://www.sec.gov/edgar/search/#
+"""
+SEC EDGAR Screener
+https://www.sec.gov/edgar/search/#
+"""
 
 
 from urllib.parse import urlencode

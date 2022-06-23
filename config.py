@@ -1,4 +1,6 @@
-# Config File
+"""
+Config File
+"""
 
 import yaml
 from defs import PROJECT_PATH

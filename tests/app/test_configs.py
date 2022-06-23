@@ -1,10 +1,22 @@
+"""
+Test Configs
+"""
+
 import unittest
 
 import config
 
 
-class TestConfigs(unittest.TestCase):
-    def test_config_dict(self):
+class TestConfig(unittest.TestCase):
+    """
+    Test Config.py
+    """
+
+    def test_config(self):
+        """
+        Test Config
+        """
+
         # Check if config.yaml exists
         self.assertTrue(config.PROJECT_PATH.joinpath('config.yaml').exists())
 

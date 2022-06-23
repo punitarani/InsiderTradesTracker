@@ -1,4 +1,6 @@
-# Parsers
+"""
+tracker.parser
+"""
 
 # Webpage Parsers
 from tracker.parser.webpage_parser import WebpageParser, ResponseError

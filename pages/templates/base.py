@@ -1,4 +1,6 @@
-# Dash App Base Templates
+"""
+Dash App Base Templates
+"""
 
 from dash import html
 

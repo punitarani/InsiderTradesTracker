@@ -1,4 +1,6 @@
-# Webpage Parser Parent Class File
+"""
+Webpage Parser Parent Class File
+"""
 
 import logging
 import uuid

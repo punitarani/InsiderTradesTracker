@@ -1,3 +1,7 @@
+"""
+Test Parsers
+"""
+
 import unittest
 from datetime import datetime, timedelta
 
@@ -10,7 +14,15 @@ from tracker.parser.webpage_parser import WebpageParser
 
 
 class BasicParserTests(unittest.TestCase):
+    """
+    Test WebpageParser, ResponseError and SECFilingsParser
+    """
+
     def test_google(self):
+        """
+        Test WebpageParser with https://www.google.com
+        """
+
         url = 'https://www.google.com/'
 
         parser = WebpageParser('Google', url)
@@ -35,6 +47,10 @@ class BasicParserTests(unittest.TestCase):
         self.assertIsNotNone(soup)
 
     def test_sec_gov(self):
+        """
+        Test WebpageParser with https://www.sec.gov
+        """
+
         parser = SECFilingsParser('SEC')
         self.assertEqual(parser.name, 'SEC')
         self.assertEqual(parser.url, SEC_LATEST_FILINGS)
@@ -54,6 +70,10 @@ class BasicParserTests(unittest.TestCase):
         self.assertIn('SEC.gov', soup.title.string)
 
     def test_sec_filings(self):
+        """
+        Test SECFilingsParser with 10 Latest Filings
+        """
+
         # 10 Latest Filings
         url = 'https://www.sec.gov/cgi-bin/browse-edgar?count=10&action=getcurrent'
 
@@ -81,13 +101,25 @@ class BasicParserTests(unittest.TestCase):
         self.assertEqual(len(html_urls), 10)
 
     def test_errors(self):
+        """
+        Test ResponseError
+        """
+
         error = ResponseError('Test Error', 0)
         self.assertEqual(error.message, 'Test Error')
         self.assertEqual(error.status_code, 0)
 
 
 class SECParserTests(unittest.TestCase):
+    """
+    Test SECParser
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
+
         parser_name = 'SEC'
         parser_url = 'https://www.sec.gov/'
         parser = SECParser(parser_name, parser_url)
@@ -106,6 +138,10 @@ class SECParserTests(unittest.TestCase):
         self.assertEqual(parser.url, new_url)
 
     def test_get_webpage(self):
+        """
+        Test get_webpage() method
+        """
+
         parser = SECParser('SEC', 'https://www.sec.gov/')
         webpage = parser.get_webpage()
         self.assertEqual(parser.response.status_code, 200)
@@ -113,9 +149,11 @@ class SECParserTests(unittest.TestCase):
         self.assertAlmostEqual(parser.response_dt, datetime.now(), delta=timedelta(seconds=10))
         self.assertIn('html', parser.content_type)
 
-
-class SECLatestFilingsParserTests(unittest.TestCase):
     def test_parse(self):
+        """
+        Test parse() method
+        """
+
         filings = SECFilingsParser('Filings')
         self.assertTrue(isinstance(filings.filings, pd.DataFrame))
         self.assertEqual(filings.filings.shape, (0, 0))
@@ -126,7 +164,15 @@ class SECLatestFilingsParserTests(unittest.TestCase):
 
 
 class SECFilingParserTests(unittest.TestCase):
+    """
+    Test SECFilingParser
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
+
         parser_name = 'FilingParser'
         parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
                      '0000320193/000032019321000071/0000320193-21-000071-index.html'
@@ -144,6 +190,10 @@ class SECFilingParserTests(unittest.TestCase):
         self.assertIsNotNone(soup)
 
     def test_parse(self):
+        """
+        Test parse() method
+        """
+
         parser_name = 'FilingParser'
         parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
                      '0000320193/000032019321000071/0000320193-21-000071-index.html'
@@ -176,6 +226,10 @@ class SECFilingParserTests(unittest.TestCase):
         self.assertEqual(parser.data.iloc[2, 4], 5473)
 
     def test_get_doc_url(self):
+        """
+        Test get_document_url() method (1)
+        """
+
         parser_name = 'FilingParser'
         parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
                      '0000320193/000032019321000071/0000320193-21-000071-index.html'
@@ -192,6 +246,10 @@ class SECFilingParserTests(unittest.TestCase):
         self.assertEqual(html_url, correct_html_url)
 
     def test_get_doc_url_2(self):
+        """
+        Test get_document_url() method (2)
+        """
+
         # Test with different url that has no xml
         parser_url = 'https://www.sec.gov/Archives/edgar/data/' \
                      '0000320193/000119312516439878/0001193125-16-439878-index.html'

@@ -1,5 +1,7 @@
-# SEC EDGAR Parser
-# https://www.sec.gov/edgar/search/#/
+"""
+SEC EDGAR Parser
+https://www.sec.gov/edgar/search/#/
+"""
 
 import json
 import logging

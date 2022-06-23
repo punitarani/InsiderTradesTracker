@@ -1,4 +1,6 @@
-# Latest Insider Trades Tracker Module
+"""
+Latest Insider Trades Tracker Module
+"""
 
 from pathlib import Path
 

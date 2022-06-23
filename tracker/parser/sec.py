@@ -1,4 +1,6 @@
-# SEC Webpage Parser Class File
+"""
+SEC Webpage Parser Class File
+"""
 
 import logging
 from datetime import datetime
@@ -79,7 +81,7 @@ class SECParser(WebpageParser):
         Follows guidelines: https://www.sec.gov/os/accessing-edgar-data.
         """
 
-        """      
+        """
         Notes:
             User-Agent: Sample Company Name AdminContact@<sample company domain>.com
             Accept-Encoding: gzip, deflate

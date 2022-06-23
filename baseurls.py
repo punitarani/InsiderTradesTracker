@@ -1,4 +1,6 @@
-# Base URLs File
+"""
+Base URLs File
+"""
 
 # SEC Latest Filings Page
 SEC_LATEST_FILINGS = r"https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&output=atom"

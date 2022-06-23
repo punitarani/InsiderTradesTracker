@@ -1,8 +1,11 @@
-# Ratelimit decorator for functions and methods
+"""
+Ratelimit decorator for functions and methods
+"""
 
 import logging
-from common import Logger
 from time import time, sleep
+
+from common import Logger
 
 
 class RateLimit:
@@ -13,10 +16,10 @@ class RateLimit:
 
     def __init__(self,
                  limit: int | None = None,
-                 period: int = 1,
-                 max_wait: int | None = 10,
-                 logger: logging.Logger | None = None):
-        """ 
+                period: int = 1,
+                max_wait: int | None = 10,
+                logger: logging.Logger | None = None):
+        """
         RateLimit decorator for functions and methods
 
         :param limit: Number of times the function can be called
@@ -95,6 +98,7 @@ class RateLimit:
             self.call_times_index = (self.call_times_index + 1) % self.limit
 
             return func(*args, **kwargs)
+
         return wrapper
 
 

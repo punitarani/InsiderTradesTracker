@@ -1,3 +1,7 @@
+"""
+Test EdgarParser
+"""
+
 import unittest
 
 import pandas as pd
@@ -6,7 +10,15 @@ from tracker.parser import EdgarParser
 
 
 class TestEdgarParser(unittest.TestCase):
+    """
+    Test EdgarParser
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
+
         name = 'test'
         filters = {'category': 'custom', 'forms': ['4']}
 
@@ -24,6 +36,10 @@ class TestEdgarParser(unittest.TestCase):
         self.assertIsInstance(parser.set_url(), AttributeError)
 
     def test_webpage_parse(self):
+        """
+        Test getWebpage() and parse() methods
+        """
+
         parser = EdgarParser('test_parse', filters={'category': 'custom', 'forms': ['4']})
 
         # Get Webpage

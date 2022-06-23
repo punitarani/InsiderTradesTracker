@@ -1,5 +1,7 @@
-# SEC Latest Filings Parser
-# https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
+"""
+SEC Latest Filings Parser
+https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
+"""
 
 from datetime import datetime
 from xml.etree import ElementTree

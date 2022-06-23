@@ -1,3 +1,7 @@
+"""
+Test SECFilingsScreener
+"""
+
 import unittest
 
 from baseurls import SEC_LATEST_FILINGS
@@ -7,8 +11,16 @@ import pandas.testing as pdt
 import numpy as np
 
 
-class BasicTests(unittest.TestCase):
+class SECFilingsScreenerTests(unittest.TestCase):
+    """
+    SECFilingsScreener Tests
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
+
         screener_name = "form_4_screener"
         screener = SECFilingsScreener(screener_name)
         self.assertIsNotNone(screener)
@@ -30,6 +42,10 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(screener.get_filings().columns.tolist(), ["form_type", "title", "date_time", "link"])
 
     def test_set_count(self):
+        """
+        Test set_entries_count() method
+        """
+
         screener = SECFilingsScreener("screener")
         self.assertEqual(screener.count, 100)
         self.assertEqual(screener.set_entries_count(200), 100)
@@ -41,6 +57,10 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(screener.set_entries_count(-10), 10)
 
     def test_filters(self):
+        """
+        Test get_filings() and filter_*() methods
+        """
+
         screener_name = "form_4_screener"
         screener = SECFilingsScreener(screener_name)
 
@@ -85,6 +105,10 @@ class BasicTests(unittest.TestCase):
         self.assertTrue("JPMORGAN CHASE & CO" in str(screener.get_filings().iloc[0].loc["title"]))
 
     def test_get_filings_until(self):
+        """
+        Test get_filings_until() methods
+        """
+
         screener = SECFilingsScreener("screener", form="4")
 
         # Get all the filings

@@ -1,4 +1,6 @@
-# Form 4 Parser Class File
+"""
+Form 4 Parser Class File
+"""
 
 from xml.etree import ElementTree
 
@@ -36,6 +38,10 @@ transaction_codes: dict = {
 
 
 class Form4Parser(SECParser):
+    """
+    Form 4 Parser
+    """
+
     def __init__(self, name: str, url: str):
         """
         Form 4 Parser Class Constructor

@@ -1,3 +1,7 @@
+"""
+Test Logging
+"""
+
 import logging
 import unittest
 from datetime import datetime, timedelta
@@ -7,7 +11,15 @@ from common import Logger
 
 
 class LoggerTests(unittest.TestCase):
+    """
+    Test Logger
+    """
+
     def test_init(self):
+        """
+        Test Class Initialization
+        """
+
         test_logger = Logger('test')
         self.assertEqual(test_logger.name, 'test')
         self.assertEqual(test_logger.add_file_handler, True)
@@ -20,6 +32,10 @@ class LoggerTests(unittest.TestCase):
         self.assertIsInstance(logger, logging.Logger)
 
     def test_init_log(self):
+        """
+        Test get_logger() and initialization of logging.logger objects
+        """
+
         now = time()
         logger_name = 'test'
         test_logger = Logger(logger_name)
@@ -48,6 +64,10 @@ class LoggerTests(unittest.TestCase):
                 self.assertEqual(log_split[3], log_messages.pop(0))
 
     def test_log(self):
+        """
+        Test logging
+        """
+
         now = time()
         test_logger = Logger('test')
         logger = test_logger.get_logger()
@@ -81,6 +101,10 @@ class LoggerTests(unittest.TestCase):
                 self.assertEqual(log_split[3], log_messages[i])
 
     def test_log_child(self):
+        """
+        Test logging of child loggers
+        """
+
         now = time()
         test_logger = Logger('test.subtest')
         logger = test_logger.get_logger()

@@ -1,4 +1,6 @@
-# SEC Filing Parser
+"""
+SEC Filing Parser
+"""
 
 import pandas as pd
 

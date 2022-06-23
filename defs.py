@@ -1,4 +1,6 @@
-# Project Definitions
+"""
+Project Definitions
+"""
 
 import os
 from pathlib import Path

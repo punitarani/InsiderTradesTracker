@@ -1,5 +1,7 @@
-# SEC Latest Filings Screener
-# https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
+"""
+SEC Latest Filings Screener
+https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
+"""
 
 
 from urllib.parse import urlencode

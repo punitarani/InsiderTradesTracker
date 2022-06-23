@@ -1,15 +1,31 @@
+"""
+Test LatestInsiderTrades
+"""
+
 import unittest
 
 from tracker.manage import LatestInsiderTrades
 
 
 class TestBasicInsiderTrades(unittest.TestCase):
+    """
+    Test LatestInsiderTrades (Basic)
+    """
+
     def test_init(self):
+        """
+        Test Initialization
+        """
+
         manager = LatestInsiderTrades()
         self.assertIsNotNone(manager)
         self.assertEqual(manager.screener.name, manager.screener_name)
 
     def test_filings(self):
+        """
+        Test get_latest_filings() method
+        """
+
         manager = LatestInsiderTrades()
         filings = manager.get_latest_filings()
         self.assertIsNotNone(filings)
@@ -17,6 +33,10 @@ class TestBasicInsiderTrades(unittest.TestCase):
         self.assertEqual(filings.columns.tolist(), ['form_type', 'title', 'date_time', 'link'])
 
     def test_parse(self):
+        """
+        Test parser_filings() method
+        """
+
         manager = LatestInsiderTrades()
         filings = manager.get_latest_filings()
         parsed = manager.parse_filings(filings.head(5))

@@ -1,4 +1,6 @@
-# Dash App Section Templates
+"""
+Dash App Section Templates
+"""
 
 from dash import html, dash_table
 

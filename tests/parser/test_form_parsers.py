@@ -1,3 +1,7 @@
+"""
+Test FormParsers
+"""
+
 import unittest
 
 import numpy as np
@@ -7,7 +11,15 @@ from tracker.parser import form4_transaction_codes
 
 
 class Form4Tests(unittest.TestCase):
+    """
+    Test Form4Parser
+    """
+
     def test_form4_init(self):
+        """
+        Test Initialization
+        """
+
         url = "https://www.sec.gov/Archives/edgar/data/19617/000122520822005164/doc4.xml"
         parser = Form4Parser("Dimon", url)
 
@@ -25,6 +37,10 @@ class Form4Tests(unittest.TestCase):
         self.assertTrue(isinstance(parser.filings, AttributeError))
 
     def test_parse(self):
+        """
+        Test parse() method
+        """
+
         url = "https://www.sec.gov/Archives/edgar/data/19617/000122520822005164/doc4.xml"
         """
         Document Stats:
@@ -44,6 +60,10 @@ class Form4Tests(unittest.TestCase):
         self.assertEqual(parser.derivative_table.shape, (1, 16))
 
     def test_parse_accuracy(self):
+        """
+        Test parse() method accuracy
+        """
+
         url = "https://www.sec.gov/Archives/edgar/data/19617/000122520822005164/doc4.xml"
         parser = Form4Parser("Dimon", url)
         parser.parse()
@@ -91,6 +111,10 @@ class Form4Tests(unittest.TestCase):
                 self.assertEqual(data_point, expected_values[j])
 
     def test_transaction_codes(self):
+        """
+        Test transaction_codes dict
+        """
+
         transaction_codes = form4_transaction_codes
         self.assertEqual(len(transaction_codes.keys()), 20)
 

@@ -1,4 +1,6 @@
-# Logging Class File
+"""
+Logging Class File
+"""
 
 import logging
 import sys

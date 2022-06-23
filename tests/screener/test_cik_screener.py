@@ -1,4 +1,6 @@
-# CIK Screener Tests
+"""
+CIK Screener Tests
+"""
 
 import unittest
 
@@ -9,13 +11,25 @@ from tracker.screener import CIKScreener
 
 
 class CIKScreenerTests(unittest.TestCase):
+    """
+    CIK Screener Tests
+    """
+
     def test_init(self):
+        """
+        Test CIKScreener Initialization
+        """
+
         screener = CIKScreener()
         self.assertIsNotNone(screener)
         self.assertEqual(screener.lookup_df.shape, (0, 0))
 
     @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
     def test_lookup_df(self):
+        """
+        Test CIKScreener lookup_df methods
+        """
+
         screener = CIKScreener()
 
         # Test Get, Save, and Load Lookup DataFrame
@@ -35,6 +49,9 @@ class CIKScreenerTests(unittest.TestCase):
 
     @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
     def test_accuracy(self):
+        """
+        Test CIKScreener Filter Accuracy
+        """
         screener = CIKScreener()
 
         apple_cik = "0000320193"
