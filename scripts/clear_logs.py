@@ -16,7 +16,7 @@ def clear_logs() -> bool:
 
     # Get log files
     try:
-        log_files = [file for file in Path(LOG_DIR_PATH).glob('*.log')]
+        log_files = list(Path(LOG_DIR_PATH).glob('*.log'))
         print(f'Clearing {len(log_files)} log files...')
     except FileNotFoundError:
         return False
