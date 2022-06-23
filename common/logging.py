@@ -10,7 +10,7 @@ from defs import LOG_DIR_PATH
 
 
 # Cache all instantiated loggers
-loggers: dict[str, logging.Logger] = dict()
+loggers: dict[str, logging.Logger] = {}
 
 
 class Logger:
