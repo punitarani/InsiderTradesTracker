@@ -95,15 +95,18 @@ class SECFilingParser(SECParser):
                 links.update({_document: _link})
                 doc_types.append(_document)
 
-        if not links:
-            return None
-
-        else:
+        if links:
             if prefer_xml and 'xml' in doc_types:
                 return links['xml']
-            elif 'html' in doc_types:
+
+            if 'html' in doc_types:
                 return links['html']
-            elif 'htm' in doc_types:
+
+            if 'htm' in doc_types:
                 return links['htm']
-            else:
-                return links['xml']
+
+            # Default to xml
+            return links['xml']
+
+        # No links
+        return None
