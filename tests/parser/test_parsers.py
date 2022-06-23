@@ -90,7 +90,7 @@ class BasicParserTests(unittest.TestCase):
         self.assertIsNotNone(soup)
 
         # Initialize list of filing urls
-        html_urls = list()
+        html_urls = []
 
         # Get list of HTML links with '/Archives/edgar/data/' in href.
         for link in soup.find_all('a'):
