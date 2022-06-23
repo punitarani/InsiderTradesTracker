@@ -110,10 +110,10 @@ def get_fields(data: et):
     """
 
     # Initialize field names dict
-    fields = dict()
+    fields = {}
 
     # Initialize Children dict
-    children = dict()
+    children = {}
 
     # Traverse through Tree
     for child in data:
