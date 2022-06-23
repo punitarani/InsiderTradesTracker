@@ -75,8 +75,10 @@ def update_filings_table(n_clicks):
         # Convert to dict
         data = df.to_dict('records')
 
-        return data, 'Updated: {} EST'.format(
-            datetime.now(pytz.timezone('US/Eastern')).strftime('%H:%M:%S'))
+        # Get datetime EST
+        dt_est = datetime.now(pytz.timezone('US/Eastern')).strftime('%H:%M:%S')
+
+        return data, f"Updated: {dt_est} EST"
 
     # Do Not Update if no changes need to be made
     raise PreventUpdate
