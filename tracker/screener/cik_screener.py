@@ -2,14 +2,13 @@
 CIK Screener Class File
 """
 
+from copy import deepcopy
 from pathlib import Path
 
 import pandas as pd
 
 from defs import DATA_DIR_PATH
 from tracker.parser import SECParser, ResponseError
-
-from copy import deepcopy
 
 
 class CIKScreener:
