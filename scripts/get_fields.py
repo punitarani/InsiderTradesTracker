@@ -99,7 +99,6 @@ from time import sleep
 # noinspection PyPep8Naming
 from xml.etree import ElementTree as et
 
-import lxml.etree
 from lxml import etree
 
 from tracker.parser import SECParser
