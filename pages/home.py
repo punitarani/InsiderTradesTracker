@@ -78,8 +78,8 @@ def update_filings_table(n_clicks):
         return data, 'Updated: {} EST'.format(
             datetime.now(pytz.timezone('US/Eastern')).strftime('%H:%M:%S'))
 
-    else:
-        raise PreventUpdate
+    # Do Not Update if no changes need to be made
+    raise PreventUpdate
 
 
 @callback(
