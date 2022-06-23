@@ -66,9 +66,8 @@ class SECParser(WebpageParser):
         if config.NAME is not None and config.EMAIL is not None:
             return f'{config.NAME} {config.EMAIL}'
 
-        # If missing config values, use Chrome user agent (NOT RECOMMENDED).
-        else:
-            return self.chrome_user_agent
+        # Else: Use Chrome user agent (NOT RECOMMENDED).
+        return self.chrome_user_agent
 
     @RateLimit(limit=10, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
@@ -96,7 +95,7 @@ class SECParser(WebpageParser):
         }
 
         # Get the webpage HTML text
-        self.logger.debug(f'Getting {self.name} webpage from {self.url}')
+        self.logger.debug('Getting %s webpage from %s', self.name, self.url)
         response = requests.get(self.url, headers=headers)
 
         # Cache Response
