@@ -82,7 +82,7 @@ class SECFilingParser(SECParser):
         # Get table from soup
         table = self.soup.find('table', {'class': 'tableFile'})
 
-        links = dict()
+        links = {}
         doc_types = list()
 
         for row in table.find_all('tr')[1:]:
