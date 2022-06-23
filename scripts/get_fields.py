@@ -94,14 +94,15 @@ Field Names Dict for Form 4 and 4/A
 
 """
 
-from xml.etree import ElementTree as ET
+# noinspection PyPep8Naming
+from xml.etree import ElementTree as et
 
 from lxml import etree
 
 from tracker.parser.webpage_parser import WebpageParser
 
 
-def get_fields(data: ET):
+def get_fields(data: et):
     """
     Recursively get field names from Soup of XML Document
 
@@ -210,7 +211,7 @@ if __name__ == '__main__':
 
         # Parse XML Document
         try:
-            tree: ET = etree.fromstring(webpage)
+            tree: et = etree.fromstring(webpage)
 
             # Traverse through Document
             _tree_fields = get_fields(tree)
