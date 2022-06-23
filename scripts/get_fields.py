@@ -157,7 +157,7 @@ def merge_dicts(dict1: dict, dict2: dict):
 if __name__ == '__main__':
     ft = '4'
 
-    filing_urls = list()
+    filing_urls = []
 
     base_url = f'https://www.sec.gov/cgi-bin/browse-edgar?type={ft}&count=100&action=getcurrent'
     base_parser = WebpageParser('Base', base_url)
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     print('\n\n')
 
     # Iterate through filing_urls and get xml urls
-    xml_urls = list()
+    xml_urls = []
     for filing_url in filing_urls:
         print(f"Processing Filing url: {filing_url}")
         filing_parser = WebpageParser('Filing', filing_url)
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     print('\n\n')
 
     # List of fields from each xml tree
-    tree_fields = list()
+    tree_fields = []
 
     # Iterate through xml_urls and get fields
     for url in xml_urls:
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     print('Merging fields')
 
     # Merge fields
-    fields_dict = dict()
+    fields_dict = {}
 
     # Iterate through tree_fields and merge
     for tree_field in tree_fields:
