@@ -55,16 +55,18 @@ class EdgarScreenerTests(unittest.TestCase):
             'enddt': '2020-12-31'
         }
 
-        url_expected = r'https://www.sec.gov/edgar/search/#/q=Annual%2520Report&dateRange=custom&category=form-cat1' \
-                       r'&ciks=0000320193&entityName=Apple%2520Inc&startdt=2010-01-01&enddt=2020-12-31'
+        url_expected = r'https://www.sec.gov/edgar/search/#/q=Annual%2520Report&dateRange=custom&' \
+                       r'category=form-cat1&ciks=0000320193&entityName=Apple%2520Inc&' \
+                       r'startdt=2010-01-01&enddt=2020-12-31'
 
         self.assertEqual(url_expected, screener.build_url())
 
         # Test exact phrase search
         screener.filters['q'] = '\"Annual\" Report'
 
-        url_expected = r'https://www.sec.gov/edgar/search/#/q=%2522Annual%2522%2520Report&dateRange=custom&category=' \
-                       r'form-cat1&ciks=0000320193&entityName=Apple%2520Inc&startdt=2010-01-01&enddt=2020-12-31'
+        url_expected = r'https://www.sec.gov/edgar/search/#/q=%2522Annual%2522%2520Report&' \
+                       r'dateRange=custom&category=form-cat1&ciks=0000320193&' \
+                       r'entityName=Apple%2520Inc&startdt=2010-01-01&enddt=2020-12-31'
 
         self.assertEqual(url_expected, screener.build_url())
 
@@ -163,7 +165,8 @@ class EdgarScreenerTests(unittest.TestCase):
 
         # Redo with ciks list
         new_ciks = ['0000320193', 789019, '00001652044']
-        new_url = r'https://www.sec.gov/edgar/search/#/ciks=0000320193%252C0000789019%252C0001652044'
+        new_url = r'https://www.sec.gov/edgar/search/#/' \
+                  r'ciks=0000320193%252C0000789019%252C0001652044'
         self.assertEqual([str(cik_int).zfill(10)], screener.filter_ciks(new_ciks))
         self.assertEqual(['0000320193', '0000789019', '0001652044'], screener.filters['ciks'])
         self.assertEqual(new_url, screener.build_url())
@@ -200,7 +203,8 @@ class EdgarScreenerTests(unittest.TestCase):
         self.assertEqual('custom', screener.filters['category'])
 
         # Test build_url
-        url = r'https://www.sec.gov/edgar/search/#/category=custom&forms=3%252C4%252C5%252C10-K%252C10-Q'
+        url = r'https://www.sec.gov/edgar/search/#/' \
+              r'category=custom&forms=3%252C4%252C5%252C10-K%252C10-Q'
         self.assertEqual(url, screener.build_url())
 
         # Check if both forms and category update when forms filter is removed

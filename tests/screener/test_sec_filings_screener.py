@@ -38,8 +38,9 @@ class SECFilingsScreenerTests(unittest.TestCase):
         self.assertTrue(screener.filings.empty)
 
         self.assertIsNotNone(screener.get_filings())
-        self.assertLessEqual(screener.get_filings().shape, (100, 4))
-        self.assertEqual(screener.get_filings().columns.tolist(), ["form_type", "title", "date_time", "link"])
+        self.assertGreaterEqual((100, 4), screener.get_filings().shape)
+        self.assertEqual(["form_type", "title", "date_time", "link"],
+                         screener.get_filings().columns.tolist())
 
     def test_set_count(self):
         """
@@ -86,7 +87,8 @@ class SECFilingsScreenerTests(unittest.TestCase):
 
         # Filter by Company
         # Pick a random company
-        random_company = screener.get_filings().iloc[np.random.randint(0, screener.get_filings().shape[0])]["title"]
+        random_company = screener.get_filings().iloc[
+            np.random.randint(0, screener.get_filings().shape[0])]["title"]
         random_company = random_company.split(" - ")[-1].split(" (")[0]
         screener.filter_company(random_company)
         self.assertEqual(screener.company, random_company)

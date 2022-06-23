@@ -115,8 +115,10 @@ class Logger:
         """
 
         # Get all handlers already added to logger
-        _file_handlers = [handler for handler in logger.handlers if isinstance(handler, logging.FileHandler)]
-        _stream_handlers = [handler for handler in logger.handlers if isinstance(handler, logging.StreamHandler)]
+        _file_handlers = [handler for handler in logger.handlers
+                          if isinstance(handler, logging.FileHandler)]
+        _stream_handlers = [handler for handler in logger.handlers
+                            if isinstance(handler, logging.StreamHandler)]
 
         # Add File Handler if not already added and requested
         if self.add_file_handler and len(_file_handlers) == 0:

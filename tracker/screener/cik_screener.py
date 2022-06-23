@@ -21,7 +21,7 @@ class CIKScreener:
         # Lookup Data
         self.lookup_url: str = "https://www.sec.gov/Archives/edgar/cik-lookup-data.txt"
         self.lookup_df: pd.DataFrame = pd.DataFrame()
-        self.lookup_source_from_url: bool | None = None  # True if lookup_df loaded from URL, False if from Parquet file
+        self.lookup_source_from_url: bool | None = None  # True: lookup_df from URL. False: parquet
 
         # Save Data
         self.save_path: Path = DATA_DIR_PATH.joinpath("cik_lookup.parquet")
@@ -175,7 +175,7 @@ class CIKScreener:
     def filter_company(self, company: str) -> pd.DataFrame:
         """
         Filter the CIK Lookup DataFrame by Company Name.
-        Can return multiple rows if the Company Name is not unique or if Company Name has multiple CIKs.
+        Can return multiple rows if the Company Name is not unique or if Company has multiple CIKs.
 
         :param company: Company Name (str)
         :return: DataFrame matching the Company Name (pd.DataFrame)

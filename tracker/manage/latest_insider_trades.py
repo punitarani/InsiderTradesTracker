@@ -55,7 +55,8 @@ class LatestInsiderTrades:
 
         # Get the latest filings if filings is None
         if filings is None:
-            filings = self.latest_filings if self.latest_filings is not None else self.get_latest_filings()
+            filings = self.latest_filings if self.latest_filings is not None \
+                else self.get_latest_filings()
 
         # Initialize parsed filings DataFrame
         df = pd.DataFrame(columns=['issuer', 'owner', 'non_derivative', 'derivative'])

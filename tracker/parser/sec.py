@@ -52,10 +52,12 @@ class SECParser(WebpageParser):
 
     def _get_user_agent(self) -> str:
         """
-        User-Agent is required to access SEC website.
-        Otherwise, it will return 'Your Request Originates from an Undeclared Automated Tool' and no data.
-        1. Try to use recommended header: 'Sample Company Name AdminContact@<sample company domain>.com'
-        2. If missing data from config file, mock Chrome web browser header.
+        User-Agent is required to access SEC website. Otherwise, it will return
+        'Your Request Originates from an Undeclared Automated Tool' and no data.
+        1. Try to use recommended header:
+            'Sample Company Name AdminContact@<sample company domain>.com'
+        2. If missing data from config file,
+            mock Chrome web browser header.
 
         :return: User-Agent for header
         """

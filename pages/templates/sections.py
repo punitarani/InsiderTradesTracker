@@ -296,7 +296,8 @@ def build_select_filing_section() -> html.Div:
                     # Non Derivative Table
                     html.Div(
                         children=[
-                            html.H4('Non-Derivative Transactions', style={'padding': 0, 'margin': 0}),
+                            html.H4('Non-Derivative Transactions',
+                                    style={'padding': 0, 'margin': 0}),
                             non_derivative_table,
                         ],
                         style={'padding': 10, 'margin-top': 0, 'flex': 3},

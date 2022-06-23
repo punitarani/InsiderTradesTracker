@@ -58,7 +58,8 @@ class LoggerTests(unittest.TestCase):
                 log_split = [x.strip() for x in line.split(' - ')]
 
                 log_time = datetime.strptime(log_split[0].strip(), '%Y-%m-%d %H:%M:%S,%f')
-                self.assertAlmostEqual(log_time.timestamp(), now, delta=timedelta(seconds=1).total_seconds())
+                self.assertAlmostEqual(log_time.timestamp(), now,
+                                       delta=timedelta(seconds=1).total_seconds())
                 self.assertEqual(log_split[1], logger_name)
                 self.assertEqual(log_split[2], 'INFO')
                 self.assertEqual(log_split[3], log_messages.pop(0))
@@ -95,7 +96,8 @@ class LoggerTests(unittest.TestCase):
                 log_split = [x.strip() for x in line.split(' - ')]
 
                 log_time = datetime.strptime(log_split[0].strip(), '%Y-%m-%d %H:%M:%S,%f')
-                self.assertAlmostEqual(log_time.timestamp(), now, delta=timedelta(seconds=1).total_seconds())
+                self.assertAlmostEqual(log_time.timestamp(), now,
+                                       delta=timedelta(seconds=1).total_seconds())
                 self.assertEqual(log_split[1], 'test')
                 self.assertEqual(log_split[2], log_messages[i].split(' ')[-1].strip())
                 self.assertEqual(log_split[3], log_messages[i])
@@ -135,7 +137,8 @@ class LoggerTests(unittest.TestCase):
                 log_split = [x.strip() for x in line.split(' - ')]
 
                 log_time = datetime.strptime(log_split[0].strip(), '%Y-%m-%d %H:%M:%S,%f')
-                self.assertAlmostEqual(log_time.timestamp(), now, delta=timedelta(seconds=1).total_seconds())
+                self.assertAlmostEqual(log_time.timestamp(), now,
+                                       delta=timedelta(seconds=1).total_seconds())
                 self.assertEqual(log_split[1], 'test.subtest')
                 self.assertEqual(log_split[2], log_messages[i].split(' ')[-1])
                 self.assertEqual(log_split[3], log_messages[i])

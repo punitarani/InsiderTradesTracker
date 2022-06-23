@@ -9,7 +9,7 @@ import dash
 import numpy as np
 import pandas as pd
 import pytz
-from dash import Dash, html, Input, Output, callback
+from dash import html, Input, Output, callback
 from dash.exceptions import PreventUpdate
 
 from tracker.manage import LatestInsiderTrades
@@ -51,7 +51,8 @@ last_selected_filing_url: str | None = None
 def update_filings_table(n_clicks):
     """
     Update the Latest Filings Table with the latest filings.
-    This function is called when the latest filings title is clicked but also initially when the app is loaded.
+    This function is called when the latest filings title is clicked
+    It is also called when the app is loaded initially.
     Update every 10 seconds.
     """
 
@@ -66,7 +67,7 @@ def update_filings_table(n_clicks):
         # Reset Index and rename index columns as 'id'
         df.reset_index(inplace=True)
         df.rename(columns={'index': 'id'}, inplace=True)
-        # 'id' is used in 'active cell' callbacks to get 'row_id' to accommodate for multiple page tables
+        # 'id' is used in 'active cell' callbacks to get 'row_id' to work with multiple page tables
 
         # Update the update time
         update_times.update({'table-latest-filings': datetime.now()})
@@ -74,7 +75,8 @@ def update_filings_table(n_clicks):
         # Convert to dict
         data = df.to_dict('records')
 
-        return data, 'Updated: {} EST'.format(datetime.now(pytz.timezone('US/Eastern')).strftime('%H:%M:%S'))
+        return data, 'Updated: {} EST'.format(
+            datetime.now(pytz.timezone('US/Eastern')).strftime('%H:%M:%S'))
 
     else:
         raise PreventUpdate
@@ -183,8 +185,10 @@ def update_select_filing_section(active_cell):
         owner_df.rename(columns={0: "value"}, inplace=True)
 
         # Filter owner_2 rows
-        owner_1_fields = ['Name', 'Street1', 'Street2', 'City', 'State', 'Zip Code', 'State Description']
-        owner_2_fields = ['CIK', 'Director', 'Officer', '10% Owner', 'Other', 'Officer Title', 'Other Text']
+        owner_1_fields = ['Name', 'Street1', 'Street2', 'City',
+                          'State', 'Zip Code', 'State Description']
+        owner_2_fields = ['CIK', 'Director', 'Officer', '10% Owner',
+                          'Other', 'Officer Title', 'Other Text']
 
         owner_fields = owner_1_fields + owner_2_fields
         # Create fields in owner_df if they don't exist
@@ -226,10 +230,10 @@ def update_select_filing_section(active_cell):
         # Build non-derivative data
         if non_der_df is not None:
             non_der_fields = [
-                "securityTitle", "transactionDate", "deemedExecutionDate", "transactionFormType", "transactionCode",
-                "equitySwapInvolved", "transactionTimeliness", "transactionShares", "transactionPricePerShare",
-                "transactionAcquiredDisposedCode", "sharesOwnedFollowingTransaction",
-                "directOrIndirectOwnership", "natureOfOwnership",
+                "securityTitle", "transactionDate", "deemedExecutionDate", "transactionFormType",
+                "transactionCode", "equitySwapInvolved", "transactionTimeliness",
+                "transactionShares", "transactionPricePerShare", "transactionAcquiredDisposedCode",
+                "sharesOwnedFollowingTransaction", "directOrIndirectOwnership", "natureOfOwnership",
             ]
 
             # Create fields (columns) in non_der_df if they don't exist
@@ -245,10 +249,10 @@ def update_select_filing_section(active_cell):
         # Build derivative data
         if der_df is not None:
             der_fields = [
-                "securityTitle", "conversionOrExercisePrice", "transactionDate", "transactionCoding",
-                "transactionTimeliness", "transactionAmounts", "exerciseDate", "expirationDate",
-                "underlyingSecurityTitle", "underlyingSecurityShares", "sharesOwnedFollowingTransaction",
-                "directOrIndirectOwnership", "natureOfOwnership",
+                "securityTitle", "conversionOrExercisePrice", "transactionDate",
+                "transactionCoding", "transactionTimeliness", "transactionAmounts", "exerciseDate",
+                "expirationDate", "underlyingSecurityTitle", "underlyingSecurityShares",
+                "sharesOwnedFollowingTransaction", "directOrIndirectOwnership", "natureOfOwnership",
             ]
 
             # Create fields (columns) in der_df if they don't exist
@@ -313,7 +317,8 @@ def get_filings() -> pd.DataFrame:
     df.reset_index(inplace=True)
 
     # Remove form type from title columns
-    df['title'] = df.apply(axis=1, func=lambda x: x['title'].__str__().replace(f'{x.form_type} - ', ''))
+    df['title'] = df.apply(axis=1,
+                           func=lambda x: x['title'].__str__().replace(f'{x.form_type} - ', ''))
 
     # Format DateTime
     df['date_time'] = df.apply(axis=1, func=lambda x: x['date_time'].strftime('%Y-%m-%d %H:%M:%S'))
@@ -396,10 +401,14 @@ def get_filing_info(filing: str, url: str) -> dict:
             "transactionCoding.transactionCode": "transactionCode",
             "transactionCoding.equitySwapInvolved": "equitySwapInvolved",
             "transactionTimeliness": "transactionTimeliness",
+
             "transactionAmounts.transactionShares": "transactionShares",
             "transactionAmounts.transactionPricePerShare": "transactionPricePerShare",
             "transactionAmounts.transactionAcquiredDisposedCode": "transactionAcquiredDisposedCode",
-            "postTransactionAmounts.sharesOwnedFollowingTransaction": "sharesOwnedFollowingTransaction",
+
+            "postTransactionAmounts.sharesOwnedFollowingTransaction":
+                "sharesOwnedFollowingTransaction",
+
             "ownershipNature.directOrIndirectOwnership": "directOrIndirectOwnership",
             "ownershipNature.natureOfOwnership": "natureOfOwnership",
         }, inplace=True)
@@ -421,9 +430,13 @@ def get_filing_info(filing: str, url: str) -> dict:
             "transactionAmounts": "transactionAmounts",
             "exerciseDate.footnoteId": "exerciseDate",
             "expirationDate": "expirationDate",
+
             "underlyingSecurity.underlyingSecurityTitle": "underlyingSecurityTitle",
             "underlyingSecurity.underlyingSecurityShares": "underlyingSecurityShares",
-            "postTransactionAmounts.sharesOwnedFollowingTransaction": "sharesOwnedFollowingTransaction",
+
+            "postTransactionAmounts.sharesOwnedFollowingTransaction":
+                "sharesOwnedFollowingTransaction",
+
             "ownershipNature.directOrIndirectOwnership": "directOrIndirectOwnership",
             "ownershipNature.natureOfOwnership": "natureOfOwnership",
         }, inplace=True)

@@ -154,11 +154,11 @@ def merge_dicts(dict1: dict, dict2: dict):
 
 
 if __name__ == '__main__':
-    form_type = '4'
+    ft = '4'
 
     filing_urls = list()
 
-    base_url = f'https://www.sec.gov/cgi-bin/browse-edgar?type={form_type}&count=100&action=getcurrent'
+    base_url = f'https://www.sec.gov/cgi-bin/browse-edgar?type={ft}&count=100&action=getcurrent'
     base_parser = WebpageParser('Base', base_url)
     base_soup = base_parser.get_soup()
 
@@ -176,7 +176,7 @@ if __name__ == '__main__':
             link = 'https://www.sec.gov/' + cols[1].find('a').get('href')
 
             # Check form_type and add to list
-            if row_form_type == form_type:
+            if row_form_type == ft:
                 filing_urls.append(link)
     print('Finished processing base urls')
     print(f'Found {str(len(filing_urls))} filings')

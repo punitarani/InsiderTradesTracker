@@ -202,8 +202,10 @@ class SECFilingParserTests(unittest.TestCase):
         # Test parse()
         parser.parse()
         self.assertIsNotNone(parser.data)
-        self.assertEqual(parser.data.shape, (3, 6))
-        self.assertEqual(parser.data.columns.tolist(), ['Seq', 'Description', 'Document', 'Type', 'Size', 'Link'])
+        self.assertEqual((3, 6),
+                         parser.data.shape)
+        self.assertEqual(['Seq', 'Description', 'Document', 'Type', 'Size', 'Link'],
+                         parser.data.columns.tolist())
 
         # Verify Accuracy
         # Test row 1
@@ -258,10 +260,12 @@ class SECFilingParserTests(unittest.TestCase):
         # Test get_doc_url()
         xml_url = parser.get_document_url(prefer_xml=True)
         html_url = parser.get_document_url(prefer_xml=False)
-        correct_html_url = 'https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/d66145d10q.htm'
-        correct_xml_url = 'https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/d66145d10q.htm'
-        self.assertEqual(xml_url, correct_xml_url)
-        self.assertEqual(html_url, correct_html_url)
+        correct_html_url = 'https://www.sec.gov/Archives/edgar/data/' \
+                           '320193/000119312516439878/d66145d10q.htm'
+        correct_xml_url = 'https://www.sec.gov/Archives/edgar/data/' \
+                          '320193/000119312516439878/d66145d10q.htm'
+        self.assertEqual(correct_xml_url, xml_url)
+        self.assertEqual(correct_html_url, html_url)
 
 
 if __name__ == '__main__':

@@ -206,7 +206,8 @@ class SECFilingsScreener:
         """
         Get Filings until filing with accession number is found before max_count.
 
-        :param accession_number: SEC Filing Accession Number (required) (Format: ##########-##-######)
+        :param accession_number: SEC Filing Accession Number (required)
+                                    (Format: ##########-##-######)
         :param max_count: Maximum filings to get (default and max is 2000)
         :return: Filings (pd.DataFrame)
 

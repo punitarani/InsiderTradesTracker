@@ -70,8 +70,9 @@ class SECFilingsParser(SECParser):
             # entry.xpath('atom:summary/text()', namespaces=namespaces)[0]
 
             # Get Filing Date Time
-            date_time = datetime.strptime(entry.xpath('atom:updated/text()', namespaces=namespaces)[0][:-6],
-                                          '%Y-%m-%dT%H:%M:%S')
+            date_time = datetime.strptime(
+                entry.xpath('atom:updated/text()', namespaces=namespaces)[0][:-6],
+                '%Y-%m-%dT%H:%M:%S')
 
             # Get form type
             form_type = entry.xpath('atom:category/@term', namespaces=namespaces)[0]
@@ -80,8 +81,9 @@ class SECFilingsParser(SECParser):
             acc_no = entry.xpath('atom:id/text()', namespaces=namespaces)[0].split('=')[-1]
 
             # Update DataFrame
-            filings = pd.concat([filings, pd.DataFrame({'acc': [acc_no], 'form_type': [form_type], 'title': [title],
-                                                        'date_time': [date_time], 'link': [link]})])
+            filings = pd.concat(
+                [filings, pd.DataFrame({'acc': [acc_no], 'form_type': [form_type], 'title': [title],
+                                        'date_time': [date_time], 'link': [link]})])
 
         # Set acc as index
         filings.set_index('acc', inplace=True)

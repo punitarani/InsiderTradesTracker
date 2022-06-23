@@ -16,9 +16,9 @@ class RateLimit:
 
     def __init__(self,
                  limit: int | None = None,
-                period: int = 1,
-                max_wait: int | None = 10,
-                logger: logging.Logger | None = None):
+                 period: int = 1,
+                 max_wait: int | None = 10,
+                 logger: logging.Logger | None = None):
         """
         RateLimit decorator for functions and methods
 

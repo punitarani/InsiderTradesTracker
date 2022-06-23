@@ -16,8 +16,9 @@ transaction_codes: dict = {
     'C': "Conversion of derivative security.",
     'D': "Disposition to the issuer of issuer equity securities pursuant to Rule 16b-3(e).",
     'E': "Expiration of short derivative position.",
-    'F': "Payment of exercise price or tax liability by delivering or withholding securities incident to the "
-         "receipt, exercise or vesting of a security issued in accordance with Rule 16b-3.",
+    'F': "Payment of exercise price or tax liability by delivering or withholding securities"
+         "incident to the receipt, exercise or vesting of a security issued in accordance with"
+         "Rule 16b-3.",
     'G': "Bona fide gift.",
     'H': "Expiration (or cancellation) of long derivative position with value received.",
     'I': "Discretionary transaction in accordance with Rule 16b-3(f) resulting in acquisition or "
@@ -206,7 +207,8 @@ class Form4Parser(SECParser):
 
         # Parse Non-Derivative Table
         if 'nonDerivativeTable' in fields:
-            self.non_derivative_table = self._parse_non_derivative_table(data.find('./nonDerivativeTable'))
+            self.non_derivative_table = \
+                self._parse_non_derivative_table(data.find('./nonDerivativeTable'))
 
         # Parse Derivative Table
         if 'derivativeTable' in fields:
@@ -215,7 +217,8 @@ class Form4Parser(SECParser):
         return {
             'issuer': self.issuer_table if not self.issuer_table.empty else None,
             'owner': self.owner_table if not self.owner_table.empty else None,
-            'non_derivative': self.non_derivative_table if not self.non_derivative_table.empty else None,
+            'non_derivative': self.non_derivative_table
+            if not self.non_derivative_table.empty else None,
             'derivative': self.derivative_table if not self.derivative_table.empty else None
         }
 
@@ -293,7 +296,8 @@ class Form4Parser(SECParser):
 
         transaction_fields = [
             'securityTitle', 'transactionDate', 'deemedExecutionDate', 'transactionCoding',
-            'transactionTimeliness', 'transactionAmounts', 'postTransactionAmounts', 'ownershipNature'
+            'transactionTimeliness', 'transactionAmounts', 'postTransactionAmounts',
+            'ownershipNature'
         ]
 
         # Initialize Data Dictionary: Stores {count: transaction_data}
@@ -326,7 +330,8 @@ class Form4Parser(SECParser):
                 # Iterate through subfields and get data from XML
                 else:
                     for sub_field in sub_fields:
-                        sub_sub_fields = [ssf.tag for ssf in transaction.findall(f'./{field}/{sub_field}/')]
+                        sub_sub_fields = [ssf.tag
+                                          for ssf in transaction.findall(f'./{field}/{sub_field}/')]
 
                         # Check if field has subfields
                         if not sub_sub_fields:
@@ -367,8 +372,8 @@ class Form4Parser(SECParser):
 
         transaction_fields = [
             'securityTitle', 'conversionOrExercisePrice', 'transactionDate', 'transactionCoding',
-            'transactionTimeliness', 'transactionAmounts', 'exerciseDate', 'expirationDate', 'underlyingSecurity',
-            'postTransactionAmounts', 'ownershipNature'
+            'transactionTimeliness', 'transactionAmounts', 'exerciseDate', 'expirationDate',
+            'underlyingSecurity', 'postTransactionAmounts', 'ownershipNature'
         ]
 
         # Initialize Data Dictionary: Stores {count: transaction_data}
@@ -400,7 +405,8 @@ class Form4Parser(SECParser):
                 # Iterate through subfields and get data from XML
                 else:
                     for sub_field in sub_fields:
-                        sub_sub_fields = [ssf.tag for ssf in transaction.findall(f'./{field}/{sub_field}/')]
+                        sub_sub_fields = [ssf.tag
+                                          for ssf in transaction.findall(f'./{field}/{sub_field}/')]
 
                         # Check if field has subfields
                         if not sub_sub_fields:

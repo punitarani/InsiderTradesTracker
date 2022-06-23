@@ -43,7 +43,8 @@ class TestBasicInsiderTrades(unittest.TestCase):
 
         self.assertIsNotNone(parsed)
         self.assertEqual(parsed.shape, (5, 4))
-        self.assertEqual(parsed.columns.tolist(), ['issuer', 'owner', 'non_derivative', 'derivative'])
+        self.assertEqual(parsed.columns.tolist(),
+                         ['issuer', 'owner', 'non_derivative', 'derivative'])
 
 
 if __name__ == '__main__':

@@ -81,10 +81,10 @@ class Form4Tests(unittest.TestCase):
         # Test rows 2 and 5 of Non-Derivative Table
         for i, row in enumerate([2, 5]):
             row_data = [
-                ['Common Stock', '2022-03-25', np.nan, '4', 'F', '0', np.nan, '220486.0522', '141.9900', 'D',
-                 '1166561.0000', 'D', np.nan, np.nan, np.nan],
-                ['Common Stock', np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,
-                 '4348004.0000', 'I', np.nan, np.nan, 'By GRATs']
+                ['Common Stock', '2022-03-25', np.nan, '4', 'F', '0', np.nan, '220486.0522',
+                 '141.9900', 'D', '1166561.0000', 'D', np.nan, np.nan, np.nan],
+                ['Common Stock', np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,
+                 np.nan, '4348004.0000', 'I', np.nan, np.nan, 'By GRATs']
             ]
 
             for j, col in enumerate(parser.non_derivative_table.columns):
@@ -98,8 +98,9 @@ class Form4Tests(unittest.TestCase):
                     self.assertEqual(data_point, expected_value)
 
         # Test row 1 of Derivative Table
-        expected_values = ['Performance Share Units', np.nan, '2022-03-25', '4', 'M', '0', np.nan, '398708.0522',
-                           '0.0000', 'D', np.nan, np.nan, 'Common Stock', '398708.0522', '0.0000', 'D']
+        expected_values = ['Performance Share Units', np.nan, '2022-03-25', '4', 'M', '0', np.nan,
+                           '398708.0522', '0.0000', 'D', np.nan, np.nan, 'Common Stock',
+                           '398708.0522', '0.0000', 'D']
 
         for j, col in enumerate(parser.derivative_table.columns):
             data_point = parser.derivative_table.loc[1, col]

@@ -24,7 +24,8 @@ class CIKScreenerTests(unittest.TestCase):
         self.assertIsNotNone(screener)
         self.assertEqual(screener.lookup_df.shape, (0, 0))
 
-    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
+    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"),
+                     "running in circleci container")
     def test_lookup_df(self):
         """
         Test CIKScreener lookup_df methods
@@ -47,7 +48,8 @@ class CIKScreenerTests(unittest.TestCase):
         # Compare saved and loaded df
         self.assertEqual(screener.get_lookup_df().shape, df_size)
 
-    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"), "running in circleci container")
+    @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"),
+                     "running in circleci container")
     def test_accuracy(self):
         """
         Test CIKScreener Filter Accuracy

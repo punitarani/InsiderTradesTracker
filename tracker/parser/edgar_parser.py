@@ -56,7 +56,7 @@ class EdgarParser(SECParser):
         :return: Search Results Data
 
         Notes:
-            The EDGAR Full Test Search(FTS) Engine uses a different POST filters to get response with results.
+        The EDGAR Full Text Search uses a POST request with filters to get response with results
         """
 
         # Build Header
@@ -100,8 +100,8 @@ class EdgarParser(SECParser):
             type: '_doc'. 
             id: '<acc_no>:<file_name.format>'.
             source: dict(['ciks', 'period_ending', 'root_form', 'file_num', 'display_names', 'xsl',
-                                    'sequence', 'file_date', 'biz_states', 'sics', 'form', 'adsh', 'film_num',
-                                    'biz_locations', 'file_type', 'file_description', 'inc_states', 'items']).
+            'sequence', 'file_date', 'biz_states', 'sics', 'form', 'adsh', 'film_num',
+            'biz_locations', 'file_type', 'file_description', 'inc_states', 'items']).
         """
 
         # Check if webpage data is cached. If not, get webpage first.
@@ -115,7 +115,8 @@ class EdgarParser(SECParser):
         results = pd.DataFrame.from_records(data=data)
 
         # Rename columns to not include '_' prefix
-        cols_rename = {col: col[1:] if col.startswith('_') else col for col in results.columns.tolist()}
+        cols_rename = {col: col[1:] if col.startswith('_') else col
+                       for col in results.columns.tolist()}
         results.rename(columns=cols_rename, inplace=True)
 
         # Get results_count

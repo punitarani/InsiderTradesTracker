@@ -39,7 +39,8 @@ class WebpageParser:
         self.logger: logging.Logger = logger
 
         # Chrome User-Agent header
-        self.chrome_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+        self.chrome_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
+                                 'AppleWebKit/537.36 (KHTML, like Gecko) ' \
                                  'Chrome/102.0.5005.63 Safari/537.36'
         self.header_chrome_user_agent = {'User-Agent': self.chrome_user_agent}
 
@@ -159,7 +160,8 @@ class ResponseError(Exception):
                 message += f". Saved to file {resp_file.name}."
 
             except Exception as err:
-                self.logger.error(f"Error: {err}. Failed to save {message} to file: {resp_file.name}.")
+                self.logger.error(f"Error: {err}. "
+                                  f"Failed to save {message} to file: {resp_file.name}.")
 
         # Call super
         super().__init__(message)

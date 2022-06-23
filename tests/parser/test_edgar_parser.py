@@ -48,7 +48,8 @@ class TestEdgarParser(unittest.TestCase):
         # Parse
         self.assertIsInstance(parser.parse(), pd.DataFrame)
         self.assertEqual((100, 6), parser.results.shape)
-        self.assertEqual(['index', 'type', 'id', 'score', 'source', 'sort'], parser.results.columns.tolist())
+        self.assertEqual(['index', 'type', 'id', 'score', 'source', 'sort'],
+                         parser.results.columns.tolist())
         self.assertEqual(10000, parser.results_count)
         self.assertEqual(100, parser.results_to)
 
