@@ -65,11 +65,11 @@ class Logger:
         # Create logger
         else:
             logger = self.__create_logger()
-            logger.info(f"Creating logger: {self.name}")
+            logger.info("Creating logger: %s", self.name)
 
             # Cache logger
             loggers[self.name] = logger
-            logger.info(f"Caching logger: {self.name}")
+            logger.info("Caching logger: %s", self.name)
 
         return logger
 
@@ -83,7 +83,7 @@ class Logger:
 
         self.level = level
         self._logger.setLevel(self.level)
-        self._logger.info(f"Setting logger level: {self.level}")
+        self._logger.info("Setting logger level: %s", self.level)
 
         return self._logger.level
 
