@@ -94,6 +94,8 @@ Field Names Dict for Form 4 and 4/A
 
 """
 
+from time import sleep
+
 # noinspection PyPep8Naming
 from xml.etree import ElementTree as et
 
@@ -184,6 +186,9 @@ if __name__ == '__main__':
     print(filing_urls)
     print('\n\n')
 
+    # Wait 5s
+    sleep(5)
+
     # Iterate through filing_urls and get xml urls
     xml_urls = []
     for filing_url in filing_urls:
@@ -199,6 +204,9 @@ if __name__ == '__main__':
     print(f'Found {str(len(xml_urls))} xml urls')
     print(xml_urls)
     print('\n\n')
+
+    # Wait 5s
+    sleep(5)
 
     # List of fields from each xml tree
     tree_fields = []
