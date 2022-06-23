@@ -237,7 +237,7 @@ class Form4Parser(SECParser):
         issuer_fields = ['issuerCik', 'issuerName', 'issuerTradingSymbol']
 
         # Initialize Data Dictionary
-        issuer_data = dict()
+        issuer_data = {}
 
         # Iterate through fields and get data from XML
         for field in issuer_fields:
@@ -265,7 +265,7 @@ class Form4Parser(SECParser):
         owner_fields = ['reportingOwnerId', 'reportingOwnerAddress', 'reportingOwnerRelationship']
 
         # Initialize Data Dictionary
-        owner_data = dict()
+        owner_data = {}
 
         # Iterate through fields and get data from XML
         for field in owner_fields:
@@ -301,13 +301,13 @@ class Form4Parser(SECParser):
         ]
 
         # Initialize Data Dictionary: Stores {count: transaction_data}
-        transactions_dict = dict()
+        transactions_dict = {}
         count: int = 1
 
         # Iterate through transactions
         for transaction in non_derivative_table.findall('./'):
             # Initialize Transaction Data Dictionary
-            transaction_data = dict()
+            transaction_data = {}
 
             # Iterate through top-level transaction fields and get data from XML
             for field in transaction_fields:
@@ -377,13 +377,13 @@ class Form4Parser(SECParser):
         ]
 
         # Initialize Data Dictionary: Stores {count: transaction_data}
-        transactions_dict = dict()
+        transactions_dict = {}
         count: int = 1
 
         # Iterate through transactions
         for transaction in derivative_table.findall('./'):
             # Initialize Transaction Data Dictionary
-            transaction_data = dict()
+            transaction_data = {}
 
             for field in transaction_fields:
                 sub_fields = [subfield.tag for subfield in transaction.findall(f'./{field}/')]
