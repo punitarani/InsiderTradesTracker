@@ -320,7 +320,7 @@ def get_filings() -> pd.DataFrame:
 
     # Remove form type from title columns
     df['title'] = df.apply(axis=1,
-                           func=lambda x: x['title'].__str__().replace(f'{x.form_type} - ', ''))
+                           func=lambda x: str(x['title']).replace(f'{x.form_type} - ', ''))
 
     # Format DateTime
     df['date_time'] = df.apply(axis=1, func=lambda x: x['date_time'].strftime('%Y-%m-%d %H:%M:%S'))
