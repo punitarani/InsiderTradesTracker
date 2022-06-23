@@ -152,10 +152,9 @@ class EdgarScreener:
 
             return old_ciks
 
-        # Apply filter
-        else:
-            # Update filter with ciks converted to comma-seperated-string
-            self.filters['ciks'] = ciks
+        # Else: Apply filter
+        # Update filter with ciks converted to comma-seperated-string
+        self.filters['ciks'] = ciks
 
         return None
 
@@ -191,11 +190,10 @@ class EdgarScreener:
 
             return old_forms
 
-        # Apply filter
-        else:
-            # Update filter with types converted to comma-seperated-string
-            self.filters['forms'] = ','.join(types)
-            self.filters['category'] = 'custom'
+        # Else: Apply filter
+        # Update filter with types converted to comma-seperated-string
+        self.filters['forms'] = ','.join(types)
+        self.filters['category'] = 'custom'
 
         return None
 
@@ -207,6 +205,7 @@ class EdgarScreener:
         :return: Old name that got replaced, or None
         """
 
+        # Check if filter is already applied
         if self.filters['entityName'] is not None:
             # Get old name that will be replaced
             old_name: str = self.filters['entityName']
@@ -216,8 +215,8 @@ class EdgarScreener:
 
             return old_name
 
-        else:
-            self.filters['entityName'] = name
+        # Else: Update filter with phrase
+        self.filters['entityName'] = name
 
         return None
 
@@ -229,6 +228,7 @@ class EdgarScreener:
         :return: Old phrase that got replaced, or None
         """
 
+        # Check if filter is already applied
         if self.filters['q'] is not None:
             # Get old phrase that will be replaced
             old_phrase: str = self.filters['q']
@@ -238,8 +238,8 @@ class EdgarScreener:
 
             return old_phrase
 
-        else:
-            self.filters['q'] = phrase
+        # Else: Update filter with phrase
+        self.filters['q'] = phrase
 
         return None
 
