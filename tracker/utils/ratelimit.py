@@ -78,9 +78,10 @@ class RateLimit:
                 wait_time = (delta_time - now) + (self.rate * (self.waiting % self.limit))
 
                 # Log
-                self.logger.info(f'RateLimit: Waiting {wait_time:.2f}s before calling '
-                                 f'{func.__qualname__} from {func.__module__}. '
-                                 f'args: {list(args)}. kwargs: {kwargs}.')
+                self.logger.info('RateLimit: Waiting %.2fs before calling %s from %s. '
+                                 'args: %s. kwargs: %s.',
+                                 wait_time, func.__qualname__, func.__module__,
+                                 list(args), kwargs)
 
                 # Check if wait time is greater than max_wait
                 if self.max_wait is not None and wait_time > self.max_wait:
