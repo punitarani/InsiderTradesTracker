@@ -97,9 +97,8 @@ class CIKScreener:
         try:
             self.lookup_df.to_parquet(self.save_path)
             return True
-        except Exception as e:
-            print(e)
-            print(f"Failed to save {self.save_path}.")
+        except OSError as error:
+            print(f"Failed to save {self.save_path}. Error: {error}.")
 
         return False
 
