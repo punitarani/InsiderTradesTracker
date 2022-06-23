@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 import requests
+# noinspection PyPep8Naming
 from bs4 import BeautifulSoup as bs
 
 from common import Logger
