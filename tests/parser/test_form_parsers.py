@@ -126,7 +126,7 @@ class Form4Tests(unittest.TestCase):
             y_code = form4_transaction_codes['Y']
             self.fail(f"'Y' should not be in the transaction codes. Got {y_code}.\n")
         except KeyError:
-            self.assertTrue(True)
+            pass
 
 
 if __name__ == '__main__':
