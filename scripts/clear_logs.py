@@ -30,9 +30,8 @@ def clear_logs() -> bool:
             print(f'Cleared log file: {log_file}.')
 
         # Error clearing log file
-        except Exception as e:
-            print(f'Error deleting log file: {log_file}.')
-            print(e)
+        except OSError as error:
+            print(f'Error deleting log file: {log_file}. Error: {error}')
             delete_success = False
 
     return delete_success
