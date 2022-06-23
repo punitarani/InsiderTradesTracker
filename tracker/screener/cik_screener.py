@@ -68,7 +68,7 @@ class CIKScreener:
             self.parser.get_webpage()
         except ResponseError:
             print(f"Failed to get {self.lookup_url}.")
-            return
+            return None
 
         data = self.parser.webpage.split("\n")
 
