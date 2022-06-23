@@ -8,7 +8,9 @@ from defs import PROJECT_PATH
 
 # Read config.yaml
 _config_dict: dict
-with open(PROJECT_PATH.joinpath('config.yaml')) as config:
+with open(file=PROJECT_PATH.joinpath('config.yaml'),
+          mode='r',
+          encoding='utf-8') as config:
     _config_dict = yaml.safe_load(config)
 
 
