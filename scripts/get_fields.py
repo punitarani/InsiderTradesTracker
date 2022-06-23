@@ -99,7 +99,7 @@ from xml.etree import ElementTree as et
 
 from lxml import etree
 
-from tracker.parser.webpage_parser import WebpageParser
+from tracker.parser import SECParser
 
 
 def get_fields(data: et):
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     filing_urls = []
 
     base_url = f'https://www.sec.gov/cgi-bin/browse-edgar?type={FT}&count=100&action=getcurrent'
-    base_parser = WebpageParser('Base', base_url)
+    base_parser = SECParser('Base', base_url)
     base_soup = base_parser.get_soup()
 
     # Find Table of Filings
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     xml_urls = []
     for filing_url in filing_urls:
         print(f"Processing Filing url: {filing_url}")
-        filing_parser = WebpageParser('Filing', filing_url)
+        filing_parser = SECParser('Filing', filing_url)
         filing_soup = filing_parser.get_soup()
 
         # Get list of HTML links with '.xml' in href. Ignore links with 'xsl' in url
@@ -206,7 +206,7 @@ if __name__ == '__main__':
     # Iterate through xml_urls and get fields
     for url in xml_urls:
         print(f"Processing XML: {url}")
-        parser = WebpageParser('Test', url)
+        parser = SECParser('Test', url)
         webpage = parser.get_webpage()
 
         # Parse XML Document
