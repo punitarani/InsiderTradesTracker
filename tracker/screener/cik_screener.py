@@ -117,9 +117,8 @@ class CIKScreener:
 
             return lookup_df
 
-        except Exception as e:
-            print(e)
-            print(f"Failed to load {self.save_path}.")
+        except OSError as error:
+            print(f"Failed to load {self.save_path}. Error: {error}")
 
         return None
 
