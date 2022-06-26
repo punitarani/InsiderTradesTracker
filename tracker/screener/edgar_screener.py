@@ -3,13 +3,13 @@ SEC EDGAR Screener
 https://www.sec.gov/edgar/search/#
 """
 
-
+from copy import deepcopy
 from urllib.parse import urlencode
 
 import pandas as pd
 
-from baseurls import SEC_EDGAR
-from tracker.parser import EdgarParser
+from baseurls import SEC_EDGAR, SEC_FILING_DATA
+from tracker.parser import EdgarParser, Form4Parser
 
 
 class EdgarScreener:
@@ -58,6 +58,7 @@ class EdgarScreener:
 
         # Caches
         self.filings: pd.DataFrame | None = None
+        self.parsed_filings: dict[str, dict[str, pd.DataFrame]] | None = None
 
     def get_filings(self) -> pd.DataFrame:
         """
@@ -73,6 +74,65 @@ class EdgarScreener:
         self.filings = filings
 
         return filings
+
+    def parse_filings(self) -> dict[str, dict[str, pd.DataFrame]]:
+        """
+        Parser all filings
+
+        :return: Dictionary of Accession ID and Parsed DataFrames.
+
+        Notes:
+        - Cached to self.parsed_filings.
+        - This is a slow operation (Takes ~12.5s at 8 filings per second).
+        """
+
+        # Get filings first
+        if self.filings is None:
+            self.get_filings()
+
+        # Copy self.filings into results to prevent modifying the original
+        results = deepcopy(self.filings)
+
+        def __get_link(_id: str) -> str:
+            """
+            Build filings links
+            :param _id: filings['id'] column
+            :return: Filing XML Document Link
+            """
+
+            return f"{SEC_FILING_DATA}" \
+                   f"{_id.split(':')[0].split('-')[0]}/" \
+                   f"{_id.split(':')[0].replace('-', '')}/" \
+                   f"{_id.split(':')[1]}"
+
+        # Build link column
+        results['link'] = results['id'].apply(__get_link)
+
+        # Initialize parsed filings dict
+        parsed_filings: dict = {}
+
+        def __parse_filing(url: str, acc_no: str) -> dict[str, pd.DataFrame]:
+            """
+            Parse Filing
+            :param url: Filing XML Document URL
+            :param acc_no: Filing Accession number
+            :return: Parsed Filing Tables
+            """
+            __parser = Form4Parser(acc_no, url)
+            __data = __parser.parse()
+
+            parsed_filings.update({acc_no: __data})
+
+            return {acc_no: __data}
+
+        # Iterate through filings and parse each filing
+        for _, row in results.iterrows():
+            __parse_filing(row['link'], row['id'].split(":")[0])
+
+        # Cache parsed filings
+        self.parsed_filings = parsed_filings
+
+        return parsed_filings
 
     def build_url(self) -> str:
         """
@@ -100,7 +160,7 @@ class EdgarScreener:
         url = url.replace('%22%2520', '%2522')
 
         # Replace %2C with %252C
-        # Only applies to forms, not sure how to only look within forms
+        # Only applies to 'forms', not sure how to only look within forms
         url = url.replace('%2C', '%252C')
 
         # Cache url

@@ -218,6 +218,27 @@ class EdgarScreenerTests(unittest.TestCase):
         # Test build_url
         self.assertEqual(SEC_EDGAR, screener.build_url())
 
+    def test_parse_filings(self):
+        """
+        Test parse_filings() method
+        """
+        screener = EdgarScreener('test_parse')
+
+        # Filter form 4
+        screener.filter_filing_types('4')
+
+        # Add CIK Filter
+        screener.filter_ciks('0000320193')
+
+        # Parse all filings
+        parsed_data = screener.parse_filings()
+
+        # Verify 100 results
+        self.assertEqual(100, len(parsed_data))
+
+        # Verify 4 Tables in each filing
+        self.assertEqual([4]*100, [len(filing) for filing in parsed_data.values()])
+
 
 if __name__ == '__main__':
     unittest.main()
