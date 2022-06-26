@@ -5,8 +5,6 @@ Ratelimit decorator for functions and methods
 import logging
 from time import time, sleep
 
-from datetime import datetime, timedelta
-
 from common import Logger
 
 
