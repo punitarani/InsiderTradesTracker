@@ -3,7 +3,6 @@ SEC Latest Filings Screener
 https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent
 """
 
-
 from urllib.parse import urlencode
 
 import pandas as pd
@@ -46,6 +45,8 @@ class SECFilingsScreener:
         # Parser
         self.parser: SECFilingsParser = SECFilingsParser(self.name, self.url)
         self.filings: pd.DataFrame = pd.DataFrame()
+
+    # region filters
 
     def filter_company(self, company: str | None) -> str | None:
         """
@@ -131,6 +132,8 @@ class SECFilingsScreener:
         self.count = count
 
         return count
+
+    # endregion filters
 
     def build_url(self, override_count: int | None = None, start_count: int | None = None) -> str:
         """
