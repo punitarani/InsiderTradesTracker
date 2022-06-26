@@ -10,6 +10,7 @@ from lxml import etree
 
 from tracker.parser import SECParser
 
+
 # Global Variables and Caches
 transaction_codes: dict = {
     'A': "Grant, award or other acquisition pursuant to Rule 16b-3(d).",
@@ -41,6 +42,107 @@ transaction_codes: dict = {
 class Form4Parser(SECParser):
     """
     Form 4 Parser
+
+    Fields:
+    {
+        "ownershipDocument": {
+            "issuer": {
+                "issuerCik": {},
+                "issuerName": {},
+                "issuerTradingSymbol": {}
+            },
+            "reportingOwner": {
+                "reportingOwnerId": {
+                    "rptOwnerCik": {},
+                    "rptOwnerName": {}
+                },
+                "reportingOwnerAddress": {},
+                "reportingOwnerRelationship": {
+                    "isDirector": {},
+                    "isOfficer": {},
+                    "isTenPercentOwner": {},
+                    "isOther": {},
+                    "officerTitle": {}
+                }
+            },
+            "nonDerivativeTable": {
+                "nonDerivativeTransaction": {
+                    "securityTitle": {},
+                    "transactionDate": {},
+                    "transactionCoding": {},
+                    "transactionTimeliness": {},
+                    "transactionAmounts": {
+                        "transactionShares": {},
+                        "transactionPricePerShare": {},
+                        "transactionAcquiredDisposedCode": {}
+                    },
+                    "postTransactionAmounts": {
+                        "sharesOwnedFollowingTransaction": {}
+                    },
+                    "ownershipNature": {
+                        "directOrIndirectOwnership": {},
+                        "natureOfOwnership": {}
+                    }
+                },
+                "nonDerivativeHolding": {
+                    "securityTitle": {},
+                    "postTransactionAmounts": {
+                        "sharesOwnedFollowingTransaction": {}
+                    },
+                    "ownershipNature": {
+                        "directOrIndirectOwnership": {},
+                        "natureOfOwnership": {}
+                    }
+                }
+            },
+            "derivativeTable": {
+                "derivativeTransaction": {
+                    "securityTitle": {},
+                    "conversionOrExercisePrice": {},
+                    "transactionDate": {},
+                    "transactionCoding": {},
+                    "transactionTimeliness": {},
+                    "transactionAmounts": {
+                        "transactionShares": {},
+                        "transactionPricePerShare": {},
+                        "transactionAcquiredDisposedCode": {}
+                    },
+                    "exerciseDate": {},
+                    "expirationDate": {},
+                    "underlyingSecurity": {
+                        "underlyingSecurityTitle": {},
+                        "underlyingSecurityShares": {}
+                    },
+                    "postTransactionAmounts": {
+                        "sharesOwnedFollowingTransaction": {}
+                    },
+                    "ownershipNature": {
+                        "directOrIndirectOwnership": {},
+                        "natureOfOwnership": {}
+                    }
+                },
+                "derivativeHolding": {
+                    "securityTitle": {},
+                    "conversionOrExercisePrice": {},
+                    "exerciseDate": {},
+                    "expirationDate": {},
+                    "underlyingSecurity": {
+                        "underlyingSecurityTitle": {},
+                        "underlyingSecurityShares": {}
+                    },
+                    "postTransactionAmounts": {
+                        "sharesOwnedFollowingTransaction": {}
+                    },
+                    "ownershipNature": {
+                        "directOrIndirectOwnership": {},
+                        "natureOfOwnership": {}
+                    }
+                }
+            },
+            "footnotes": {},
+            "ownerSignature": {}
+        }
+    }
     """
 
     def __init__(self, name: str, url: str):
@@ -51,111 +153,9 @@ class Form4Parser(SECParser):
         :param url: Form URL
         """
 
-        """
-        Fields:
-        {
-            "ownershipDocument": {
-                "issuer": {
-                    "issuerCik": {},
-                    "issuerName": {},
-                    "issuerTradingSymbol": {}
-                },
-                "reportingOwner": {
-                    "reportingOwnerId": {
-                        "rptOwnerCik": {},
-                        "rptOwnerName": {}
-                    },
-                    "reportingOwnerAddress": {},
-                    "reportingOwnerRelationship": {
-                        "isDirector": {},
-                        "isOfficer": {},
-                        "isTenPercentOwner": {},
-                        "isOther": {},
-                        "officerTitle": {}
-                    }
-                },
-                "nonDerivativeTable": {
-                    "nonDerivativeTransaction": {
-                        "securityTitle": {},
-                        "transactionDate": {},
-                        "transactionCoding": {},
-                        "transactionTimeliness": {},
-                        "transactionAmounts": {
-                            "transactionShares": {},
-                            "transactionPricePerShare": {},
-                            "transactionAcquiredDisposedCode": {}
-                        },
-                        "postTransactionAmounts": {
-                            "sharesOwnedFollowingTransaction": {}
-                        },
-                        "ownershipNature": {
-                            "directOrIndirectOwnership": {},
-                            "natureOfOwnership": {}
-                        }
-                    },
-                    "nonDerivativeHolding": {
-                        "securityTitle": {},
-                        "postTransactionAmounts": {
-                            "sharesOwnedFollowingTransaction": {}
-                        },
-                        "ownershipNature": {
-                            "directOrIndirectOwnership": {},
-                            "natureOfOwnership": {}
-                        }
-                    }
-                },
-                "derivativeTable": {
-                    "derivativeTransaction": {
-                        "securityTitle": {},
-                        "conversionOrExercisePrice": {},
-                        "transactionDate": {},
-                        "transactionCoding": {},
-                        "transactionTimeliness": {},
-                        "transactionAmounts": {
-                            "transactionShares": {},
-                            "transactionPricePerShare": {},
-                            "transactionAcquiredDisposedCode": {}
-                        },
-                        "exerciseDate": {},
-                        "expirationDate": {},
-                        "underlyingSecurity": {
-                            "underlyingSecurityTitle": {},
-                            "underlyingSecurityShares": {}
-                        },
-                        "postTransactionAmounts": {
-                            "sharesOwnedFollowingTransaction": {}
-                        },
-                        "ownershipNature": {
-                            "directOrIndirectOwnership": {},
-                            "natureOfOwnership": {}
-                        }
-                    },
-                    "derivativeHolding": {
-                        "securityTitle": {},
-                        "conversionOrExercisePrice": {},
-                        "exerciseDate": {},
-                        "expirationDate": {},
-                        "underlyingSecurity": {
-                            "underlyingSecurityTitle": {},
-                            "underlyingSecurityShares": {}
-                        },
-                        "postTransactionAmounts": {
-                            "sharesOwnedFollowingTransaction": {}
-                        },
-                        "ownershipNature": {
-                            "directOrIndirectOwnership": {},
-                            "natureOfOwnership": {}
-                        }
-                    }
-                },
-                "footnotes": {},
-                "ownerSignature": {}
-            }
-        }
-        """
-
         super().__init__(name, url)
 
+        # Disable filings attribute
         self.filings = AttributeError('Form 4 does not have filings.')
 
         # Fields that can be parsed into DataFrames
