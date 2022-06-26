@@ -69,7 +69,7 @@ class SECParser(WebpageParser):
         # Else: Use Chrome user agent (NOT RECOMMENDED).
         return self.chrome_user_agent
 
-    @RateLimit(limit=10, period=1, max_wait=15, logger=logger)
+    @RateLimit(limit=9, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
         """
         Get the webpage HTML text
