@@ -48,7 +48,7 @@ class EdgarParser(SECParser):
         if hasattr(self, 'url'):
             delattr(self, 'url')
 
-    @RateLimit(limit=10, period=1, max_wait=15, logger=logger)
+    @RateLimit(limit=2, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> dict:
         """
         Get the search results data
