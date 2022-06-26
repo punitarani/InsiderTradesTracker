@@ -173,10 +173,10 @@ class Form4Parser(SECParser):
         Parse document and organize data into dataframe
 
         :return: {
-            'issuer': issuer_table or None,
-            'owner': owner_table or None,
-            'non_derivative': non_derivative_table or None,
-            'derivative': derivative_table or None
+            'issuer': issuer_table or Empty DataFrame,
+            'owner': owner_table or Empty DataFrame,
+            'non_derivative': non_derivative_table or Empty DataFrame,
+            'derivative': derivative_table or Empty DataFrame
         }
         """
 
