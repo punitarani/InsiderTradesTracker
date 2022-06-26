@@ -90,7 +90,7 @@ class RateLimitTests(unittest.TestCase):
                 break
         end_time = time()
 
-        self.assertAlmostEqual(end_time - start_time, 6.5, delta=1)
+        self.assertAlmostEqual(7.5, end_time - start_time, delta=1)
 
 
 if __name__ == '__main__':
