@@ -29,7 +29,7 @@ class RateLimitTests(unittest.TestCase):
         end_time = time()
 
         # ~0.1s for first 10 calls => ~1s total
-        self.assertAlmostEqual(end_time - start_time, 1, delta=0.15)
+        self.assertAlmostEqual(1, end_time - start_time, delta=0.15)
 
     def test_basic_2(self):
         """
@@ -48,7 +48,7 @@ class RateLimitTests(unittest.TestCase):
 
         # ~0.05s for first 10 calls before rate limit is reached => ~0.5s total
         # ~0.5s wait before next 10 calls at ~0.05s each => ~1s total
-        self.assertAlmostEqual(end_time - start_time, 1.5, delta=0.2)
+        self.assertAlmostEqual(1.5, end_time - start_time, delta=0.2)
 
     def test_basic_3(self):
         """
@@ -69,7 +69,7 @@ class RateLimitTests(unittest.TestCase):
         # 5-1s wait => ~4s wait time = ~5s total
         # ~0.1s for next 10 calls => ~1s execution time => ~6s total
         # Repeat once more for a total time of ~12s
-        self.assertAlmostEqual(end_time - start_time, 13, delta=2.5)
+        self.assertAlmostEqual(13, end_time - start_time, delta=2.5)
 
     def test_max_wait(self):
         """
