@@ -75,7 +75,7 @@ class RateLimit:
             delta_time = self.call_times[self.call_times_index] + self.period
 
             # Check if the first call was made within the last period
-            if delta_time >= now:
+            if delta_time > now:
                 # Calculate wait time
                 wait_time = (delta_time - now) + (self.rate * (self.waiting % self.limit))
 
