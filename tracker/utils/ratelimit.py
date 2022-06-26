@@ -5,6 +5,8 @@ Ratelimit decorator for functions and methods
 import logging
 from time import time, sleep
 
+from datetime import datetime, timedelta
+
 from common import Logger
 
 
@@ -88,9 +90,14 @@ class RateLimit:
                     error_msg = f'Rate limit exceeded. Wait time: {wait_time}'
                     raise RateLimitException(error_msg, logger=self.logger)
 
-                # Increment waiting and sleep
+                # Increment waiting count
                 self.waiting += 1
+
+                # Wait for the wait time
                 sleep(wait_time)
+
+                # Decrement waiting count
+                self.waiting -= 1
 
             # Update the call time array
             self.call_times[self.call_times_index] = now
