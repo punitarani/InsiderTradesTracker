@@ -153,6 +153,41 @@ class Form4Tests(unittest.TestCase):
         for footnote_id, footnote_text in parser.footnotes.items():
             self.assertEqual(expected_footnotes[footnote_id], footnote_text)
 
+    def test_get_footnotes(self):
+        """
+        Test get_footnotes()
+        """
+
+        url = "https://www.sec.gov/Archives/edgar/data/1318605/000089924322015989/doc4.xml"
+        parser = Form4Parser("Elon", url)
+        parser.parse()
+
+        # Check all 31 footnotes are parsed
+        self.assertEqual(31, len(parser.footnotes))
+
+        # Test few footnotes
+        self.assertEqual('The price reported in Column 4 is a weighted average price. '
+                         'These shares were sold in multiple transactions at prices ranging from '
+                         '$822.640 to $822.760, inclusive. The reporting person undertakes to '
+                         'provide Tesla, Inc., any security holder of Tesla, Inc. or the staff of '
+                         'the Securities and Exchange Commission, upon request, full information '
+                         'regarding the number of shares sold at each separate price within the '
+                         'range set forth in this footnote.',
+                         parser.get_footnotes('F1'))
+
+        self.assertEqual('The price reported in Column 4 is a weighted average price. These shares '
+                         'were sold in multiple transactions at prices ranging from $852.940 to '
+                         '$853.890, inclusive. The reporting person undertakes to provide Tesla, '
+                         'Inc., any security holder of Tesla, Inc. or the staff of the Securities '
+                         'and Exchange Commission, upon request, full information regarding the '
+                         'number of shares sold at each separate price within the range set forth '
+                         'in this footnote.',
+                         parser.get_footnotes(31))
+
+        # Test invalid footnote IDs. Should return all footnotes dict
+        self.assertIsInstance(parser.get_footnotes('F32'), dict)
+        self.assertEqual(31, len(parser.get_footnotes(0)))
+
     def test_transaction_codes(self):
         """
         Test transaction_codes dict

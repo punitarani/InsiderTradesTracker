@@ -171,7 +171,7 @@ class Form4Parser(SECParser):
         self.derivative_table: pd.DataFrame = pd.DataFrame()
 
         # Parsed Footnotes
-        self.footnotes: dict = {}
+        self.footnotes: dict | None = None
 
     def parse(self) -> dict[str, pd.DataFrame | None]:
         """
@@ -224,10 +224,41 @@ class Form4Parser(SECParser):
         return {
             'issuer': self.issuer_table if not self.issuer_table.empty else None,
             'owner': self.owner_table if not self.owner_table.empty else None,
+
             'non_derivative': self.non_derivative_table
             if not self.non_derivative_table.empty else None,
-            'derivative': self.derivative_table if not self.derivative_table.empty else None
+
+            'derivative': self.derivative_table
+            if not self.derivative_table.empty else None
         }
+
+    def get_footnotes(self, _id: int | str | None = None) -> dict | str:
+        """
+        Get Footnotes
+
+        :param _id: Footnote 'id' to get specific footnote (1 or F1) (optional)
+        :return: Footnote or all footnotes if _id is not specified
+        """
+
+        # Check if footnotes are cached
+        if self.footnotes is None:
+            # If not, parse the document
+            self.parse()
+
+        # Convert footnote ID if int
+        if isinstance(_id, int):
+            _id = f"F{_id}"
+
+        # Return all footnotes if _id is not specified
+        if _id is None:
+            return self.footnotes
+
+        # Return specific footnote if _id is specified and exists
+        if _id in self.footnotes:
+            return self.footnotes[_id]
+
+        # Return all footnotes if _id not specified or does not exist
+        return self.footnotes
 
     # region parse sub-functions
 
