@@ -156,19 +156,17 @@ class Form4Parser(SECParser):
 
         super().__init__(name, url)
 
-        # Parsed DataFrames
-        self.issuer_table: pd.DataFrame = pd.DataFrame()
-        self.owner_table: pd.DataFrame = pd.DataFrame()
-        self.non_derivative_table: pd.DataFrame = pd.DataFrame()
-        self.derivative_table: pd.DataFrame = pd.DataFrame()
-
         self.filings = AttributeError('Form 4 does not have filings.')
 
         # Fields that can be parsed into DataFrames
         self.parsable_fields = ['issuer', 'reportingOwner', 'nonDerivativeTable', 'derivativeTable']
 
         # Cached Data
-        self.transaction_codes: pd.DataFrame | None = None
+        # Parsed DataFrames
+        self.issuer_table: pd.DataFrame = pd.DataFrame()
+        self.owner_table: pd.DataFrame = pd.DataFrame()
+        self.non_derivative_table: pd.DataFrame = pd.DataFrame()
+        self.derivative_table: pd.DataFrame = pd.DataFrame()
 
     def parse(self) -> dict[str, pd.DataFrame | None]:
         """
