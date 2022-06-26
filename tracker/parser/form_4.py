@@ -159,7 +159,9 @@ class Form4Parser(SECParser):
         self.filings = AttributeError('Form 4 does not have filings.')
 
         # Fields that can be parsed into DataFrames
-        self.parsable_fields = ['issuer', 'reportingOwner', 'nonDerivativeTable', 'derivativeTable']
+        self.parsable_fields = ['issuer', 'reportingOwner',
+                                'nonDerivativeTable', 'derivativeTable',
+                                'footnotes']
 
         # Cached Data
         # Parsed DataFrames
@@ -167,6 +169,9 @@ class Form4Parser(SECParser):
         self.owner_table: pd.DataFrame = pd.DataFrame()
         self.non_derivative_table: pd.DataFrame = pd.DataFrame()
         self.derivative_table: pd.DataFrame = pd.DataFrame()
+
+        # Parsed Footnotes
+        self.footnotes: dict = {}
 
     def parse(self) -> dict[str, pd.DataFrame | None]:
         """
@@ -211,6 +216,10 @@ class Form4Parser(SECParser):
         # Parse Derivative Table
         if 'derivativeTable' in fields:
             self.derivative_table = self._parse_derivative_table(data.find('./derivativeTable'))
+
+        # Parse Footnotes
+        if 'footnotes' in fields:
+            self.footnotes = self._parse_footnotes(data.find('./footnotes'))
 
         return {
             'issuer': self.issuer_table if not self.issuer_table.empty else None,
@@ -432,5 +441,30 @@ class Form4Parser(SECParser):
         transactions_df = transactions_df.fillna(value=np.nan)
 
         return transactions_df
+
+    @staticmethod
+    def _parse_footnotes(footnotes: ElementTree.Element) -> dict:
+        """
+        Parse Footnotes Section
+        :param footnotes: Footnotes Section XML Data
+        :return: Parsed Footnotes DataFrame
+        """
+
+        # Find all 'footnote' elements. Ex: <footnote id="id">data</footnote>
+        footnote_elements = footnotes.findall('./footnote')
+
+        # Initialize Data Dictionary: Stores {id: data}
+        footnotes_dict: dict = {}
+
+        # Iterate through footnotes
+        for footnote in footnote_elements:
+            # Get id and data
+            _id = footnote.get('id')
+            data = footnote.text
+
+            # Add to Data Dictionary
+            footnotes_dict.update({_id: data})
+
+        return footnotes_dict
 
     # endregion

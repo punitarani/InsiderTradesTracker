@@ -44,20 +44,22 @@ class Form4Tests(unittest.TestCase):
         url = "https://www.sec.gov/Archives/edgar/data/19617/000122520822005164/doc4.xml"
         """
         Document Stats:
-        Document Type: 4
-        Document Date: 2022-03-25
-        7 Non Derivative Transactions
-        1 Derivative Transaction
-        File Complexity: Multiple missing fields, different codes and descriptions.
+        - Document Type: 4
+        - Document Date: 2022-03-25
+        - 7 Non Derivative Transactions
+        - 1 Derivative Transaction
+        - 7 Footnotes
+        - File Complexity: Multiple missing fields, different codes and descriptions.
         """
 
         parser = Form4Parser("Dimon", url)
         parser.parse()
 
-        self.assertEqual(parser.issuer_table.shape, (3, 1))
-        self.assertEqual(parser.owner_table.shape, (11, 1))
-        self.assertEqual(parser.non_derivative_table.shape, (7, 15))
-        self.assertEqual(parser.derivative_table.shape, (1, 16))
+        self.assertEqual((3, 1), parser.issuer_table.shape)
+        self.assertEqual((11, 1), parser.owner_table.shape)
+        self.assertEqual((7, 15), parser.non_derivative_table.shape)
+        self.assertEqual((1, 16), parser.derivative_table.shape)
+        self.assertEqual(7, len(parser.footnotes))
 
     def test_parse_accuracy(self):
         """
@@ -110,6 +112,46 @@ class Form4Tests(unittest.TestCase):
                 self.assertEqual(np.isnan(data_point), np.isnan(expected_values[j]))
             except TypeError:
                 self.assertEqual(data_point, expected_values[j])
+
+        # Test Footnotes
+        expected_footnotes = {
+            'F1': "These shares represent JPMC common stock acquired on March 25, 2022 upon "
+                  "settlement of a Performance Share Unit (PSU) award granted on January 15, 2019 "
+                  "for the three-year performance period ended December 31, 2021 (as previously "
+                  "disclosed on a Form 4 filed on March 17, 2022), and must be held for an "
+                  "additional two-year period, for a total combined vesting and holding period of "
+                  "five years from the date of grant.",
+            'F2': "Each PSU represents a contingent right to receive one share of JPMC common stock"
+                  " upon vesting based on the attainment of performance goals.",
+            'F3': "Balance reflects a) 310,028 shares transferred from a Grantor Retained Annuity "
+                  "Trust (GRAT) to the Grantor on January 18, 2022; b) 141,528 shares transferred "
+                  "from a GRAT to the Grantor on January 18, 2022. These transfers are exempt from "
+                  "Section 16 pursuant to Rule 16a-13.",
+            'F4': "Balance reflects 29,034 shares transferred from a Grantor Retained Annuity Trust"
+                  " to the Grantor's Family Trusts on January 19, 2022. This transfer is exempt "
+                  "from Section 16 pursuant to Rule 16a-13.",
+            'F5': "Balance reflects a) 310,028 shares transferred from a Grantor Retained Annuity "
+                  "Trust (GRAT) to the Grantor on January 18, 2022; b) 141,528 shares transferred "
+                  "from a GRAT to the Grantor on January 18, 2022; c) 29,034 shares transferred "
+                  "from GRAT to the Grantor's Family Trust on January 19, 2022. These transfers are"
+                  " exempt from Section 16 pursuant to Rule 16a-13.",
+            'F6': "Reporting person disclaims beneficial ownership of such shares except to the "
+                  "extent of any pecuniary interest.",
+            'F7': "Represents PSUs earned (including reinvested dividend equivalents) based on the "
+                  "Firm's attainment of pre-established performance goals for the three-year "
+                  "performance period ended December 31, 2021, as provided under the terms of a PSU"
+                  " award granted on January 15, 2019, and as previously reported on a Form 4 filed"
+                  " on March 17, 2022. The PSUs settled in shares of common stock on March 25, "
+                  "2022. Shares delivered, after applicable tax withholding, must be held for an "
+                  "additional two-year period, for a total combined vesting and holding period of "
+                  "five years from the date of grant.",
+        }
+
+        self.assertEqual(expected_footnotes.keys(), parser.footnotes.keys())
+
+        # Iterate through all footnotes
+        for footnote_id, footnote_text in parser.footnotes.items():
+            self.assertEqual(expected_footnotes[footnote_id], footnote_text)
 
     def test_transaction_codes(self):
         """
