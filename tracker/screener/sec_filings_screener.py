@@ -177,11 +177,26 @@ class SECFilingsScreener:
 
         return self.url
 
-    def get_filings(self) -> pd.DataFrame:
+    def get_filings(self,
+                    filter_str: str | None = "index",
+                    filter_condition: str = "contains") -> pd.DataFrame:
         """
         Get the filings
 
+        :param filter_str: Filings filter 'title' endswith.
+        :param filter_condition: Filter condition ('endswith' | 'contains')
         :return: Filings
+
+
+        Notes:
+
+        filter_str: '(Reporting)' | '(Issuer)' | '(Filer)' | '(Subject)' |
+        'index' (default): Removes duplicates and leaves only the first filing.
+
+
+        Usage:
+
+        Form4: filter_str = '(Reporting)'. filter_condition = 'endswith'.
         """
 
         # Build URL to get the filings
@@ -190,17 +205,29 @@ class SECFilingsScreener:
         # Get the filings and parse to a dataframe
         filings = self.parser.parse()
 
-        # Remove duplicates by index
-        filings = filings[~filings.index.duplicated(keep='first')]
-
         # Filter the filings by the form type
         if self.form is not None:
             filings = filings[filings['form_type'] == self.form]
 
-        # Cache the filings
+        # Cache the filings before string filtering
         self.filings = filings
 
-        return self.filings
+        # Apply filter_str and filter_condition
+        # Remove duplicates by index if filter is None
+        if filter_str == 'index':
+            filings = filings[~filings.index.duplicated(keep='first')]
+
+        # Keep filings whose title ends with the filter
+        elif filter_str and filter_condition == "endswith":
+            filings = filings[filings['title'].str.endswith(filter_str)]
+
+        # Keep filings whose title contains the filter
+        elif filter_str:
+            filings = filings[filings['title'].str.contains(filter_str)]
+
+        # else: No filter if filter_str is None
+
+        return filings
 
     def get_filings_until(self, accession_number: str, max_count: int = 2000) -> pd.DataFrame:
         """

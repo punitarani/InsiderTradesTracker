@@ -4,11 +4,11 @@ Test SECFilingsScreener
 
 import unittest
 
+import pandas.testing as pdt
+from numpy.random import randint
+
 from baseurls import SEC_LATEST_FILINGS
 from tracker.screener import SECFilingsScreener
-
-import pandas.testing as pdt
-import numpy as np
 
 
 class SECFilingsScreenerTests(unittest.TestCase):
@@ -57,9 +57,43 @@ class SECFilingsScreenerTests(unittest.TestCase):
         self.assertEqual(screener.set_entries_count(0), 10)
         self.assertEqual(screener.set_entries_count(-10), 10)
 
+    def test_get_filings(self):
+        """
+        Test get_filings()
+        """
+        screener_name = "form_4_screener"
+        screener = SECFilingsScreener(screener_name, form='4')
+
+        # Test endswith('(Reporting)')
+        # Get filtered filings
+        filings = screener.get_filings(filter_str="(Reporting)", filter_condition="endswith")
+        # Get all (unfiltered) filings
+        all_filings = screener.filings
+        # Verify filtering works
+        self.assertEqual(all_filings[all_filings["title"].str.endswith("(Reporting)")].shape,
+                         filings.shape)
+
+        # Test endswith('(Issuer)')
+        filings = screener.get_filings(filter_str="(Issuer)", filter_condition="endswith")
+        all_filings = screener.filings
+        self.assertEqual(all_filings[all_filings["title"].str.endswith("(Issuer)")].shape,
+                         filings.shape)
+
+        # Test contains('(Reporting)')
+        filings = screener.get_filings(filter_str="(Reporting)", filter_condition="contains")
+        all_filings = screener.filings
+        self.assertEqual(all_filings[all_filings["title"].str.contains("(Reporting)")].shape,
+                         filings.shape)
+
+        # Test contains('(Issuer)')
+        filings = screener.get_filings(filter_str="(Issuer)", filter_condition="contains")
+        all_filings = screener.filings
+        self.assertEqual(all_filings[all_filings["title"].str.contains("(Issuer)")].shape,
+                         filings.shape)
+
     def test_filters(self):
         """
-        Test get_filings() and filter_*() methods
+        Test filter_*() methods
         """
 
         screener_name = "form_4_screener"
@@ -67,32 +101,36 @@ class SECFilingsScreenerTests(unittest.TestCase):
 
         # No Filters
         self.assertFalse(screener.get_filings().empty)
-        self.assertLessEqual(screener.get_filings().shape, (100, 4))
+        self.assertLessEqual(screener.get_filings('(Issuer)', 'endswith').shape, (100, 4))
 
         # Filter Form Type
         screener.filter_form("4")
-        self.assertEqual(screener.form, "4")
-        self.assertGreaterEqual(screener.get_filings().shape, (1, 4))
+        self.assertEqual("4", screener.form)
+        self.assertLessEqual((1, 4),
+                             screener.get_filings('(Reporting)', "endswith").shape)
 
         # Filter by owner
         # When no owner is included, there should be no form 4 filings
         screener.filter_owner(include=False)
-        self.assertEqual(screener.get_filings().shape[0], 0)
+        self.assertEqual(0, screener.get_filings(filter_str=None).shape[0])
 
         screener.filter_owner(include=True)
-        self.assertGreaterEqual(screener.get_filings().shape, (1, 4))
+        self.assertEqual((100, 4), screener.get_filings(filter_str=None).shape)
 
         screener.filter_owner(only=True)
-        self.assertGreaterEqual(screener.get_filings().shape, (1, 4))
+        self.assertEqual((100, 4), screener.get_filings(filter_str=None).shape)
+
+        # Pick a random company
+        _filings = screener.get_filings("(Issuer)", "endswith")
+        random_company = _filings.iloc[randint(0, _filings.shape[0])]["title"]
+        random_company = random_company.split(" - ")[-1].split(" (")[0]
 
         # Filter by Company
-        # Pick a random company
-        random_company = screener.get_filings().iloc[
-            np.random.randint(0, screener.get_filings().shape[0])]["title"]
-        random_company = random_company.split(" - ")[-1].split(" (")[0]
         screener.filter_company(random_company)
-        self.assertEqual(screener.company, random_company)
-        self.assertTrue(random_company in str(screener.get_filings().iloc[0].loc["title"]))
+        print(random_company)
+        self.assertEqual(random_company, screener.company)
+        self.assertIn(random_company,
+                      str(screener.get_filings('(Issuer)').iloc[0].loc["title"]))
 
         # Filter by CIK
         # JP Morgan Chase & Co. CIK: 0000019617
@@ -103,8 +141,10 @@ class SECFilingsScreenerTests(unittest.TestCase):
         screener.filter_owner(include=False)
         screener.filter_form(None)
         screener.filter_company(None)
-        self.assertEqual(screener.cik, jpm_cik)
-        self.assertTrue("JPMORGAN CHASE & CO" in str(screener.get_filings().iloc[0].loc["title"]))
+
+        self.assertEqual(jpm_cik, screener.cik)
+        self.assertIn("JPMORGAN CHASE & CO",
+                      str(screener.get_filings().iloc[0].loc["title"]))
 
     def test_get_filings_until(self):
         """
@@ -118,7 +158,7 @@ class SECFilingsScreenerTests(unittest.TestCase):
         self.assertGreater(filings.shape, (0, 4))
 
         # Pick a random filing
-        random_index = np.random.randint(0, filings.shape[0])
+        random_index = randint(0, filings.shape[0])
         random_filing = filings.iloc[random_index]
         random_acc = filings.index[random_index]
 
