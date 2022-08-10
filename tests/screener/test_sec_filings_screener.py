@@ -88,8 +88,10 @@ class SECFilingsScreenerTests(unittest.TestCase):
         # Test contains('(Issuer)')
         filings = screener.get_filings(filter_str="(Issuer)", filter_condition="contains")
         all_filings = screener.filings
-        self.assertEqual(all_filings[all_filings["title"].str.contains("(Issuer)")].shape,
-                         filings.shape)
+        self.assertGreaterEqual(all_filings[
+                                    all_filings["title"].str.contains("(Issuer)")
+                                ].shape,
+                                filings.shape)
 
     def test_filters(self):
         """
