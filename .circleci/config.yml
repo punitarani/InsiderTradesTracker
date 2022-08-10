@@ -27,6 +27,9 @@ jobs:
       - store_artifacts:
           path: htmlcov
 
+      - store_test_results:
+          path: test-results
+
 # Invoke jobs via workflows
 workflows:
     built-and-test-workflow:
