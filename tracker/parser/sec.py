@@ -63,7 +63,7 @@ class SECParser(WebpageParser):
         """
 
         # Check if required config values are available.
-        if config.NAME is not None and config.EMAIL is not None:
+        if config.NAME is not None:
             return f'{config.NAME}'
 
         # Else: Use Chrome user agent (NOT RECOMMENDED).
