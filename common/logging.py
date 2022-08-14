@@ -8,11 +8,12 @@ from pathlib import Path
 
 from defs import LOG_DIR_PATH
 
-
 # Cache all instantiated loggers
 loggers: dict[str, logging.Logger] = {}
 
 
+# pylint: disable = too-many-instance-attributes
+# Logger Class needs to have many instance attributes for modularity
 class Logger:
     """
     Custom Logging Class
