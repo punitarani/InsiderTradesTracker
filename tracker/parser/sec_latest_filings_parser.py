@@ -53,6 +53,8 @@ class SECFilingsParser(SECParser):
             self.get_webpage()
 
         # Convert Webpage text to XML ElementTree
+        # pylint: disable=c-extension-no-member
+        # lxml.etree does have 'fromstring' method
         data: ElementTree = etree.fromstring(self.webpage.encode('utf-8'))
 
         # Iterate through entries
