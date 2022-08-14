@@ -76,7 +76,7 @@ class WebpageParser:
         headers = {} if headers is None else headers
 
         # Get the webpage HTML text
-        self.logger.debug(f'Getting {self.name} webpage from {self.url}')
+        self.logger.debug('Getting %s webpage from %s', self.name, self.url)
         response = requests.get(self.url, headers=headers)
 
         # Cache the response object
