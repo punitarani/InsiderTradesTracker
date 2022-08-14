@@ -71,6 +71,8 @@ class SECParser(WebpageParser):
 
     # pylint: disable=unused-argument
     # *args and **kwargs are used to pass optional arguments to the function
+    # pylint: disable=R0801
+    # Override get_webpage() method by adding RateLimit decorator
     @RateLimit(limit=9, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
         """
