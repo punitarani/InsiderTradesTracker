@@ -8,8 +8,7 @@ import numpy as np
 import pandas as pd
 from lxml import etree
 
-from tracker.parser import SECParser
-
+from .sec import SECParser
 
 # Global Variables and Caches
 transaction_codes: dict = {

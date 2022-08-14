@@ -2,7 +2,7 @@
 Form 3 Parser Class File
 """
 
-from tracker.parser import SECParser
+from .sec import SECParser
 
 
 class Form3Parser(SECParser):

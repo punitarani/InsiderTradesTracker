@@ -10,7 +10,7 @@ import pandas as pd
 from lxml import etree
 
 from baseurls import SEC_LATEST_FILINGS
-from tracker.parser import SECParser
+from .sec import SECParser
 
 
 class SECFilingsParser(SECParser):

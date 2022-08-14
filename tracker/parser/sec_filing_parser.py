@@ -4,7 +4,7 @@ SEC Filing Parser
 
 import pandas as pd
 
-from tracker.parser import SECParser
+from .sec import SECParser
 
 
 class SECFilingParser(SECParser):
