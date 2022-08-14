@@ -18,6 +18,8 @@ class Form5Parser(SECParser):
         :param url: Form URL
         """
 
+        # pylint: disable=pointless-string-statement
+        # Fields schema
         """
         Fields:
         {
