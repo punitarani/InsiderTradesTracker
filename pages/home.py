@@ -60,6 +60,7 @@ def update_filings_table(n_clicks):
         # Get the latest filings
         df = get_filings()
 
+        # pylint: disable=invalid-name,global-statement
         # Cache the latest filings DataFrame
         global filings
         filings = df
@@ -67,7 +68,8 @@ def update_filings_table(n_clicks):
         # Reset Index and rename index columns as 'id'
         df.reset_index(inplace=True)
         df.rename(columns={'index': 'id'}, inplace=True)
-        # 'id' is used in 'active cell' callbacks to get 'row_id' to work with multiple page tables
+        # 'id' is used in 'active cell' callbacks to get 'row_id'
+        # Allows working with multiple page tables
 
         # Update the update time
         update_times.update({'table-latest-filings': datetime.now()})
