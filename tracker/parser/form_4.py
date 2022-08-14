@@ -190,6 +190,8 @@ class Form4Parser(SECParser):
             self.get_webpage()
 
         # Parse XML
+        # pylint: disable=c-extension-no-member
+        # lxml.etree does have 'fromstring' method
         data = etree.fromstring(self.webpage)
 
         # All top-level fields in XML data
