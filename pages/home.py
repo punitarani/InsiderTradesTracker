@@ -103,7 +103,7 @@ def update_select_filing_section(active_cell):
     Update Select Filing Section when a Filing is selected
     """
 
-    # pylint: disable=global-statement
+    # pylint: disable= global-statement, invalid-name
     # Cache filings and last selected filing url
     global filings, last_selected_filing_url
 
@@ -345,7 +345,7 @@ def get_filings() -> pd.DataFrame:
         },
         inplace=False)
 
-    # pylint: disable=global-statement
+    # pylint: disable= global-statement, invalid-name
     # Cache the filings DataFrame
     global filings
     filings = df
