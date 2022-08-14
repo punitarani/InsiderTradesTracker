@@ -18,6 +18,8 @@ class SECFilingsScreener:
     SEC Latest Filings Screener Class
     """
 
+    # pylint: disable=too-many-arguments
+    # Many arguments are required for modularity
     def __init__(self,
                  name: str,
                  count: int = 100,
