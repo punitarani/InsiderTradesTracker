@@ -82,11 +82,12 @@ class SECParser(WebpageParser):
         Follows guidelines: https://www.sec.gov/os/accessing-edgar-data.
         """
 
+        # pylint: disable=pointless-string-statement
+        # Headers Notes
         """
-        Notes:
-            User-Agent: Sample Company Name AdminContact@<sample company domain>.com
-            Accept-Encoding: gzip, deflate
-            Host: www.sec.gov
+        User-Agent: Sample Company Name AdminContact@<sample company domain>.com
+        Accept-Encoding: gzip, deflate
+        Host: www.sec.gov
         """
         headers: dict = {
             'Accept-Encoding': 'gzip, deflate',
