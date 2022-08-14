@@ -161,6 +161,9 @@ class ResponseError(Exception):
                 # Add file_name to message
                 message += f". Saved to file {resp_file.name}."
 
+            # pylint: disable=broad-except
+            # Exception is broad because we don't know what exceptions might be raised
+            # Also, don't want an Exception to raise another Exception
             except Exception as err:
                 self.logger.error(f"Error: {err}. "
                                   f"Failed to save {message} to file: {resp_file.name}.")
