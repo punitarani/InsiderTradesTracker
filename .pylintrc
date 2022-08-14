@@ -1,0 +1,5 @@
+[MASTER]
+
+good-names = a, b, c, d, e, f, i, j, x, y, z, df
+
+disable = fixme
