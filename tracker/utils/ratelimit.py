@@ -8,8 +8,9 @@ from time import time, sleep
 from common import Logger
 
 
-# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-instance-attributes, too-few-public-methods
 # Many attributes are required for modularity
+# Decorator does not need many public methods
 class RateLimit:
     """
     Decorator for Rate-Limiting functions.
