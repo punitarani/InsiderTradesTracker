@@ -86,6 +86,7 @@ def update_filings_table(n_clicks):
     raise PreventUpdate
 
 
+# pylint: disable=too-many-locals
 @callback(
     Output('select-filing-title', 'children'),
     Output('select-filing-title', 'href'),
