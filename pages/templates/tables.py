@@ -1,4 +1,4 @@
-# Dash App Tables Templates
+"""Dash App Tables Templates"""
 
 from dash import dash_table
 
