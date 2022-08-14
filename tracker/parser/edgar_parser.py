@@ -14,7 +14,6 @@ from common import Logger
 from tracker.parser import SECParser, ResponseError
 from tracker.utils import RateLimit
 
-
 # Define Edgar Logger
 EdgarLogger: Logger = Logger('edgar')
 logger: logging.Logger = EdgarLogger.get_logger()
@@ -40,9 +39,9 @@ class EdgarParser(SECParser):
         self.webpage: dict | None = None  # Redefine webpage to dict instead of str attr
 
         # Cache
-        self.results: pd.DataFrame | None = None        # Parsed Results DataFrame
-        self.results_count: int | None = None           # Total Number of Results
-        self.results_to: int = 0                        # Last Search Result Number
+        self.results: pd.DataFrame | None = None  # Parsed Results DataFrame
+        self.results_count: int | None = None  # Total Number of Results
+        self.results_to: int = 0  # Last Search Result Number
 
         # Delete irrelevant inherited attributes
         if hasattr(self, 'url'):
@@ -86,6 +85,7 @@ class EdgarParser(SECParser):
 
         return return_data
 
+    # pylint: disable=trailing-whitespace
     def parse(self, force_refresh: bool = True) -> pd.DataFrame:
         """
         Parse the search results
@@ -95,13 +95,15 @@ class EdgarParser(SECParser):
 
         Notes:
             Results Table Columns: ['index', 'type', 'id', 'score', 'source', 'sort']
-
-            index: 'edgar_file'. 
-            type: '_doc'. 
+            index: 'edgar_file'.
+            type: '_doc'.
             id: '<acc_no>:<file_name.format>'.
-            source: dict(['ciks', 'period_ending', 'root_form', 'file_num', 'display_names', 'xsl',
-            'sequence', 'file_date', 'biz_states', 'sics', 'form', 'adsh', 'film_num',
-            'biz_locations', 'file_type', 'file_description', 'inc_states', 'items']).
+            source: dict([
+                'ciks', 'period_ending', 'root_form', 'file_num', 'display_names',
+                'xsl', 'sequence', 'file_date', 'biz_states', 'sics', 'form', 'adsh',
+                'film_num', 'biz_locations', 'file_type', 'file_description',
+                'inc_states', 'items'
+            ]).
         """
 
         # Check if webpage data is cached. If not, get webpage first.
