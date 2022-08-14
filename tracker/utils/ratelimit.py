@@ -8,6 +8,8 @@ from time import time, sleep
 from common import Logger
 
 
+# pylint: disable=too-many-instance-attributes
+# Many attributes are required for modularity
 class RateLimit:
     """
     Decorator for Rate-Limiting functions.
