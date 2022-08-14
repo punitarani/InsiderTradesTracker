@@ -14,12 +14,13 @@ from bs4 import BeautifulSoup as bs
 from common import Logger
 from defs import LOG_DIR_PATH
 
-
 # Define Webpage Logger
 WebpageLogger = Logger('webpage')
 logger: logging.Logger = WebpageLogger.get_logger()
 
 
+# pylint: disable=too-many-instance-attributes
+# Many attributes are required for modularity
 class WebpageParser:
     """
     Webpage Parser Class
