@@ -69,6 +69,8 @@ class SECParser(WebpageParser):
         # Else: Use Chrome user agent (NOT RECOMMENDED).
         return self.chrome_user_agent
 
+    # pylint: disable=unused-argument
+    # *args and **kwargs are used to pass optional arguments to the function
     @RateLimit(limit=9, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
         """
