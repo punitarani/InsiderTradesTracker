@@ -87,6 +87,8 @@ def update_filings_table(n_clicks):
 
 
 # pylint: disable=too-many-locals
+# pylint: disable= too-many-branches, too-many-statements
+# TODO: Refactor this function
 @callback(
     Output('select-filing-title', 'children'),
     Output('select-filing-title', 'href'),
