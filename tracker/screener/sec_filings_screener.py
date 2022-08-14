@@ -11,6 +11,8 @@ from baseurls import SEC_LATEST_FILINGS
 from tracker.parser.sec_latest_filings_parser import SECFilingsParser
 
 
+# pylint: disable=too-many-instance-attributes
+# Many attributes are required for modularity
 class SECFilingsScreener:
     """
     SEC Latest Filings Screener Class
