@@ -155,7 +155,7 @@ class ResponseError(Exception):
                 resp_file.touch()
 
                 # Save to file
-                with open(resp_file, 'w') as file_obj:
+                with open(resp_file, 'w', encoding='utf-8') as file_obj:
                     file_obj.write(self.content)
 
                 # Add file_name to message
