@@ -41,7 +41,10 @@ class Form4Tests(unittest.TestCase):
         Test parse() method
         """
 
-        url = "https://www.sec.gov/Archives/edgar/data/19617/000122520822005164/doc4.xml"
+        # pylint: disable=pointless-string-statement
+        # URL is not pointless string
+        url: str = r"https://www.sec.gov/Archives/edgar/data/" \
+                   r"19617/000122520822005164/doc4.xml"
         """
         Document Stats:
         - Document Type: 4
@@ -83,9 +86,11 @@ class Form4Tests(unittest.TestCase):
         # Test rows 2 and 5 of Non-Derivative Table
         for i, row in enumerate([2, 5]):
             row_data = [
-                ['Common Stock', '2022-03-25', np.nan, '4', 'F', '0', np.nan, '220486.0522',
+                ['Common Stock', '2022-03-25', np.nan, '4', 'F', '0', np.nan,
+                 '220486.0522',
                  '141.9900', 'D', '1166561.0000', 'D', np.nan, np.nan, np.nan],
-                ['Common Stock', np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,
+                ['Common Stock', np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,
+                 np.nan,
                  np.nan, '4348004.0000', 'I', np.nan, np.nan, 'By GRATs']
             ]
 
@@ -100,7 +105,8 @@ class Form4Tests(unittest.TestCase):
                     self.assertEqual(data_point, expected_value)
 
         # Test row 1 of Derivative Table
-        expected_values = ['Performance Share Units', np.nan, '2022-03-25', '4', 'M', '0', np.nan,
+        expected_values = ['Performance Share Units', np.nan, '2022-03-25', '4', 'M',
+                           '0', np.nan,
                            '398708.0522', '0.0000', 'D', np.nan, np.nan, 'Common Stock',
                            '398708.0522', '0.0000', 'D']
 
@@ -175,14 +181,15 @@ class Form4Tests(unittest.TestCase):
                          'range set forth in this footnote.',
                          parser.get_footnotes('F1'))
 
-        self.assertEqual('The price reported in Column 4 is a weighted average price. These shares '
-                         'were sold in multiple transactions at prices ranging from $852.940 to '
-                         '$853.890, inclusive. The reporting person undertakes to provide Tesla, '
-                         'Inc., any security holder of Tesla, Inc. or the staff of the Securities '
-                         'and Exchange Commission, upon request, full information regarding the '
-                         'number of shares sold at each separate price within the range set forth '
-                         'in this footnote.',
-                         parser.get_footnotes(31))
+        self.assertEqual(
+            'The price reported in Column 4 is a weighted average price. These shares '
+            'were sold in multiple transactions at prices ranging from $852.940 to '
+            '$853.890, inclusive. The reporting person undertakes to provide Tesla, '
+            'Inc., any security holder of Tesla, Inc. or the staff of the Securities '
+            'and Exchange Commission, upon request, full information regarding the '
+            'number of shares sold at each separate price within the range set forth '
+            'in this footnote.',
+            parser.get_footnotes(31))
 
         # Test invalid footnote IDs. Should return all footnotes dict
         self.assertIsInstance(parser.get_footnotes('F32'), dict)
@@ -197,7 +204,8 @@ class Form4Tests(unittest.TestCase):
         self.assertEqual(len(transaction_codes.keys()), 20)
 
         self.assertEqual(form4_transaction_codes['G'], "Bona fide gift.")
-        self.assertEqual(form4_transaction_codes['L'], "Small acquisition under Rule 16a-6.")
+        self.assertEqual(form4_transaction_codes['L'],
+                         "Small acquisition under Rule 16a-6.")
 
         try:
             y_code = form4_transaction_codes['Y']
