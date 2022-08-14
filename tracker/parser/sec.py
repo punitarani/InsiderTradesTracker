@@ -62,10 +62,12 @@ class SECParser(WebpageParser):
         :return: User-Agent for header
         """
 
-        # Use random user-agent: XYZ/3.0.
-        # See: Issue#4 https://github.com/punitarani/InsiderTradesTracker/issues/4
-        # See: Solution https://github.com/edgarminers/python-edgar/issues/23
-        return 'XYZ/3.0'
+        # Check if required config values are available.
+        if config.NAME is not None:
+            return f'{config.NAME}'
+
+        # Else: Use Chrome user agent (NOT RECOMMENDED).
+        return self.chrome_user_agent
 
     @RateLimit(limit=9, period=1, max_wait=15, logger=logger)
     def get_webpage(self, *args, **kwargs) -> str:
