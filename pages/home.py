@@ -2,6 +2,9 @@
 Dash App Home Page
 """
 
+# pylint: disable=R0801
+# Some sections of code are copied from .templates/*.py files
+
 from copy import deepcopy
 from datetime import datetime
 
