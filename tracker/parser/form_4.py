@@ -324,6 +324,8 @@ class Form4Parser(SECParser):
 
         return owner_df
 
+    # pylint: disable= too-many-branches, too-many-nested-blocks
+    # TODO: Refactor this function
     @staticmethod
     def _parse_non_derivative_table(non_derivative_table: ElementTree.Element) -> pd.DataFrame:
         """
