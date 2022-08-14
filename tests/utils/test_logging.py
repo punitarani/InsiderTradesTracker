@@ -50,7 +50,7 @@ class LoggerTests(unittest.TestCase):
         ]
 
         # Read the last 3 lines of the log file
-        with open(test_logger.filename, 'r') as f:
+        with open(test_logger.filename, 'r', encoding='utf-8') as f:
             lines = f.readlines()[-3:]
 
             # Check the log messages
@@ -88,7 +88,7 @@ class LoggerTests(unittest.TestCase):
         ]
 
         # Read the last 5 lines of the log file
-        with open(test_logger.filename, 'r') as f:
+        with open(test_logger.filename, 'r', encoding='utf-8') as f:
             lines = f.readlines()[-5:]
 
             # Check the log messages
@@ -129,7 +129,7 @@ class LoggerTests(unittest.TestCase):
         ]
 
         # Read the last 5 lines of the log file
-        with open(test_logger.filename, 'r') as f:
+        with open(test_logger.filename, 'r', encoding='utf-8') as f:
             lines = f.readlines()[-5:]
 
             # Check the log messages
