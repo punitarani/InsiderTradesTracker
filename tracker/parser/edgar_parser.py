@@ -12,7 +12,7 @@ import requests
 from baseurls import SEC_EDGAR_FTS
 from common import Logger
 from tracker.parser import SECParser, ResponseError
-from tracker.utils import RateLimit
+from tracker.utils.ratelimit import RateLimit
 
 # Define Edgar Logger
 EdgarLogger: Logger = Logger('edgar')

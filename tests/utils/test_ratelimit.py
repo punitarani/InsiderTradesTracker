@@ -5,7 +5,7 @@ Test RateLimit
 import unittest
 from time import time, sleep
 
-from tracker.utils import RateLimit, RateLimitException
+from tracker.utils.ratelimit import RateLimit, RateLimitException
 
 
 class RateLimitTests(unittest.TestCase):

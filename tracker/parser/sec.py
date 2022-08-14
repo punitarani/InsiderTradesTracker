@@ -10,7 +10,7 @@ import requests
 import config
 from common import Logger
 from tracker.parser import WebpageParser, ResponseError
-from tracker.utils import RateLimit
+from tracker.utils.ratelimit import RateLimit
 
 # Define SEC Logger
 SECLogger: Logger = Logger('sec')
