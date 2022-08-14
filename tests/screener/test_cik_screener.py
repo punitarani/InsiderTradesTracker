@@ -24,6 +24,8 @@ class CIKScreenerTests(unittest.TestCase):
         self.assertIsNotNone(screener)
         self.assertEqual(screener.lookup_df.shape, (0, 0))
 
+    # pylint: disable=protected-access
+    # Test some protected methods
     @unittest.skipIf(str(DATA_DIR_PATH).startswith("/home/circleci/"),
                      "running in circleci container")
     def test_lookup_df(self):
